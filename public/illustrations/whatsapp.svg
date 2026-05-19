@@ -1,0 +1,315 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" style="border-radius: 16px; overflow: hidden; background: radial-gradient(ellipse at 30% 20%, #064e3b 0%, #022c22 40%, #021a14 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.45);">
+  <defs>
+    <!-- Backdrop grid -->
+    <pattern id="wa-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(94,234,212,0.08)" stroke-width="0.5"/>
+    </pattern>
+
+    <linearGradient id="wa-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(15,40,40,0.92)"/>
+      <stop offset="100%" stop-color="rgba(6,20,20,0.96)"/>
+    </linearGradient>
+
+    <linearGradient id="wa-hub" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="60%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+
+    <radialGradient id="wa-hub-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#5eead4" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#5eead4" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="wa-beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5eead4" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#5eead4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="wa-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Travelling packets -->
+    <g id="wa-packet-msg">
+      <rect x="-10" y="-7" width="20" height="14" rx="3" fill="#5eead4" stroke="#fff" stroke-width="1"/>
+      <line x1="-6" y1="-2" x2="6" y2="-2" stroke="#022c22" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="-6" y1="2" x2="3" y2="2" stroke="#022c22" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+    <g id="wa-packet-voice">
+      <rect x="-10" y="-7" width="20" height="14" rx="3" fill="#fbbf24" stroke="#fff" stroke-width="1"/>
+      <line x1="-6" y1="0" x2="-4" y2="0" stroke="#022c22" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-2" y1="-3" x2="-2" y2="3" stroke="#022c22" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="2" y1="-2" x2="2" y2="2" stroke="#022c22" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="6" y1="-3" x2="6" y2="3" stroke="#022c22" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+    <g id="wa-packet-tag">
+      <rect x="-10" y="-7" width="20" height="14" rx="3" fill="#a78bfa" stroke="#fff" stroke-width="1"/>
+      <circle cx="-5" cy="0" r="1.8" fill="#022c22"/>
+      <line x1="-1" y1="0" x2="7" y2="0" stroke="#022c22" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Connection paths (off-screen anchors at 400,250 hub) -->
+    <path id="wa-p1" d="M 175 95 C 270 130 340 200 400 250"/>
+    <path id="wa-p2" d="M 625 95 C 530 130 460 200 400 250"/>
+    <path id="wa-p3" d="M 175 405 C 270 370 340 300 400 250"/>
+    <path id="wa-p4" d="M 625 405 C 530 370 460 300 400 250"/>
+  </defs>
+
+  <style>
+    .wa-beam-line { fill: none; stroke: url(#wa-beam); stroke-width: 1.5; stroke-dasharray: 4 6; animation: wa-dash 1.8s linear infinite; }
+    @keyframes wa-dash { to { stroke-dashoffset: -20; } }
+    .wa-pulse { transform-origin: center; animation: wa-pulse 2.6s cubic-bezier(0.2,0,0.8,1) infinite; }
+    @keyframes wa-pulse { 0% { transform: scale(0.85); opacity: 0.9; } 100% { transform: scale(2.4); opacity: 0; } }
+    .wa-float { animation: wa-float 6s ease-in-out infinite; }
+    .wa-float-delay { animation: wa-float 6s ease-in-out infinite 1.5s; }
+    @keyframes wa-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .wa-blink { animation: wa-blink 1.4s ease-in-out infinite; }
+    @keyframes wa-blink { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+    .wa-bar { animation: wa-bar 1.6s ease-in-out infinite alternate; transform-origin: bottom; }
+    @keyframes wa-bar { from { transform: scaleY(0.5); } to { transform: scaleY(1); } }
+    .wa-particle { animation: wa-particle 8s linear infinite; opacity: 0; }
+    @keyframes wa-particle { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 0.7; } 100% { opacity: 0; transform: translateY(-60px); } }
+  </style>
+
+  <!-- BACKGROUND -->
+  <rect width="800" height="500" fill="url(#wa-grid)"/>
+  <!-- Diagonal scanlines -->
+  <g opacity="0.12">
+    <line x1="0" y1="100" x2="800" y2="80" stroke="#5eead4" stroke-width="1"/>
+    <line x1="0" y1="420" x2="800" y2="450" stroke="#34d399" stroke-width="1"/>
+  </g>
+
+  <!-- Floating particles -->
+  <g fill="#5eead4">
+    <circle cx="100" cy="450" r="1.5" class="wa-particle"/>
+    <circle cx="260" cy="470" r="1.2" class="wa-particle" style="animation-delay: 1.5s;"/>
+    <circle cx="550" cy="460" r="1.5" class="wa-particle" style="animation-delay: 3s;"/>
+    <circle cx="700" cy="475" r="1.3" class="wa-particle" style="animation-delay: 4.5s;"/>
+    <circle cx="380" cy="465" r="1.4" class="wa-particle" style="animation-delay: 6s;"/>
+  </g>
+
+  <!-- BEAMS -->
+  <use href="#wa-p1" class="wa-beam-line"/>
+  <use href="#wa-p2" class="wa-beam-line"/>
+  <use href="#wa-p3" class="wa-beam-line"/>
+  <use href="#wa-p4" class="wa-beam-line"/>
+
+  <!-- =========================================
+       TOP-LEFT CARD — Phone with chat bubbles
+       ========================================= -->
+  <g class="wa-float">
+    <g transform="translate(170,30)">
+      <!-- Phone body -->
+      <rect width="170" height="130" rx="16" fill="url(#wa-card)" stroke="#5eead4" stroke-opacity="0.35" stroke-width="1.2"/>
+      <!-- Status row -->
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#5eead4" font-weight="700" letter-spacing="1.5">LIVE CHAT</text>
+      <circle cx="155" cy="17" r="3" fill="#34d399"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite"/></circle>
+      <!-- Contact -->
+      <circle cx="22" cy="38" r="8" fill="#34d399"/>
+      <text x="22" y="41" font-family="Inter,Arial,sans-serif" font-size="8" fill="#022c22" text-anchor="middle" font-weight="900">R</text>
+      <rect x="34" y="32" width="60" height="4" rx="1" fill="#cbd5e1"/>
+      <rect x="34" y="40" width="40" height="2.5" rx="1" fill="#5eead4" opacity="0.7"/>
+      <!-- Chat bubbles -->
+      <rect x="14" y="56" width="80" height="14" rx="6" fill="#1e293b"/>
+      <line x1="22" y1="62" x2="80" y2="62" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="22" y1="66" x2="70" y2="66" stroke="#64748b" stroke-width="1"/>
+      <rect x="76" y="74" width="80" height="14" rx="6" fill="#34d399"/>
+      <line x1="84" y1="80" x2="148" y2="80" stroke="#022c22" stroke-width="1"/>
+      <line x1="84" y1="84" x2="140" y2="84" stroke="#022c22" stroke-width="1"/>
+      <!-- Typing -->
+      <rect x="14" y="92" width="34" height="14" rx="6" fill="#1e293b"/>
+      <circle cx="22" cy="99" r="1.8" fill="#5eead4" class="wa-blink"/>
+      <circle cx="30" cy="99" r="1.8" fill="#5eead4" class="wa-blink" style="animation-delay: 0.2s;"/>
+      <circle cx="38" cy="99" r="1.8" fill="#5eead4" class="wa-blink" style="animation-delay: 0.4s;"/>
+      <!-- Input bar -->
+      <rect x="14" y="112" width="142" height="10" rx="5" fill="#1e293b" stroke="#5eead4" stroke-opacity="0.2" stroke-width="0.5"/>
+      <circle cx="148" cy="117" r="3" fill="#34d399"/>
+    </g>
+  </g>
+
+  <!-- =========================================
+       TOP-RIGHT CARD — Team inbox
+       ========================================= -->
+  <g class="wa-float-delay">
+    <g transform="translate(460,30)">
+      <rect width="170" height="130" rx="14" fill="url(#wa-card)" stroke="#5eead4" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#5eead4" font-weight="700" letter-spacing="1.5">TEAM INBOX</text>
+      <text x="156" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#fbbf24" font-weight="900" text-anchor="end">12</text>
+      <!-- Rows -->
+      <g transform="translate(0,28)">
+        <rect x="8" y="0" width="154" height="22" rx="4" fill="#0f1f1c"/>
+        <circle cx="20" cy="11" r="7" fill="#a78bfa"/>
+        <rect x="32" y="5" width="80" height="3" rx="1.5" fill="#e2e8f0"/>
+        <rect x="32" y="12" width="60" height="2.5" rx="1" fill="#64748b"/>
+        <circle cx="150" cy="11" r="6" fill="#34d399"/>
+        <text x="150" y="14" font-family="Inter,Arial,sans-serif" font-size="7" fill="#022c22" text-anchor="middle" font-weight="900">2</text>
+      </g>
+      <g transform="translate(0,54)">
+        <rect x="8" y="0" width="154" height="22" rx="4" fill="#0f1f1c"/>
+        <circle cx="20" cy="11" r="7" fill="#60a5fa"/>
+        <rect x="32" y="5" width="70" height="3" rx="1.5" fill="#e2e8f0"/>
+        <rect x="32" y="12" width="80" height="2.5" rx="1" fill="#64748b"/>
+        <circle cx="150" cy="11" r="6" fill="#34d399"/>
+        <text x="150" y="14" font-family="Inter,Arial,sans-serif" font-size="7" fill="#022c22" text-anchor="middle" font-weight="900">1</text>
+      </g>
+      <g transform="translate(0,80)">
+        <rect x="8" y="0" width="154" height="22" rx="4" fill="#0f1f1c"/>
+        <circle cx="20" cy="11" r="7" fill="#fbbf24"/>
+        <rect x="32" y="5" width="75" height="3" rx="1.5" fill="#e2e8f0"/>
+        <rect x="32" y="12" width="65" height="2.5" rx="1" fill="#64748b"/>
+        <rect x="140" y="6" width="20" height="10" rx="3" fill="#1e293b" stroke="#5eead4" stroke-opacity="0.4" stroke-width="0.5"/>
+        <text x="150" y="13" font-family="Inter,Arial,sans-serif" font-size="6" fill="#5eead4" text-anchor="middle" font-weight="700">NEW</text>
+      </g>
+      <g transform="translate(0,106)">
+        <rect x="8" y="0" width="154" height="18" rx="4" fill="#0f1f1c"/>
+        <circle cx="20" cy="9" r="6" fill="#fb7185"/>
+        <rect x="32" y="4" width="60" height="3" rx="1.5" fill="#e2e8f0"/>
+        <rect x="32" y="10" width="78" height="2.5" rx="1" fill="#64748b"/>
+        <text x="156" y="12" font-family="Inter,Arial,sans-serif" font-size="6" fill="#64748b" text-anchor="end">9:41</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- =========================================
+       BOTTOM-LEFT CARD — Workflow steps
+       ========================================= -->
+  <g class="wa-float-delay">
+    <g transform="translate(170,330)">
+      <rect width="170" height="138" rx="14" fill="url(#wa-card)" stroke="#5eead4" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#5eead4" font-weight="700" letter-spacing="1.5">AUTO WORKFLOW</text>
+      <!-- Step 1 -->
+      <g transform="translate(0,28)">
+        <rect x="12" y="0" width="146" height="18" rx="4" fill="rgba(52,211,153,0.15)" stroke="#34d399" stroke-opacity="0.4" stroke-width="0.6"/>
+        <circle cx="22" cy="9" r="4" fill="#34d399"/>
+        <text x="22" y="12" font-family="Inter,Arial,sans-serif" font-size="6" fill="#022c22" text-anchor="middle" font-weight="900">1</text>
+        <text x="32" y="12" font-family="Inter,Arial,sans-serif" font-size="8" fill="#cbd5e1">New message detected</text>
+      </g>
+      <!-- Arrow -->
+      <line x1="22" y1="50" x2="22" y2="56" stroke="#5eead4" stroke-width="1" stroke-opacity="0.6"/>
+      <!-- Step 2 -->
+      <g transform="translate(0,58)">
+        <rect x="12" y="0" width="146" height="18" rx="4" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-opacity="0.4" stroke-width="0.6"/>
+        <circle cx="22" cy="9" r="4" fill="#a78bfa"/>
+        <text x="22" y="12" font-family="Inter,Arial,sans-serif" font-size="6" fill="#0f0f24" text-anchor="middle" font-weight="900">2</text>
+        <text x="32" y="12" font-family="Inter,Arial,sans-serif" font-size="8" fill="#cbd5e1">AI intent classification</text>
+      </g>
+      <line x1="22" y1="80" x2="22" y2="86" stroke="#5eead4" stroke-width="1" stroke-opacity="0.6"/>
+      <!-- Step 3 -->
+      <g transform="translate(0,88)">
+        <rect x="12" y="0" width="146" height="18" rx="4" fill="rgba(96,165,250,0.15)" stroke="#60a5fa" stroke-opacity="0.4" stroke-width="0.6"/>
+        <circle cx="22" cy="9" r="4" fill="#60a5fa"/>
+        <text x="22" y="12" font-family="Inter,Arial,sans-serif" font-size="6" fill="#0a1426" text-anchor="middle" font-weight="900">3</text>
+        <text x="32" y="12" font-family="Inter,Arial,sans-serif" font-size="8" fill="#cbd5e1">Route or auto-reply</text>
+      </g>
+      <line x1="22" y1="110" x2="22" y2="116" stroke="#5eead4" stroke-width="1" stroke-opacity="0.6"/>
+      <!-- Step 4 done -->
+      <g transform="translate(0,118)">
+        <rect x="12" y="0" width="146" height="14" rx="4" fill="rgba(94,234,212,0.25)" stroke="#5eead4" stroke-opacity="0.6" stroke-width="0.6"/>
+        <text x="20" y="10" font-family="Inter,Arial,sans-serif" font-size="7" fill="#5eead4" font-weight="700">DONE</text>
+        <text x="55" y="10" font-family="Inter,Arial,sans-serif" font-size="7" fill="#94a3b8">Tagged + assigned · 2.4s</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- =========================================
+       BOTTOM-RIGHT CARD — Team routing
+       ========================================= -->
+  <g class="wa-float">
+    <g transform="translate(460,330)">
+      <rect width="170" height="138" rx="14" fill="url(#wa-card)" stroke="#5eead4" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#5eead4" font-weight="700" letter-spacing="1.5">LEAD ROUTING</text>
+      <text x="156" y="20" font-family="Inter,Arial,sans-serif" font-size="7" fill="#34d399" font-weight="700" text-anchor="end">● LIVE</text>
+      <!-- Sales -->
+      <g transform="translate(0,30)">
+        <rect x="12" y="0" width="146" height="28" rx="6" fill="#0f1f1c" stroke="#34d399" stroke-opacity="0.35" stroke-width="0.7"/>
+        <circle cx="24" cy="14" r="8" fill="#34d399"/>
+        <text x="24" y="17" font-family="Inter,Arial,sans-serif" font-size="8" fill="#022c22" text-anchor="middle" font-weight="900">S</text>
+        <text x="38" y="11" font-family="Inter,Arial,sans-serif" font-size="8" fill="#e2e8f0" font-weight="700">Sales Team</text>
+        <text x="38" y="20" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b">3 new leads · auto-assigned</text>
+        <rect x="118" y="9" width="32" height="10" rx="3" fill="rgba(52,211,153,0.2)" stroke="#34d399" stroke-opacity="0.5" stroke-width="0.5"/>
+        <text x="134" y="16" font-family="Inter,Arial,sans-serif" font-size="6" fill="#34d399" text-anchor="middle" font-weight="700">HOT</text>
+      </g>
+      <!-- Support -->
+      <g transform="translate(0,64)">
+        <rect x="12" y="0" width="146" height="28" rx="6" fill="#0f1f1c" stroke="#60a5fa" stroke-opacity="0.35" stroke-width="0.7"/>
+        <circle cx="24" cy="14" r="8" fill="#60a5fa"/>
+        <text x="24" y="17" font-family="Inter,Arial,sans-serif" font-size="8" fill="#0a1426" text-anchor="middle" font-weight="900">H</text>
+        <text x="38" y="11" font-family="Inter,Arial,sans-serif" font-size="8" fill="#e2e8f0" font-weight="700">Support</text>
+        <text x="38" y="20" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b">5 tickets · escalated</text>
+        <rect x="118" y="9" width="32" height="10" rx="3" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-opacity="0.5" stroke-width="0.5"/>
+        <text x="134" y="16" font-family="Inter,Arial,sans-serif" font-size="6" fill="#60a5fa" text-anchor="middle" font-weight="700">MED</text>
+      </g>
+      <!-- Onboarding -->
+      <g transform="translate(0,98)">
+        <rect x="12" y="0" width="146" height="28" rx="6" fill="#0f1f1c" stroke="#a78bfa" stroke-opacity="0.35" stroke-width="0.7"/>
+        <circle cx="24" cy="14" r="8" fill="#a78bfa"/>
+        <text x="24" y="17" font-family="Inter,Arial,sans-serif" font-size="8" fill="#0f0f24" text-anchor="middle" font-weight="900">O</text>
+        <text x="38" y="11" font-family="Inter,Arial,sans-serif" font-size="8" fill="#e2e8f0" font-weight="700">Onboarding</text>
+        <text x="38" y="20" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b">12 customers · welcome flow</text>
+        <rect x="118" y="9" width="32" height="10" rx="3" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-opacity="0.5" stroke-width="0.5"/>
+        <text x="134" y="16" font-family="Inter,Arial,sans-serif" font-size="6" fill="#a78bfa" text-anchor="middle" font-weight="700">LOW</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- =========================================
+       TRAVELLING PACKETS — multiple along each beam
+       ========================================= -->
+  <g>
+    <use href="#wa-packet-msg"/>
+    <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto" path="M 175 95 C 270 130 340 200 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.2s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#wa-packet-voice"/>
+    <animateMotion dur="3.6s" begin="1.2s" repeatCount="indefinite" rotate="auto" path="M 175 405 C 270 370 340 300 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.6s" begin="1.2s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#wa-packet-tag"/>
+    <animateMotion dur="3s" begin="0.6s" repeatCount="indefinite" rotate="auto" path="M 400 250 L 625 95" keyPoints="0;1" keyTimes="0;1"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" begin="0.6s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#wa-packet-tag"/>
+    <animateMotion dur="3.4s" begin="2s" repeatCount="indefinite" rotate="auto" path="M 400 250 L 625 405" keyPoints="0;1" keyTimes="0;1"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.4s" begin="2s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- =========================================
+       CENTRAL HUB
+       ========================================= -->
+  <g transform="translate(400,250)">
+    <!-- Outer glow halo -->
+    <circle cx="0" cy="0" r="90" fill="url(#wa-hub-glow)"/>
+    <!-- Expanding pulse rings -->
+    <circle r="44" fill="none" stroke="#5eead4" stroke-width="2" class="wa-pulse"/>
+    <circle r="44" fill="none" stroke="#5eead4" stroke-width="2" class="wa-pulse" style="animation-delay: 0.9s;"/>
+    <circle r="44" fill="none" stroke="#5eead4" stroke-width="2" class="wa-pulse" style="animation-delay: 1.8s;"/>
+    <!-- Orbit ring -->
+    <circle cx="0" cy="0" r="56" fill="none" stroke="#5eead4" stroke-width="0.8" stroke-opacity="0.45" stroke-dasharray="2 4">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="22s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Hub body -->
+    <circle cx="0" cy="0" r="44" fill="url(#wa-hub)" filter="url(#wa-glow)"/>
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#fff" stroke-width="2" stroke-opacity="0.6"/>
+    <circle cx="-12" cy="-12" r="14" fill="rgba(255,255,255,0.18)"/>
+    <!-- WhatsApp glyph -->
+    <path d="M -12 -8 C -18 -8 -22 -3 -22 3 C -22 6 -21 9 -19 12 L -22 20 L -14 17 C -11 19 -8 19 -6 19 C 2 19 8 13 8 5 C 8 -3 2 -8 -12 -8 Z M -8 -3 C -3 -3 0 0 0 5 C 0 10 -3 13 -8 13 C -10 13 -12 12 -14 11 L -16 12 L -15 9 C -16 7 -17 5 -17 3 C -17 0 -14 -3 -12 -3 Z"
+          fill="#fff"/>
+    <!-- Label below hub -->
+    <text x="0" y="68" font-family="Inter,Arial,sans-serif" font-size="9" fill="#5eead4" text-anchor="middle" font-weight="700" letter-spacing="3">WHATSAPP CORE</text>
+  </g>
+
+  <!-- Mini stats strip at bottom -->
+  <g transform="translate(400,485)" font-family="Inter,Arial,sans-serif" font-size="7" fill="#5eead4" opacity="0.85" letter-spacing="2">
+    <text x="-180" text-anchor="middle">98% AUTO-REPLY</text>
+    <text x="-60" text-anchor="middle">·</text>
+    <text x="0" text-anchor="middle">2.4s AVG ROUTE</text>
+    <text x="60" text-anchor="middle">·</text>
+    <text x="180" text-anchor="middle">24/7 COVERAGE</text>
+  </g>
+</svg>

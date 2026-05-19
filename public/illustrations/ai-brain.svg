@@ -1,0 +1,261 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <filter id="ab-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="ab-soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" />
+    </filter>
+    <radialGradient id="ab-aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4fd1ff" stop-opacity="0.45" />
+      <stop offset="40%" stop-color="#4fd1ff" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#4fd1ff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="ab-head-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0c1632" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#1e3a8a" stop-opacity="0.5" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .ab-breathe { transform-origin: 240px 240px; animation: ab-breathe 5s ease-in-out infinite; }
+    @keyframes ab-breathe { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.08); opacity: 0.8; } }
+
+    /* Gear rotation — continuous slow spin */
+    .ab-gear { transform-origin: 240px 240px; animation: ab-gear-spin 14s linear infinite; }
+    @keyframes ab-gear-spin { to { transform: rotate(360deg); } }
+
+    /* Neural node pulses at the end of each spoke */
+    .ab-node { transform-origin: center; animation: ab-node-pulse 2s ease-in-out infinite; }
+    @keyframes ab-node-pulse { 0%,100% { opacity: 0.65; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.3); } }
+
+    /* Outer halo ring around each node */
+    .ab-node-halo { transform-origin: center; animation: ab-node-halo 2s ease-in-out infinite; }
+    @keyframes ab-node-halo { 0%,100% { opacity: 0; transform: scale(0.7); } 50% { opacity: 0.5; transform: scale(1.6); } }
+
+    /* Background scattered network */
+    .ab-bg-node { animation: ab-bg-pulse 3s ease-in-out infinite; }
+    @keyframes ab-bg-pulse { 0%,100% { opacity: 0.35; } 50% { opacity: 0.85; } }
+
+    .ab-spoke { stroke-dasharray: 3 3; animation: ab-spoke-flow 1.4s linear infinite; }
+    @keyframes ab-spoke-flow { to { stroke-dashoffset: -12; } }
+
+    .ab-facet { animation: ab-facet-shimmer 4s ease-in-out infinite; }
+    @keyframes ab-facet-shimmer { 0%,100% { opacity: 0.16; } 50% { opacity: 0.32; } }
+  </style>
+
+  <!-- Soft outer aura -->
+  <circle cx="240" cy="240" r="220" fill="url(#ab-aura)" class="ab-breathe" />
+  <circle cx="240" cy="240" r="160" fill="#4fd1ff" opacity="0.05" filter="url(#ab-soft)" />
+
+  <!-- ───────── BACKGROUND: faded head profile + scattered network ───────── -->
+  <g opacity="0.4">
+    <path
+      d="M 180 86
+         C 130 88, 88 130, 88 180
+         C 88 210, 96 230, 108 248
+         C 112 256, 110 268, 104 278
+         L 96 296
+         C 94 304, 100 312, 110 314
+         L 124 318
+         C 132 320, 138 326, 140 334
+         L 144 360
+         C 146 368, 154 374, 162 374
+         L 220 374
+         L 220 348
+         C 220 332, 226 318, 236 306
+         L 252 290
+         C 260 280, 266 268, 268 254
+         L 270 244
+         L 280 234
+         C 284 230, 284 224, 280 220
+         L 268 212
+         L 264 198
+         C 262 184, 256 170, 244 158
+         C 232 146, 230 134, 232 120
+         L 230 108
+         C 222 96, 200 86, 180 86 Z"
+      fill="url(#ab-head-fill)"
+      stroke="#4fd1ff"
+      stroke-width="1"
+      stroke-opacity="0.45"
+      stroke-linejoin="round"
+    />
+    <g stroke="#5eead4" stroke-width="0.5" fill="none" class="ab-facet" stroke-linecap="round">
+      <line x1="100" y1="170" x2="180" y2="100" />
+      <line x1="180" y1="100" x2="220" y2="120" />
+      <line x1="220" y1="120" x2="232" y2="156" />
+      <line x1="232" y1="156" x2="268" y2="200" />
+      <line x1="100" y1="170" x2="140" y2="200" />
+      <line x1="140" y1="200" x2="180" y2="220" />
+      <line x1="180" y1="220" x2="160" y2="260" />
+      <line x1="160" y1="260" x2="200" y2="280" />
+      <line x1="200" y1="280" x2="220" y2="320" />
+      <line x1="155" y1="320" x2="220" y2="320" />
+    </g>
+  </g>
+
+  <!-- Background scattered neurons -->
+  <g fill="#4fd1ff">
+    <circle cx="380" cy="120" r="2" class="ab-bg-node" />
+    <circle cx="410" cy="180" r="1.5" class="ab-bg-node" style="animation-delay: 0.3s;" />
+    <circle cx="395" cy="245" r="2" class="ab-bg-node" style="animation-delay: 0.6s;" />
+    <circle cx="425" cy="310" r="1.5" class="ab-bg-node" style="animation-delay: 0.9s;" />
+    <circle cx="370" cy="370" r="2" class="ab-bg-node" style="animation-delay: 1.2s;" />
+    <circle cx="60" cy="120" r="1.5" class="ab-bg-node" style="animation-delay: 0.2s;" />
+    <circle cx="40" cy="240" r="2" class="ab-bg-node" style="animation-delay: 0.7s;" />
+    <circle cx="70" cy="370" r="1.5" class="ab-bg-node" style="animation-delay: 1s;" />
+  </g>
+  <g stroke="#4fd1ff" stroke-width="0.5" opacity="0.35" fill="none" stroke-linecap="round">
+    <line x1="380" y1="120" x2="410" y2="180" />
+    <line x1="410" y1="180" x2="395" y2="245" />
+    <line x1="395" y1="245" x2="425" y2="310" />
+    <line x1="425" y1="310" x2="370" y2="370" />
+    <line x1="60" y1="120" x2="40" y2="240" />
+    <line x1="40" y1="240" x2="70" y2="370" />
+  </g>
+
+  <!-- ───────── 8 SPOKES with right-angle bends ───────── -->
+  <!-- Each spoke goes from gear edge (~radius 60) → outward → ends in a node -->
+  <g stroke="#5eead4" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- TOP (straight up) -->
+    <path d="M 240 180 L 240 130" class="ab-spoke" />
+    <!-- TOP-RIGHT (bent: right then up) -->
+    <path d="M 285 210 L 320 210 L 320 165" class="ab-spoke" style="animation-delay: 0.15s;" />
+    <!-- RIGHT (straight right) -->
+    <path d="M 300 240 L 360 240" class="ab-spoke" style="animation-delay: 0.3s;" />
+    <!-- BOTTOM-RIGHT (bent: right then down) -->
+    <path d="M 285 270 L 320 270 L 320 315" class="ab-spoke" style="animation-delay: 0.45s;" />
+    <!-- BOTTOM (straight down) -->
+    <path d="M 240 300 L 240 350" class="ab-spoke" style="animation-delay: 0.6s;" />
+    <!-- BOTTOM-LEFT (bent: left then down) -->
+    <path d="M 195 270 L 160 270 L 160 315" class="ab-spoke" style="animation-delay: 0.75s;" />
+    <!-- LEFT (straight left) -->
+    <path d="M 180 240 L 120 240" class="ab-spoke" style="animation-delay: 0.9s;" />
+    <!-- TOP-LEFT (bent: left then up) -->
+    <path d="M 195 210 L 160 210 L 160 165" class="ab-spoke" style="animation-delay: 1.05s;" />
+  </g>
+
+  <!-- ───────── 8 NEURAL NODES at the end of each spoke ───────── -->
+  <!-- Each node has an outer pulsing halo + inner solid dot -->
+  <g>
+    <!-- TOP -->
+    <circle cx="240" cy="130" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" />
+    <circle cx="240" cy="130" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" />
+    <!-- TOP-RIGHT -->
+    <circle cx="320" cy="165" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" style="animation-delay: 0.15s;" />
+    <circle cx="320" cy="165" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" style="animation-delay: 0.15s;" />
+    <!-- RIGHT -->
+    <circle cx="360" cy="240" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" style="animation-delay: 0.3s;" />
+    <circle cx="360" cy="240" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" style="animation-delay: 0.3s;" />
+    <!-- BOTTOM-RIGHT -->
+    <circle cx="320" cy="315" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" style="animation-delay: 0.45s;" />
+    <circle cx="320" cy="315" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" style="animation-delay: 0.45s;" />
+    <!-- BOTTOM -->
+    <circle cx="240" cy="350" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" style="animation-delay: 0.6s;" />
+    <circle cx="240" cy="350" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" style="animation-delay: 0.6s;" />
+    <!-- BOTTOM-LEFT -->
+    <circle cx="160" cy="315" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" style="animation-delay: 0.75s;" />
+    <circle cx="160" cy="315" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" style="animation-delay: 0.75s;" />
+    <!-- LEFT -->
+    <circle cx="120" cy="240" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" style="animation-delay: 0.9s;" />
+    <circle cx="120" cy="240" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" style="animation-delay: 0.9s;" />
+    <!-- TOP-LEFT -->
+    <circle cx="160" cy="165" r="8" fill="#4fd1ff" opacity="0.3" class="ab-node-halo" style="animation-delay: 1.05s;" />
+    <circle cx="160" cy="165" r="5" fill="#5eead4" class="ab-node" filter="url(#ab-glow)" style="animation-delay: 1.05s;" />
+  </g>
+
+  <!-- ───────── ENERGY PULSES traveling from gear → each node ───────── -->
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" repeatCount="indefinite" path="M 240 180 L 240 130" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" begin="0.2s" repeatCount="indefinite" path="M 285 210 L 320 210 L 320 165" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" begin="0.2s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" begin="0.4s" repeatCount="indefinite" path="M 300 240 L 360 240" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" begin="0.4s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" begin="0.6s" repeatCount="indefinite" path="M 285 270 L 320 270 L 320 315" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" begin="0.6s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" begin="0.8s" repeatCount="indefinite" path="M 240 300 L 240 350" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" begin="0.8s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" begin="1s" repeatCount="indefinite" path="M 195 270 L 160 270 L 160 315" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" begin="1s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" begin="1.2s" repeatCount="indefinite" path="M 180 240 L 120 240" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" begin="1.2s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  <g>
+    <circle r="2.5" fill="#ffffff" filter="url(#ab-glow)">
+      <animateMotion dur="1.6s" begin="1.4s" repeatCount="indefinite" path="M 195 210 L 160 210 L 160 165" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.8;1" dur="1.6s" begin="1.4s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <!-- ───────── CENTRAL SPINNING GEAR ───────── -->
+  <g>
+    <!-- Outer glow ring (static) -->
+    <circle cx="240" cy="240" r="62" fill="#4fd1ff" opacity="0.18" filter="url(#ab-soft)" />
+
+    <!-- Rotating gear -->
+    <g class="ab-gear">
+      <!-- 8 teeth (rotated rectangles around the gear) -->
+      <g fill="#4fd1ff" stroke="#0a0f24" stroke-width="1">
+        <rect x="234" y="178" width="12" height="14" rx="2" />
+        <rect x="234" y="178" width="12" height="14" rx="2" transform="rotate(45 240 240)" />
+        <rect x="234" y="178" width="12" height="14" rx="2" transform="rotate(90 240 240)" />
+        <rect x="234" y="178" width="12" height="14" rx="2" transform="rotate(135 240 240)" />
+        <rect x="234" y="178" width="12" height="14" rx="2" transform="rotate(180 240 240)" />
+        <rect x="234" y="178" width="12" height="14" rx="2" transform="rotate(225 240 240)" />
+        <rect x="234" y="178" width="12" height="14" rx="2" transform="rotate(270 240 240)" />
+        <rect x="234" y="178" width="12" height="14" rx="2" transform="rotate(315 240 240)" />
+      </g>
+
+      <!-- Gear body -->
+      <circle cx="240" cy="240" r="42" fill="#0a0f24" stroke="#4fd1ff" stroke-width="3" />
+
+      <!-- Inner ring -->
+      <circle cx="240" cy="240" r="28" fill="none" stroke="#5eead4" stroke-width="2" opacity="0.7" />
+
+      <!-- Inner hub hole -->
+      <circle cx="240" cy="240" r="14" fill="#0a0f24" stroke="#7c82ff" stroke-width="2" />
+
+      <!-- Spoke marks inside gear (4 small triangles) -->
+      <g fill="#4fd1ff" opacity="0.7">
+        <polygon points="240,212 244,224 236,224" />
+        <polygon points="268,240 256,244 256,236" />
+        <polygon points="240,268 236,256 244,256" />
+        <polygon points="212,240 224,236 224,244" />
+      </g>
+    </g>
+
+    <!-- Static center dot (does NOT rotate with the gear) -->
+    <circle cx="240" cy="240" r="3" fill="#ffffff" filter="url(#ab-glow)">
+      <animate attributeName="r" values="2.5;4;2.5" dur="1.8s" repeatCount="indefinite" />
+    </circle>
+  </g>
+</svg>

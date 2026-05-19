@@ -1,0 +1,9 @@
+- [x] Verify the copilot-instructions.md file in the .github directory is created.
+- [x] Clarify project requirements: build a Next.js 15 marketing site for Summit AI Automation Services using React, TypeScript, Tailwind CSS, Framer Motion, and Three.js / React Three Fiber.
+- [x] Scaffold the project in the workspace root with the Next.js App Router.
+- [x] Customize the project with a dark enterprise AI command center landing page, animated workflow sections, dashboard visuals, architecture diagrams, and enterprise positioning copy.
+- [x] Install required project dependencies used by the implementation: framer-motion, three, @react-three/fiber, and @types/three.
+- [x] Compile the project successfully with npm run build.
+- [x] Create and run task: skipped because the existing npm scripts are sufficient for development, build, and start workflows.
+- [ ] Launch the project: pending user confirmation if a local dev server should be started.
+- [x] Ensure documentation is complete by updating README.md for the current project state.

@@ -1,0 +1,308 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" style="border-radius: 16px; overflow: hidden; background: radial-gradient(ellipse at 30% 20%, #422006 0%, #1c1208 40%, #0c0703 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.45);">
+  <defs>
+    <pattern id="ds-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(245,196,107,0.10)" stroke-width="0.5"/>
+    </pattern>
+
+    <linearGradient id="ds-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(28,18,8,0.95)"/>
+      <stop offset="100%" stop-color="rgba(12,7,3,0.97)"/>
+    </linearGradient>
+
+    <linearGradient id="ds-paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fcd34d"/>
+    </linearGradient>
+
+    <radialGradient id="ds-hub" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="60%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </radialGradient>
+
+    <radialGradient id="ds-hub-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="ds-beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fbbf24" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#f5c46b" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="ds-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <g id="ds-packet-doc">
+      <rect x="-9" y="-7" width="18" height="14" rx="2" fill="#fef3c7" stroke="#92400e" stroke-width="1"/>
+      <line x1="-5" y1="-3" x2="5" y2="-3" stroke="#92400e" stroke-width="1"/>
+      <line x1="-5" y1="0" x2="3" y2="0" stroke="#92400e" stroke-width="0.8"/>
+      <line x1="-5" y1="3" x2="5" y2="3" stroke="#92400e" stroke-width="0.8"/>
+    </g>
+    <g id="ds-packet-shield">
+      <path d="M 0 -8 L 7 -5 L 7 4 L 0 8 L -7 4 L -7 -5 Z" fill="#10b981" stroke="#fff" stroke-width="1"/>
+      <path d="M -3 0 L -1 2 L 3 -2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <path id="ds-p1" d="M 200 130 C 280 170 340 210 400 250"/>
+    <path id="ds-p2" d="M 600 130 C 530 170 460 210 400 250"/>
+    <path id="ds-p3" d="M 200 380 C 280 350 340 300 400 250"/>
+    <path id="ds-p4" d="M 600 380 C 530 350 460 300 400 250"/>
+  </defs>
+
+  <style>
+    .ds-beam-line { fill: none; stroke: url(#ds-beam); stroke-width: 1.5; stroke-dasharray: 4 6; animation: ds-dash 1.8s linear infinite; }
+    @keyframes ds-dash { to { stroke-dashoffset: -20; } }
+    .ds-pulse { transform-origin: center; animation: ds-pulse 2.6s cubic-bezier(0.2,0,0.8,1) infinite; }
+    @keyframes ds-pulse { 0% { transform: scale(0.85); opacity: 0.9; } 100% { transform: scale(2.4); opacity: 0; } }
+    .ds-float { animation: ds-float 6s ease-in-out infinite; }
+    .ds-float-delay { animation: ds-float 6s ease-in-out infinite 1.5s; }
+    @keyframes ds-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .ds-scan { animation: ds-scan 2.2s ease-in-out infinite; }
+    @keyframes ds-scan { 0% { transform: translateY(0); opacity: 0.85; } 50% { opacity: 1; } 100% { transform: translateY(70px); opacity: 0; } }
+    .ds-blink { animation: ds-blink 1.4s ease-in-out infinite; }
+    @keyframes ds-blink { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+    .ds-rotate { transform-origin: center; animation: ds-rotate 14s linear infinite; }
+    @keyframes ds-rotate { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  </style>
+
+  <rect width="800" height="500" fill="url(#ds-grid)"/>
+
+  <g fill="#fbbf24">
+    <circle cx="120" cy="260" r="1.4" class="ds-blink"/>
+    <circle cx="680" cy="240" r="1.6" class="ds-blink" style="animation-delay: 0.5s;"/>
+    <circle cx="80" cy="200" r="1.2" class="ds-blink" style="animation-delay: 1s;"/>
+    <circle cx="720" cy="320" r="1.4" class="ds-blink" style="animation-delay: 1.5s;"/>
+  </g>
+
+  <use href="#ds-p1" class="ds-beam-line"/>
+  <use href="#ds-p2" class="ds-beam-line"/>
+  <use href="#ds-p3" class="ds-beam-line"/>
+  <use href="#ds-p4" class="ds-beam-line"/>
+
+  <!-- TOP-LEFT — OCR Document scan -->
+  <g class="ds-float">
+    <g transform="translate(160,40)">
+      <rect width="180" height="150" rx="14" fill="url(#ds-card)" stroke="#fbbf24" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#fbbf24" font-weight="700" letter-spacing="1.5">OCR EXTRACT</text>
+      <text x="166" y="20" font-family="Inter,Arial,sans-serif" font-size="7" fill="#34d399" font-weight="700" text-anchor="end">● LIVE</text>
+
+      <!-- Document -->
+      <g transform="translate(30,32)">
+        <rect width="84" height="108" rx="3" fill="url(#ds-paper)" stroke="#92400e" stroke-opacity="0.4" stroke-width="0.5"/>
+        <!-- Folded corner -->
+        <path d="M 76 0 L 84 0 L 84 8 Z" fill="#d97706" opacity="0.4"/>
+        <!-- Header lines -->
+        <rect x="6" y="8" width="40" height="3" rx="1" fill="#78350f"/>
+        <rect x="6" y="14" width="60" height="1.5" rx="0.75" fill="#92400e" opacity="0.6"/>
+        <!-- Body -->
+        <line x1="4" y1="24" x2="80" y2="24" stroke="#92400e" stroke-opacity="0.3" stroke-width="0.5"/>
+        <rect x="6" y="30" width="50" height="1.5" rx="0.75" fill="#92400e" opacity="0.55"/>
+        <rect x="6" y="36" width="68" height="1.5" rx="0.75" fill="#92400e" opacity="0.55"/>
+        <rect x="6" y="42" width="40" height="1.5" rx="0.75" fill="#92400e" opacity="0.55"/>
+        <rect x="6" y="48" width="62" height="1.5" rx="0.75" fill="#92400e" opacity="0.55"/>
+        <rect x="6" y="54" width="58" height="1.5" rx="0.75" fill="#92400e" opacity="0.55"/>
+        <!-- OCR stamp -->
+        <g transform="translate(36,72) rotate(-6)">
+          <rect x="-14" y="-8" width="28" height="16" rx="2" fill="rgba(16,185,129,0.35)" stroke="#10b981" stroke-width="1.5"/>
+          <text font-family="Inter,Arial,sans-serif" font-size="9" fill="#10b981" text-anchor="middle" y="3" font-weight="900" letter-spacing="2">OCR</text>
+        </g>
+        <!-- Scan line -->
+        <rect x="0" y="0" width="84" height="2" fill="#fbbf24" class="ds-scan" filter="url(#ds-glow)"/>
+      </g>
+
+      <!-- Extracted fields -->
+      <g transform="translate(124,40)" font-family="Inter,Arial,sans-serif" font-size="6.5">
+        <text fill="#94a3b8">Name</text>
+        <rect y="3" width="42" height="5" rx="1" fill="rgba(251,191,36,0.18)"/>
+        <text y="7.5" x="2" fill="#fef3c7" font-weight="700">R. Khanna</text>
+
+        <text y="20" fill="#94a3b8">ID No</text>
+        <rect y="23" width="42" height="5" rx="1" fill="rgba(251,191,36,0.18)"/>
+        <text y="27.5" x="2" fill="#fef3c7" font-weight="700">A4571-22</text>
+
+        <text y="40" fill="#94a3b8">Issued</text>
+        <rect y="43" width="42" height="5" rx="1" fill="rgba(251,191,36,0.18)"/>
+        <text y="47.5" x="2" fill="#fef3c7" font-weight="700">12/03/22</text>
+
+        <text y="60" fill="#94a3b8">Expiry</text>
+        <rect y="63" width="42" height="5" rx="1" fill="rgba(52,211,153,0.18)"/>
+        <text y="67.5" x="2" fill="#34d399" font-weight="700">11/03/32</text>
+
+        <text y="80" fill="#94a3b8">Score</text>
+        <rect y="83" width="42" height="5" rx="1" fill="rgba(52,211,153,0.18)"/>
+        <text y="87.5" x="2" fill="#34d399" font-weight="900">99.8%</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- TOP-RIGHT — Shield + verification -->
+  <g class="ds-float-delay">
+    <g transform="translate(460,40)">
+      <rect width="200" height="150" rx="14" fill="url(#ds-card)" stroke="#fbbf24" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#fbbf24" font-weight="700" letter-spacing="1.5">VERIFICATION</text>
+
+      <!-- Big shield -->
+      <g transform="translate(60,90)">
+        <!-- Glow halo -->
+        <circle r="38" fill="#10b981" opacity="0.18"/>
+        <!-- Rotating ring -->
+        <g class="ds-rotate">
+          <circle r="34" fill="none" stroke="#10b981" stroke-width="0.8" stroke-dasharray="3 4" stroke-opacity="0.6"/>
+        </g>
+        <path d="M 0 -32 L 24 -22 L 24 8 L 0 32 L -24 8 L -24 -22 Z" fill="rgba(16,185,129,0.3)" stroke="#10b981" stroke-width="2" filter="url(#ds-glow)"/>
+        <path d="M -10 0 L -2 8 L 12 -8" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Status list -->
+      <g transform="translate(110,40)">
+        <rect width="84" height="20" rx="4" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-opacity="0.45" stroke-width="0.5"/>
+        <circle cx="10" cy="10" r="4" fill="#34d399"/>
+        <path d="M 8 10 L 9 11 L 12 8" fill="none" stroke="#022c22" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="18" y="13" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1">ID match</text>
+        <text x="80" y="13" font-family="Inter,Arial,sans-serif" font-size="6" fill="#34d399" font-weight="700" text-anchor="end">PASS</text>
+      </g>
+      <g transform="translate(110,64)">
+        <rect width="84" height="20" rx="4" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-opacity="0.45" stroke-width="0.5"/>
+        <circle cx="10" cy="10" r="4" fill="#34d399"/>
+        <path d="M 8 10 L 9 11 L 12 8" fill="none" stroke="#022c22" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="18" y="13" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1">Not expired</text>
+        <text x="80" y="13" font-family="Inter,Arial,sans-serif" font-size="6" fill="#34d399" font-weight="700" text-anchor="end">PASS</text>
+      </g>
+      <g transform="translate(110,88)">
+        <rect width="84" height="20" rx="4" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-opacity="0.45" stroke-width="0.5"/>
+        <circle cx="10" cy="10" r="4" fill="#34d399"/>
+        <path d="M 8 10 L 9 11 L 12 8" fill="none" stroke="#022c22" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="18" y="13" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1">No tampering</text>
+        <text x="80" y="13" font-family="Inter,Arial,sans-serif" font-size="6" fill="#34d399" font-weight="700" text-anchor="end">PASS</text>
+      </g>
+      <g transform="translate(110,112)">
+        <rect width="84" height="20" rx="4" fill="rgba(96,165,250,0.12)" stroke="#60a5fa" stroke-opacity="0.45" stroke-width="0.5"/>
+        <circle cx="10" cy="10" r="4" fill="#60a5fa"/>
+        <text x="10" y="13" font-family="Inter,Arial,sans-serif" font-size="7" fill="#0a1426" text-anchor="middle" font-weight="900">i</text>
+        <text x="18" y="13" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1">AML check</text>
+        <text x="80" y="13" font-family="Inter,Arial,sans-serif" font-size="6" fill="#60a5fa" font-weight="700" text-anchor="end">CLEAR</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM-LEFT — Audit trail -->
+  <g class="ds-float-delay">
+    <g transform="translate(160,330)">
+      <rect width="200" height="138" rx="14" fill="url(#ds-card)" stroke="#fbbf24" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#fbbf24" font-weight="700" letter-spacing="1.5">AUDIT TRAIL</text>
+      <text x="186" y="20" font-family="Inter,Arial,sans-serif" font-size="7" fill="#94a3b8" font-weight="700" text-anchor="end">7-YR</text>
+
+      <g transform="translate(14,30)" font-family="Inter,Arial,sans-serif" font-size="7">
+        <line x1="6" y1="0" x2="6" y2="100" stroke="#fbbf24" stroke-opacity="0.3" stroke-width="0.5"/>
+
+        <circle cx="6" cy="8" r="4" fill="#34d399"/>
+        <text x="16" y="6" fill="#fef3c7" font-weight="700">Doc verified</text>
+        <text x="16" y="14" fill="#64748b" font-size="6">AI · ID-4571 · 09:41</text>
+
+        <circle cx="6" cy="32" r="4" fill="#60a5fa"/>
+        <text x="16" y="30" fill="#fef3c7" font-weight="700">Access granted</text>
+        <text x="16" y="38" fill="#64748b" font-size="6">Admin · Reviewer · 09:36</text>
+
+        <circle cx="6" cy="56" r="4" fill="#fbbf24"/>
+        <text x="16" y="54" fill="#fef3c7" font-weight="700">Expiry alert</text>
+        <text x="16" y="62" fill="#64748b" font-size="6">AI · Passport-2271 · 09:22</text>
+
+        <circle cx="6" cy="80" r="4" fill="#a78bfa"/>
+        <text x="16" y="78" fill="#fef3c7" font-weight="700">Log exported</text>
+        <text x="16" y="86" fill="#64748b" font-size="6">Auditor · Q2 batch · 09:14</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM-RIGHT — Padlock + access routing -->
+  <g class="ds-float">
+    <g transform="translate(460,330)">
+      <rect width="200" height="138" rx="14" fill="url(#ds-card)" stroke="#fbbf24" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#fbbf24" font-weight="700" letter-spacing="1.5">ACCESS CONTROL</text>
+
+      <!-- Padlock illustration -->
+      <g transform="translate(36,80)">
+        <!-- Shackle -->
+        <path d="M -16 -6 C -16 -22 16 -22 16 -6 L 16 0 L 11 0 L 11 -6 C 11 -16 -11 -16 -11 -6 L -11 0 L -16 0 Z" fill="#cbd5e1"/>
+        <!-- Body -->
+        <rect x="-20" y="0" width="40" height="32" rx="6" fill="url(#ds-paper)" stroke="#92400e" stroke-opacity="0.6" stroke-width="0.8"/>
+        <!-- Keyhole -->
+        <circle cx="0" cy="13" r="4" fill="#78350f"/>
+        <rect x="-2" y="13" width="4" height="9" fill="#78350f"/>
+      </g>
+
+      <!-- Role rows -->
+      <g transform="translate(80,38)">
+        <rect width="108" height="18" rx="4" fill="rgba(52,211,153,0.15)" stroke="#34d399" stroke-opacity="0.45" stroke-width="0.5"/>
+        <text x="6" y="12" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1" font-weight="700">Admin</text>
+        <text x="100" y="12" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#34d399" text-anchor="end" font-weight="700">EDIT</text>
+      </g>
+      <g transform="translate(80,60)">
+        <rect width="108" height="18" rx="4" fill="rgba(96,165,250,0.15)" stroke="#60a5fa" stroke-opacity="0.45" stroke-width="0.5"/>
+        <text x="6" y="12" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1" font-weight="700">Reviewer</text>
+        <text x="100" y="12" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#60a5fa" text-anchor="end" font-weight="700">READ</text>
+      </g>
+      <g transform="translate(80,82)">
+        <rect width="108" height="18" rx="4" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-opacity="0.45" stroke-width="0.5"/>
+        <text x="6" y="12" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1" font-weight="700">Auditor</text>
+        <text x="100" y="12" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#a78bfa" text-anchor="end" font-weight="700">LOGS</text>
+      </g>
+      <g transform="translate(80,104)">
+        <rect width="108" height="18" rx="4" fill="rgba(100,116,139,0.15)" stroke="#64748b" stroke-opacity="0.45" stroke-width="0.5"/>
+        <text x="6" y="12" font-family="Inter,Arial,sans-serif" font-size="7" fill="#cbd5e1" font-weight="700">Guest</text>
+        <text x="100" y="12" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b" text-anchor="end" font-weight="700">DENIED</text>
+      </g>
+    </g>
+  </g>
+
+  <g>
+    <use href="#ds-packet-doc"/>
+    <animateMotion dur="3.4s" repeatCount="indefinite" path="M 200 130 C 280 170 340 210 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.4s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#ds-packet-shield"/>
+    <animateMotion dur="3s" begin="1.4s" repeatCount="indefinite" path="M 600 130 C 530 170 460 210 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" begin="1.4s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#ds-packet-doc"/>
+    <animateMotion dur="3.6s" begin="0.7s" repeatCount="indefinite" path="M 200 380 C 280 350 340 300 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.6s" begin="0.7s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#ds-packet-shield"/>
+    <animateMotion dur="3.2s" begin="2.1s" repeatCount="indefinite" path="M 600 380 C 530 350 460 300 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.2s" begin="2.1s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Central hub -->
+  <g transform="translate(400,250)">
+    <circle cx="0" cy="0" r="90" fill="url(#ds-hub-glow)"/>
+    <circle r="44" fill="none" stroke="#fbbf24" stroke-width="2" class="ds-pulse"/>
+    <circle r="44" fill="none" stroke="#fbbf24" stroke-width="2" class="ds-pulse" style="animation-delay: 0.9s;"/>
+    <circle r="44" fill="none" stroke="#fbbf24" stroke-width="2" class="ds-pulse" style="animation-delay: 1.8s;"/>
+    <circle cx="0" cy="0" r="58" fill="none" stroke="#fbbf24" stroke-width="0.8" stroke-opacity="0.5" stroke-dasharray="3 5">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="0" cy="0" r="44" fill="url(#ds-hub)" filter="url(#ds-glow)"/>
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#fff" stroke-width="2" stroke-opacity="0.6"/>
+    <circle cx="-12" cy="-12" r="14" fill="rgba(255,255,255,0.18)"/>
+    <!-- Shield glyph -->
+    <path d="M 0 -16 L 14 -10 L 14 6 L 0 16 L -14 6 L -14 -10 Z" fill="rgba(255,255,255,0.95)"/>
+    <path d="M -7 -2 L -1 4 L 8 -7" fill="none" stroke="#d97706" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="0" y="68" font-family="Inter,Arial,sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle" font-weight="700" letter-spacing="3">SECURITY CORE</text>
+  </g>
+
+  <g transform="translate(400,485)" font-family="Inter,Arial,sans-serif" font-size="7" fill="#fbbf24" opacity="0.85" letter-spacing="2">
+    <text x="-180" text-anchor="middle">99.8% OCR</text>
+    <text x="-60" text-anchor="middle">·</text>
+    <text x="0" text-anchor="middle">12K DOCS</text>
+    <text x="60" text-anchor="middle">·</text>
+    <text x="180" text-anchor="middle">7-YR AUDIT</text>
+  </g>
+</svg>

@@ -1,0 +1,305 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" style="border-radius: 16px; overflow: hidden; background: radial-gradient(ellipse at 30% 20%, #1e3a8a 0%, #1e1b4b 40%, #0a1530 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.45);">
+  <defs>
+    <pattern id="wf-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(96,165,250,0.10)" stroke-width="0.5"/>
+    </pattern>
+
+    <linearGradient id="wf-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(10,21,48,0.95)"/>
+      <stop offset="100%" stop-color="rgba(4,10,30,0.97)"/>
+    </linearGradient>
+
+    <radialGradient id="wf-hub" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#bfdbfe"/>
+      <stop offset="60%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </radialGradient>
+
+    <radialGradient id="wf-hub-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="wf-beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#60a5fa" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="wf-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <g id="wf-packet-pin">
+      <circle r="6" fill="#60a5fa" stroke="#fff" stroke-width="1.2"/>
+      <circle r="2" fill="#fff"/>
+    </g>
+    <g id="wf-packet-clock">
+      <circle r="7" fill="#34d399" stroke="#fff" stroke-width="1"/>
+      <line x1="0" y1="0" x2="0" y2="-4" stroke="#022c22" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="3" y2="0" stroke="#022c22" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+
+    <path id="wf-p1" d="M 200 130 C 280 170 340 210 400 250"/>
+    <path id="wf-p2" d="M 600 130 C 530 170 460 210 400 250"/>
+    <path id="wf-p3" d="M 200 380 C 280 350 340 300 400 250"/>
+    <path id="wf-p4" d="M 600 380 C 530 350 460 300 400 250"/>
+  </defs>
+
+  <style>
+    .wf-beam-line { fill: none; stroke: url(#wf-beam); stroke-width: 1.5; stroke-dasharray: 4 6; animation: wf-dash 1.8s linear infinite; }
+    @keyframes wf-dash { to { stroke-dashoffset: -20; } }
+    .wf-pulse { transform-origin: center; animation: wf-pulse 2.6s cubic-bezier(0.2,0,0.8,1) infinite; }
+    @keyframes wf-pulse { 0% { transform: scale(0.85); opacity: 0.9; } 100% { transform: scale(2.4); opacity: 0; } }
+    .wf-float { animation: wf-float 6s ease-in-out infinite; }
+    .wf-float-delay { animation: wf-float 6s ease-in-out infinite 1.5s; }
+    @keyframes wf-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .wf-ping { transform-origin: center; animation: wf-ping 1.6s ease-out infinite; }
+    @keyframes wf-ping { 0% { transform: scale(0.6); opacity: 0.8; } 100% { transform: scale(2.4); opacity: 0; } }
+    .wf-bar { transform-origin: bottom; animation: wf-bar 1.6s ease-in-out infinite alternate; }
+    @keyframes wf-bar { from { transform: scaleY(0.7); } to { transform: scaleY(1); } }
+    .wf-blink { animation: wf-blink 1.4s ease-in-out infinite; }
+    @keyframes wf-blink { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+  </style>
+
+  <rect width="800" height="500" fill="url(#wf-grid)"/>
+
+  <g fill="#60a5fa">
+    <circle cx="120" cy="260" r="1.4" class="wf-blink"/>
+    <circle cx="680" cy="240" r="1.6" class="wf-blink" style="animation-delay: 0.5s;"/>
+    <circle cx="80" cy="200" r="1.2" class="wf-blink" style="animation-delay: 1s;"/>
+    <circle cx="720" cy="320" r="1.4" class="wf-blink" style="animation-delay: 1.5s;"/>
+  </g>
+
+  <use href="#wf-p1" class="wf-beam-line"/>
+  <use href="#wf-p2" class="wf-beam-line"/>
+  <use href="#wf-p3" class="wf-beam-line"/>
+  <use href="#wf-p4" class="wf-beam-line"/>
+
+  <!-- TOP-LEFT — Live map with GPS pins -->
+  <g class="wf-float">
+    <g transform="translate(160,40)">
+      <rect width="180" height="150" rx="14" fill="url(#wf-card)" stroke="#60a5fa" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#60a5fa" font-weight="700" letter-spacing="1.5">LIVE MAP</text>
+      <text x="166" y="20" font-family="Inter,Arial,sans-serif" font-size="7" fill="#34d399" font-weight="700" text-anchor="end">● LIVE</text>
+
+      <g transform="translate(14,30)">
+        <rect width="152" height="110" rx="8" fill="#0a1530" stroke="#60a5fa" stroke-opacity="0.25" stroke-width="0.6"/>
+        <!-- Map grid -->
+        <g stroke="#60a5fa" stroke-opacity="0.15" stroke-width="0.5">
+          <line x1="38" y1="0" x2="38" y2="110"/>
+          <line x1="76" y1="0" x2="76" y2="110"/>
+          <line x1="114" y1="0" x2="114" y2="110"/>
+          <line x1="0" y1="28" x2="152" y2="28"/>
+          <line x1="0" y1="56" x2="152" y2="56"/>
+          <line x1="0" y1="84" x2="152" y2="84"/>
+        </g>
+        <!-- Roads -->
+        <path d="M 0 70 C 30 50 60 80 90 60 S 130 30 152 50" stroke="rgba(148,163,184,0.4)" stroke-width="1.4" fill="none"/>
+        <path d="M 20 0 C 30 30 60 50 50 110" stroke="rgba(148,163,184,0.35)" stroke-width="1.2" fill="none"/>
+        <path d="M 10 88 L 40 72 L 70 84 L 110 64 L 140 76" stroke="#60a5fa" stroke-dasharray="3 3" stroke-width="2" fill="none">
+          <animate attributeName="stroke-dashoffset" from="0" to="-12" dur="1.4s" repeatCount="indefinite"/>
+        </path>
+        <!-- GPS pins (3) -->
+        <g transform="translate(28,76)">
+          <circle r="6" fill="#34d399" opacity="0.4" class="wf-ping"/>
+          <circle r="3.5" fill="#34d399"/>
+        </g>
+        <g transform="translate(76,40)">
+          <circle r="6" fill="#60a5fa" opacity="0.4" class="wf-ping" style="animation-delay: 0.4s;"/>
+          <circle r="3.5" fill="#60a5fa"/>
+        </g>
+        <g transform="translate(120,16)">
+          <circle r="6" fill="#818cf8" opacity="0.4" class="wf-ping" style="animation-delay: 0.8s;"/>
+          <circle r="3.5" fill="#818cf8"/>
+        </g>
+        <!-- Compass -->
+        <circle cx="138" cy="14" r="7" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-opacity="0.5" stroke-width="0.6"/>
+        <text x="138" y="17" font-family="Inter,Arial,sans-serif" font-size="6" fill="#60a5fa" text-anchor="middle" font-weight="900">N</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- TOP-RIGHT — Attendance dashboard -->
+  <g class="wf-float-delay">
+    <g transform="translate(460,40)">
+      <rect width="200" height="150" rx="14" fill="url(#wf-card)" stroke="#60a5fa" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#60a5fa" font-weight="700" letter-spacing="1.5">ATTENDANCE</text>
+
+      <!-- Big arc + verified -->
+      <g transform="translate(48,80)">
+        <circle r="30" fill="none" stroke="#1e293b" stroke-width="6"/>
+        <circle r="30" fill="none" stroke="#34d399" stroke-width="6" stroke-dasharray="180 188" stroke-linecap="round" transform="rotate(-90)" filter="url(#wf-glow)"/>
+        <text y="-2" font-family="Inter,Arial,sans-serif" font-size="14" fill="#34d399" text-anchor="middle" font-weight="900">96%</text>
+        <text y="12" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#34d399" text-anchor="middle" font-weight="700" letter-spacing="2">ON TIME</text>
+      </g>
+
+      <!-- Stats -->
+      <g transform="translate(102,40)" font-family="Inter,Arial,sans-serif">
+        <rect width="90" height="22" rx="4" fill="#0a1530" stroke="#34d399" stroke-opacity="0.3" stroke-width="0.5"/>
+        <text x="8" y="13" font-size="7" fill="#94a3b8">On site</text>
+        <text x="82" y="14" font-size="10" fill="#34d399" text-anchor="end" font-weight="900">128</text>
+      </g>
+      <g transform="translate(102,66)" font-family="Inter,Arial,sans-serif">
+        <rect width="90" height="22" rx="4" fill="#0a1530" stroke="#fbbf24" stroke-opacity="0.3" stroke-width="0.5"/>
+        <text x="8" y="13" font-size="7" fill="#94a3b8">Late</text>
+        <text x="82" y="14" font-size="10" fill="#fbbf24" text-anchor="end" font-weight="900">6</text>
+      </g>
+      <g transform="translate(102,92)" font-family="Inter,Arial,sans-serif">
+        <rect width="90" height="22" rx="4" fill="#0a1530" stroke="#fb7185" stroke-opacity="0.3" stroke-width="0.5"/>
+        <text x="8" y="13" font-size="7" fill="#94a3b8">Off</text>
+        <text x="82" y="14" font-size="10" fill="#fb7185" text-anchor="end" font-weight="900">2</text>
+      </g>
+      <g transform="translate(102,118)" font-family="Inter,Arial,sans-serif">
+        <rect width="90" height="22" rx="4" fill="#0a1530" stroke="#60a5fa" stroke-opacity="0.3" stroke-width="0.5"/>
+        <text x="8" y="13" font-size="7" fill="#94a3b8">Total</text>
+        <text x="82" y="14" font-size="10" fill="#60a5fa" text-anchor="end" font-weight="900">240</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM-LEFT — Shift management -->
+  <g class="wf-float-delay">
+    <g transform="translate(160,330)">
+      <rect width="200" height="138" rx="14" fill="url(#wf-card)" stroke="#60a5fa" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#60a5fa" font-weight="700" letter-spacing="1.5">SHIFT MANAGEMENT</text>
+
+      <!-- Morning -->
+      <g transform="translate(14,30)">
+        <rect width="172" height="26" rx="6" fill="#0a1530" stroke="#fbbf24" stroke-opacity="0.35" stroke-width="0.6"/>
+        <circle cx="18" cy="13" r="8" fill="rgba(251,191,36,0.2)" stroke="#fbbf24" stroke-opacity="0.5" stroke-width="0.6"/>
+        <circle cx="18" cy="13" r="4" fill="#fbbf24"/>
+        <g stroke="#fbbf24" stroke-width="0.8" stroke-linecap="round">
+          <line x1="18" y1="3" x2="18" y2="5.5"/>
+          <line x1="18" y1="20.5" x2="18" y2="23"/>
+          <line x1="8" y1="13" x2="10.5" y2="13"/>
+          <line x1="25.5" y1="13" x2="28" y2="13"/>
+        </g>
+        <text x="36" y="11" font-family="Inter,Arial,sans-serif" font-size="7.5" fill="#cbd5e1" font-weight="700">Morning</text>
+        <text x="36" y="20" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b">06:00 AM – 02:00 PM</text>
+        <text x="162" y="16" font-family="Inter,Arial,sans-serif" font-size="9" fill="#fbbf24" text-anchor="end" font-weight="900">128</text>
+      </g>
+      <!-- Evening -->
+      <g transform="translate(14,62)">
+        <rect width="172" height="26" rx="6" fill="#0a1530" stroke="#fb923c" stroke-opacity="0.35" stroke-width="0.6"/>
+        <circle cx="18" cy="13" r="8" fill="rgba(251,146,60,0.2)" stroke="#fb923c" stroke-opacity="0.5" stroke-width="0.6"/>
+        <path d="M 12 16 C 12 12 14 9 18 9 C 22 9 24 12 24 16 Z" fill="#fb923c"/>
+        <text x="36" y="11" font-family="Inter,Arial,sans-serif" font-size="7.5" fill="#cbd5e1" font-weight="700">Evening</text>
+        <text x="36" y="20" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b">02:00 PM – 10:00 PM</text>
+        <text x="162" y="16" font-family="Inter,Arial,sans-serif" font-size="9" fill="#fb923c" text-anchor="end" font-weight="900">96</text>
+      </g>
+      <!-- Night -->
+      <g transform="translate(14,94)">
+        <rect width="172" height="26" rx="6" fill="#0a1530" stroke="#818cf8" stroke-opacity="0.35" stroke-width="0.6"/>
+        <circle cx="18" cy="13" r="8" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-opacity="0.5" stroke-width="0.6"/>
+        <path d="M 22 8 C 18 8 14 12 14 16 C 14 17 14 18 15 18 C 18 18 24 12 22 8 Z" fill="#818cf8"/>
+        <text x="36" y="11" font-family="Inter,Arial,sans-serif" font-size="7.5" fill="#cbd5e1" font-weight="700">Night</text>
+        <text x="36" y="20" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b">10:00 PM – 06:00 AM</text>
+        <text x="162" y="16" font-family="Inter,Arial,sans-serif" font-size="9" fill="#818cf8" text-anchor="end" font-weight="900">72</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM-RIGHT — Daily report -->
+  <g class="wf-float">
+    <g transform="translate(460,330)">
+      <rect width="200" height="138" rx="14" fill="url(#wf-card)" stroke="#60a5fa" stroke-opacity="0.35" stroke-width="1.2"/>
+      <text x="14" y="20" font-family="Inter,Arial,sans-serif" font-size="8" fill="#60a5fa" font-weight="700" letter-spacing="1.5">DAILY REPORT</text>
+      <text x="186" y="20" font-family="Inter,Arial,sans-serif" font-size="7" fill="#34d399" font-weight="700" text-anchor="end">+12.5%</text>
+
+      <!-- Bar chart -->
+      <g transform="translate(14,40)">
+        <line x1="0" y1="64" x2="172" y2="64" stroke="#60a5fa" stroke-opacity="0.2" stroke-width="0.5"/>
+        <g class="wf-bar">
+          <rect x="2" y="32" width="14" height="32" rx="2" fill="url(#wf-bar-1)"/>
+        </g>
+        <linearGradient id="wf-bar-1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#1e40af"/></linearGradient>
+        <g class="wf-bar" style="animation-delay: 0.1s;">
+          <rect x="22" y="44" width="14" height="20" rx="2" fill="url(#wf-bar-1)"/>
+        </g>
+        <g class="wf-bar" style="animation-delay: 0.2s;">
+          <rect x="42" y="36" width="14" height="28" rx="2" fill="url(#wf-bar-1)"/>
+        </g>
+        <g class="wf-bar" style="animation-delay: 0.3s;">
+          <rect x="62" y="28" width="14" height="36" rx="2" fill="url(#wf-bar-1)"/>
+        </g>
+        <g class="wf-bar" style="animation-delay: 0.4s;">
+          <rect x="82" y="22" width="14" height="42" rx="2" fill="url(#wf-bar-1)"/>
+        </g>
+        <g class="wf-bar" style="animation-delay: 0.5s;">
+          <rect x="102" y="14" width="14" height="50" rx="2" fill="url(#wf-bar-1)"/>
+        </g>
+        <g class="wf-bar" style="animation-delay: 0.6s;">
+          <rect x="122" y="8" width="14" height="56" rx="2" fill="#818cf8"/>
+        </g>
+        <g class="wf-bar" style="animation-delay: 0.7s;">
+          <rect x="142" y="2" width="14" height="62" rx="2" fill="#a78bfa"/>
+        </g>
+
+        <g font-family="Inter,Arial,sans-serif" font-size="6" fill="#64748b">
+          <text x="9" y="76" text-anchor="middle">M</text>
+          <text x="29" y="76" text-anchor="middle">T</text>
+          <text x="49" y="76" text-anchor="middle">W</text>
+          <text x="69" y="76" text-anchor="middle">T</text>
+          <text x="89" y="76" text-anchor="middle">F</text>
+          <text x="109" y="76" text-anchor="middle">S</text>
+          <text x="129" y="76" text-anchor="middle" fill="#818cf8" font-weight="700">S</text>
+          <text x="149" y="76" text-anchor="middle" fill="#a78bfa" font-weight="700">T</text>
+        </g>
+      </g>
+
+      <g transform="translate(14,116)">
+        <text font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#64748b">Hours this week</text>
+        <text x="172" font-family="Inter,Arial,sans-serif" font-size="6.5" fill="#60a5fa" text-anchor="end" font-weight="700">1,840</text>
+      </g>
+    </g>
+  </g>
+
+  <g>
+    <use href="#wf-packet-pin"/>
+    <animateMotion dur="3.4s" repeatCount="indefinite" path="M 200 130 C 280 170 340 210 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.4s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#wf-packet-clock"/>
+    <animateMotion dur="3s" begin="1.4s" repeatCount="indefinite" path="M 600 130 C 530 170 460 210 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" begin="1.4s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#wf-packet-pin"/>
+    <animateMotion dur="3.6s" begin="0.7s" repeatCount="indefinite" path="M 200 380 C 280 350 340 300 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.6s" begin="0.7s" repeatCount="indefinite"/>
+  </g>
+  <g>
+    <use href="#wf-packet-clock"/>
+    <animateMotion dur="3.2s" begin="2.1s" repeatCount="indefinite" path="M 600 380 C 530 350 460 300 400 250"/>
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3.2s" begin="2.1s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Central hub -->
+  <g transform="translate(400,250)">
+    <circle cx="0" cy="0" r="90" fill="url(#wf-hub-glow)"/>
+    <circle r="44" fill="none" stroke="#60a5fa" stroke-width="2" class="wf-pulse"/>
+    <circle r="44" fill="none" stroke="#60a5fa" stroke-width="2" class="wf-pulse" style="animation-delay: 0.9s;"/>
+    <circle r="44" fill="none" stroke="#60a5fa" stroke-width="2" class="wf-pulse" style="animation-delay: 1.8s;"/>
+    <circle cx="0" cy="0" r="58" fill="none" stroke="#60a5fa" stroke-width="0.8" stroke-opacity="0.5" stroke-dasharray="3 5">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="0" cy="0" r="44" fill="url(#wf-hub)" filter="url(#wf-glow)"/>
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#fff" stroke-width="2" stroke-opacity="0.6"/>
+    <circle cx="-12" cy="-12" r="14" fill="rgba(255,255,255,0.18)"/>
+    <!-- Map pin glyph -->
+    <path d="M 0 -16 C -8 -16 -14 -10 -14 -2 C -14 8 0 18 0 18 C 0 18 14 8 14 -2 C 14 -10 8 -16 0 -16 Z" fill="rgba(255,255,255,0.95)"/>
+    <circle cx="0" cy="-2" r="4.5" fill="#1e40af"/>
+    <text x="0" y="68" font-family="Inter,Arial,sans-serif" font-size="9" fill="#60a5fa" text-anchor="middle" font-weight="700" letter-spacing="3">OPS CORE</text>
+  </g>
+
+  <g transform="translate(400,485)" font-family="Inter,Arial,sans-serif" font-size="7" fill="#60a5fa" opacity="0.85" letter-spacing="2">
+    <text x="-180" text-anchor="middle">240 STAFF</text>
+    <text x="-60" text-anchor="middle">·</text>
+    <text x="0" text-anchor="middle">96% ON-TIME</text>
+    <text x="60" text-anchor="middle">·</text>
+    <text x="180" text-anchor="middle">3 SITES LIVE</text>
+  </g>
+</svg>

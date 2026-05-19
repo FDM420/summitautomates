@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <!-- Body material — pale warm pearl, light gradient for 3D feel -->
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6f9fc" />
+      <stop offset="45%" stop-color="#dde5ec" />
+      <stop offset="100%" stop-color="#b0bcc8" />
+    </linearGradient>
+
+    <!-- Body side shadow (right side darker) -->
+    <linearGradient id="body-shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="white" stop-opacity="0.18" />
+      <stop offset="40%" stop-color="white" stop-opacity="0" />
+      <stop offset="100%" stop-color="#6a7888" stop-opacity="0.32" />
+    </linearGradient>
+
+    <!-- Floor shadow -->
+    <radialGradient id="floor" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="black" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="black" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Soft glow -->
+    <filter id="gl" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="3" />
+      <feComposite in="SourceGraphic" operator="over" />
+    </filter>
+
+    <!-- Large bloom for chest / antenna glow -->
+    <filter id="gl2" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" />
+    </filter>
+
+    <!-- Drop shadow on body parts -->
+    <filter id="ds" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" />
+      <feOffset dx="0" dy="3" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.45" /></feComponentTransfer>
+      <feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    /* Whole-body bob — gentle up/down */
+    .bob { transform-origin: 240px 280px; animation: bob 3.4s ease-in-out infinite; }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Eye blink — quick scaleY collapse */
+    .blink { transform-origin: 240px 180px; animation: blk 5.5s ease-in-out infinite; }
+    @keyframes blk {
+      0%, 92%, 100% { transform: scaleY(1); }
+      94%, 96.5% { transform: scaleY(0.08); }
+    }
+
+    /* Antenna wobble (sway) */
+    .ant-l { transform-origin: 200px 132px; animation: antL 4.2s ease-in-out infinite; }
+    .ant-r { transform-origin: 280px 132px; animation: antR 4.2s ease-in-out infinite 0.7s; }
+    @keyframes antL { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+    @keyframes antR { 0%, 100% { transform: rotate(2deg); } 50% { transform: rotate(-2deg); } }
+
+    /* Arm subtle sway */
+    .arm-l { transform-origin: 138px 248px; animation: armL 5s ease-in-out infinite; }
+    .arm-r { transform-origin: 342px 248px; animation: armR 5s ease-in-out infinite 1.2s; }
+    @keyframes armL { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+    @keyframes armR { 0%, 100% { transform: rotate(1.5deg); } 50% { transform: rotate(-1.5deg); } }
+
+    /* Chest core pulse */
+    .pulse { animation: pul 2.4s ease-in-out infinite; }
+    @keyframes pul { 0%, 100% { transform: scale(1); opacity: 0.65; } 50% { transform: scale(1.18); opacity: 1; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bob, .blink, .ant-l, .ant-r, .arm-l, .arm-r, .pulse { animation: none; }
+    }
+  </style>
+
+  <!-- ============ FLOOR SHADOW ============ -->
+  <ellipse cx="240" cy="448" rx="120" ry="14" fill="url(#floor)" />
+
+  <!-- ============ WHOLE-BODY BOB GROUP ============ -->
+  <g class="bob">
+
+    <!-- ============ ANTENNAE ============ -->
+    <g class="ant-l">
+      <line x1="200" y1="132" x2="188" y2="78" stroke="#6a7888"
+            stroke-width="5" stroke-linecap="round" />
+      <line x1="200" y1="132" x2="188" y2="78" stroke="#dde5ec"
+            stroke-width="2" stroke-linecap="round" />
+      <!-- Glowing tip -->
+      <circle cx="186" cy="74" r="9" filter="url(#gl2)" opacity="0.7">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.4s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="186" cy="74" r="5" filter="url(#gl)">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="186" cy="74" r="2" fill="white" opacity="0.95" />
+    </g>
+
+    <g class="ant-r">
+      <line x1="280" y1="132" x2="292" y2="78" stroke="#6a7888"
+            stroke-width="5" stroke-linecap="round" />
+      <line x1="280" y1="132" x2="292" y2="78" stroke="#dde5ec"
+            stroke-width="2" stroke-linecap="round" />
+      <circle cx="294" cy="74" r="9" filter="url(#gl2)" opacity="0.7">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.4s" repeatCount="indefinite" begin="0.6s" />
+      </circle>
+      <circle cx="294" cy="74" r="5" filter="url(#gl)">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="294" cy="74" r="2" fill="white" opacity="0.95" />
+    </g>
+
+    <!-- ============ ARMS (behind body) ============ -->
+    <g class="arm-l">
+      <rect x="78" y="246" width="42" height="124" rx="21" fill="url(#body)" filter="url(#ds)" />
+      <!-- Side shadow -->
+      <rect x="78" y="246" width="42" height="124" rx="21" fill="url(#body-shade)" />
+      <!-- Highlight -->
+      <ellipse cx="92" cy="270" rx="6" ry="14" fill="white" opacity="0.4" />
+    </g>
+
+    <g class="arm-r">
+      <rect x="360" y="246" width="42" height="124" rx="21" fill="url(#body)" filter="url(#ds)" />
+      <rect x="360" y="246" width="42" height="124" rx="21" fill="url(#body-shade)" />
+      <ellipse cx="374" cy="270" rx="6" ry="14" fill="white" opacity="0.35" />
+    </g>
+
+    <!-- ============ HEAD (half-dome) ============ -->
+    <path d="M 130 210
+             A 110 110 0 0 1 350 210 Z"
+          fill="url(#body)" filter="url(#ds)" />
+    <!-- Head side shading -->
+    <path d="M 130 210
+             A 110 110 0 0 1 350 210 Z"
+          fill="url(#body-shade)" />
+    <!-- Head shine -->
+    <ellipse cx="200" cy="138" rx="46" ry="14" fill="white" opacity="0.55"
+             transform="rotate(-22 200 138)" />
+    <ellipse cx="170" cy="170" rx="14" ry="8" fill="white" opacity="0.35"
+             transform="rotate(-25 170 170)" />
+
+    <!-- ============ EYE CORONAS (glow behind eyes, color-cycling) ============ -->
+    <g filter="url(#gl2)" opacity="0.8">
+      <circle cx="195" cy="180" r="20">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.5;0.85;0.5" dur="2.4s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="285" cy="180" r="20">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.5;0.85;0.5" dur="2.4s" repeatCount="indefinite" begin="0.6s" />
+      </circle>
+    </g>
+
+    <!-- ============ EYES (blinking) ============ -->
+    <g class="blink">
+      <!-- Left eye -->
+      <circle cx="195" cy="180" r="14" fill="#10182c" />
+      <circle cx="195" cy="180" r="11" filter="url(#gl)">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="195" cy="180" r="6" fill="white" opacity="0.95" />
+      <circle cx="195" cy="180" r="2.5" fill="#10182c" />
+      <circle cx="198" cy="177" r="1.5" fill="white" opacity="0.95" />
+
+      <!-- Right eye -->
+      <circle cx="285" cy="180" r="14" fill="#10182c" />
+      <circle cx="285" cy="180" r="11" filter="url(#gl)">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="285" cy="180" r="6" fill="white" opacity="0.95" />
+      <circle cx="285" cy="180" r="2.5" fill="#10182c" />
+      <circle cx="288" cy="177" r="1.5" fill="white" opacity="0.95" />
+    </g>
+
+    <!-- ============ HEAD-BODY DIVIDER LINE ============ -->
+    <path d="M 130 210 L 350 210" stroke="#9aa8b6" stroke-width="2" opacity="0.45" />
+    <path d="M 130 213 L 350 213" stroke="white" stroke-width="1" opacity="0.55" />
+
+    <!-- Subtle smile (small curve below eyes) -->
+    <path d="M 218 196 Q 240 202 262 196" fill="none" stroke="#7a8898"
+          stroke-width="1.5" stroke-linecap="round" opacity="0.35" />
+
+    <!-- ============ BODY (cylinder/oval barrel) ============ -->
+    <rect x="138" y="218" width="204" height="184" rx="42" fill="url(#body)" filter="url(#ds)" />
+    <!-- Body side shadow -->
+    <rect x="138" y="218" width="204" height="184" rx="42" fill="url(#body-shade)" />
+    <!-- Body shine highlight -->
+    <ellipse cx="178" cy="252" rx="28" ry="9" fill="white" opacity="0.55" />
+    <ellipse cx="172" cy="320" rx="10" ry="40" fill="white" opacity="0.18" />
+
+    <!-- ============ CHEST CORE (Summit emblem) ============ -->
+    <g transform="translate(240, 300)">
+      <!-- Pulsing outer halo -->
+      <g class="pulse">
+        <circle r="34" filter="url(#gl2)" opacity="0.55">
+          <animate attributeName="fill"
+                   values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#5eead4"
+                   keyTimes="0;0.13;0.20;0.33;0.40;0.53;0.60;0.73;0.80;0.93;1"
+                   dur="15s" repeatCount="indefinite" />
+        </circle>
+      </g>
+      <!-- Inset dark disc -->
+      <circle r="22" fill="#0a1224" stroke-width="2">
+        <animate attributeName="stroke"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+      </circle>
+      <!-- Inner glow ring -->
+      <circle r="16" fill="none" stroke-width="1.5" opacity="0.7">
+        <animate attributeName="stroke"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+      </circle>
+      <!-- Summit triangle (mountain peak, glowing) -->
+      <path d="M -10 7 L 0 -10 L 10 7 Z" filter="url(#gl)">
+        <animate attributeName="fill"
+                 values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#818cf8;#818cf8;#fb7185;#fb7185;#5eead4"
+                 keyTimes="0;0.09;0.14;0.23;0.28;0.37;0.42;0.51;0.56;0.65;0.70;0.79;0.84;0.93;1"
+                 dur="21s" repeatCount="indefinite" />
+      </path>
+    </g>
+
+    <!-- Small status LED dots on body -->
+    <circle cx="175" cy="370" r="3" opacity="0.85">
+      <animate attributeName="fill"
+               values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#5eead4"
+               keyTimes="0;0.13;0.20;0.33;0.40;0.53;0.60;0.73;0.80;0.93;1"
+               dur="15s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="305" cy="370" r="3" opacity="0.85">
+      <animate attributeName="fill"
+               values="#5eead4;#5eead4;#a78bfa;#a78bfa;#4fd1ff;#4fd1ff;#f5c46b;#f5c46b;#60a5fa;#60a5fa;#5eead4"
+               keyTimes="0;0.13;0.20;0.33;0.40;0.53;0.60;0.73;0.80;0.93;1"
+               dur="15s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite" begin="0.5s" />
+    </circle>
+
+    <!-- ============ LEGS ============ -->
+    <rect x="186" y="402" width="36" height="48" rx="14" fill="url(#body)" filter="url(#ds)" />
+    <rect x="186" y="402" width="36" height="48" rx="14" fill="url(#body-shade)" />
+    <ellipse cx="195" cy="416" rx="5" ry="8" fill="white" opacity="0.4" />
+
+    <rect x="258" y="402" width="36" height="48" rx="14" fill="url(#body)" filter="url(#ds)" />
+    <rect x="258" y="402" width="36" height="48" rx="14" fill="url(#body-shade)" />
+    <ellipse cx="267" cy="416" rx="5" ry="8" fill="white" opacity="0.4" />
+
+  </g>
+</svg>
