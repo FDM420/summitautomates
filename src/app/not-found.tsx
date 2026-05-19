@@ -30,7 +30,7 @@ export default function NotFound() {
             That page is off-grid.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            The page you tried to reach doesn't exist — moved, renamed, or never was. Here are the
+            The page you tried to reach doesn&apos;t exist — moved, renamed, or never was. Here are the
             places worth heading next.
           </p>
 

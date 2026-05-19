@@ -209,7 +209,7 @@ export default async function InsightPage({
                     Book a 30-minute discovery call.
                   </h2>
                   <p className="mt-4 text-base leading-7 text-slate-300">
-                    We'll review your workflow and propose the first thing to automate. Or reach out
+                    We&apos;ll review your workflow and propose the first thing to automate. Or reach out
                     directly at{" "}
                     <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
                       {contactEmail}

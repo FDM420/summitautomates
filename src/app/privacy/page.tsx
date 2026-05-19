@@ -96,7 +96,7 @@ export default function PrivacyPage() {
                 Cookies
               </h2>
               <p>
-                This site uses minimal cookies — only what's required to remember your interface
+                This site uses minimal cookies — only what&apos;s required to remember your interface
                 preferences. We do not use third-party advertising or tracking cookies.
               </p>
 

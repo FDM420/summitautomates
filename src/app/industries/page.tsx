@@ -73,7 +73,7 @@ export default function IndustriesIndexPage() {
               Vertical playbooks for the businesses we automate.
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-              Every industry has its own version of "the operations problem." Below are the
+              Every industry has its own version of &quot;the operations problem.&quot; Below are the
               playbooks Summit ships most often — what hurts, what the system handles, and which of
               our connected services apply.
             </p>
@@ -118,13 +118,13 @@ export default function IndustriesIndexPage() {
                 <div>
                   <p className="eyebrow">Not on the list?</p>
                   <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
-                    We've built automation for 40+ verticals.
+                    We&apos;ve built automation for 40+ verticals.
                   </h2>
                   <p className="mt-4 text-base leading-7 text-slate-300 sm:text-lg">
-                    If your industry isn't shown above, the answer is probably still yes — most
+                    If your industry isn&apos;t shown above, the answer is probably still yes — most
                     operational pain (lead handling, document workflow, scheduling, reporting) is
-                    industry-agnostic. Send us a description of the workflow and we'll tell you what
-                    we'd build.
+                    industry-agnostic. Send us a description of the workflow and we&apos;ll tell you what
+                    we&apos;d build.
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">

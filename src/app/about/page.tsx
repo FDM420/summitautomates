@@ -212,10 +212,10 @@ export default function AboutPage() {
                 <div>
                   <p className="eyebrow">Start a conversation</p>
                   <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
-                    Tell us what's slow on your operations side this month.
+                    Tell us what&apos;s slow on your operations side this month.
                   </h2>
                   <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
-                    We'll review the workflow, identify the first thing to automate, and quote the
+                    We&apos;ll review the workflow, identify the first thing to automate, and quote the
                     rollout. No commitment required to take the call.
                   </p>
                 </div>
