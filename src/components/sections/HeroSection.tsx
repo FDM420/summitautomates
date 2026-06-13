@@ -115,7 +115,7 @@ export function HeroSection() {
         <motion.div
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col gap-7 lg:pt-6"
-          initial={{ opacity: 0, y: 24 }}
+          initial={false}
           transition={{ duration: 0.75, ease: EASE }}
         >
           <span className="eyebrow w-fit">
@@ -186,7 +186,7 @@ export function HeroSection() {
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
           className="relative mx-auto hidden w-full max-w-[760px] md:block md:aspect-[5/4] lg:aspect-[1/1] lg:max-w-[820px]"
-          initial={{ opacity: 0, scale: 0.94 }}
+          initial={false}
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           {/* "SUMMIT AUTOMATES AI CORE" label */}
@@ -211,7 +211,7 @@ export function HeroSection() {
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
           className="relative md:hidden"
-          initial={{ opacity: 0, scale: 0.96 }}
+          initial={false}
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           <AiHub className="mx-auto h-[270px] w-[270px]" />
