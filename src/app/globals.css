@@ -23,10 +23,12 @@ html {
 	scroll-behavior: smooth;
 	scroll-padding-top: 6.5rem;
 	color-scheme: dark;
+	overflow-x: clip;
 }
 
 body {
 	min-height: 100vh;
+	overflow-x: clip;
 	background:
 		radial-gradient(circle at 15% 0%, rgba(79, 209, 255, 0.18), transparent 34%),
 		radial-gradient(circle at 85% 12%, rgba(124, 130, 255, 0.16), transparent 28%),
@@ -355,6 +357,29 @@ button {
 	}
 }
 
+/* Responsive scale for the hero orbital rig. The hub + orbit geometry are
+   authored at desktop size (~780px hub, 310px radius); the whole scene is
+   scaled as one unit so it never overflows the viewport. The scale sits on
+   the perspective container, so 3D proportions are preserved exactly.
+   Screens below 768px don't render the rig at all — they get the flat
+   hero variant in HeroSection (readable swipeable cards) instead. */
+.orbit-rig {
+	--rig-scale: 0.78;
+	transform: scale(var(--rig-scale));
+}
+
+@media (min-width: 1024px) {
+	.orbit-rig {
+		--rig-scale: 0.85;
+	}
+}
+
+@media (min-width: 1280px) {
+	.orbit-rig {
+		--rig-scale: 1;
+	}
+}
+
 @keyframes hero-float {
 	0%,
 	100% {
@@ -425,5 +450,22 @@ button {
 		gap: 0.6rem;
 		font-size: 0.67rem;
 		letter-spacing: 0.16em;
+	}
+}
+
+/* Phone-size screens: live backdrop blur and the animated fixed grid are the
+   main GPU flicker sources on mobile (Android URL-bar resizes force constant
+   re-blurs). Panels keep their translucent gradient backgrounds, so the glass
+   look survives without the per-frame blur cost. */
+@media (max-width: 767px) {
+	*,
+	*::before,
+	*::after {
+		-webkit-backdrop-filter: none !important;
+		backdrop-filter: none !important;
+	}
+
+	body::before {
+		animation: none;
 	}
 }

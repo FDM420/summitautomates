@@ -6,14 +6,21 @@ import { hexWithAlpha, SERVICE_MODULES, type ServiceModule } from "@/lib/service
 import { OrbitCardIcon } from "./OrbitCardIcon";
 
 /**
- * 5 service cards arranged on a horizontal 3D circle (carousel).
- * The carousel rotates -72° per step, pausing ~1s at each card so it sits
- * at the "spotlight" front position, then continues to the next.
+ * Service cards arranged on a horizontal 3D circle (carousel).
+ * The carousel rotates one step per card, pausing at the "spotlight"
+ * front position, then continues to the next.
  *
- * The optional `center` slot is rendered as a flat plane at translateZ(0)
- * inside the SAME preserve-3d context as the orbiting cards. That gives
- * proper 3D occlusion — cards in front of the hub appear on top of it,
- * cards behind get partially hidden by the hub. True holographic depth.
+ * The optional `center` slot is rendered as a flat layer UNDERNEATH the
+ * carousel, deliberately OUTSIDE the preserve-3d context. Cards in the
+ * front half of the orbit paint over it; cards in the back half disappear
+ * via backface-visibility (their face points away from the camera). This
+ * keeps the "cards pass behind the hub" depth effect without any card
+ * plane ever geometrically intersecting the hub plane — plane intersection
+ * inside preserve-3d is what caused z-fighting flicker on mobile GPUs.
+ *
+ * The whole rig is authored at desktop size and scaled down responsively
+ * via the `.orbit-rig` class (see globals.css), so it never overflows
+ * small viewports.
  */
 export function OrbitalCards({
   radius = 280,
@@ -24,25 +31,20 @@ export function OrbitalCards({
 }) {
   return (
     <div
-      className="pointer-events-none absolute inset-0 grid place-items-center"
+      className="orbit-rig pointer-events-none absolute inset-0 grid place-items-center"
       style={{ perspective: "1100px" }}
     >
+      {/* Center layer (the hub) — flat, non-3D, painted below the cards. */}
+      {center ? (
+        <div className="pointer-events-none absolute left-1/2 top-1/2">
+          {center}
+        </div>
+      ) : null}
+
       <div
         className="relative h-0 w-0"
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Center plane (the brain/hub) — flat at z=0, doesn't rotate.
-            Lives inside the same preserve-3d context so cards orbit
-            around AND through its z plane. */}
-        {center ? (
-          <div
-            className="pointer-events-none absolute left-0 top-0"
-            style={{ transformStyle: "preserve-3d", transform: "translateZ(0px)" }}
-          >
-            {center}
-          </div>
-        ) : null}
-
         {/* Orbiting cards */}
         <div
           className="absolute left-0 top-0"
@@ -58,11 +60,15 @@ export function OrbitalCards({
                 className="absolute left-0 top-0"
                 key={module.slug}
                 style={{
-                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "hidden",
                   transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
                 }}
               >
-                <OrbitCard badge={`0${i + 1}`} module={module} />
+                <OrbitCard
+                  badge={`0${i + 1}`}
+                  className="w-[12rem] -translate-x-1/2 -translate-y-1/2"
+                  module={module}
+                />
               </div>
             );
           })}
@@ -72,10 +78,23 @@ export function OrbitalCards({
   );
 }
 
-function OrbitCard({ module, badge }: { module: ServiceModule; badge: string }) {
+/**
+ * Compact service card. Used on the 3D orbit (desktop/tablet) and reused
+ * by the mobile hero's swipeable card row — pass sizing/positioning via
+ * `className`.
+ */
+export function OrbitCard({
+  module,
+  badge,
+  className = "",
+}: {
+  module: ServiceModule;
+  badge: string;
+  className?: string;
+}) {
   return (
     <Link
-      className="glass-card pointer-events-auto block w-[12rem] -translate-x-1/2 -translate-y-1/2 p-3 transition-transform hover:scale-[1.04]"
+      className={`glass-card pointer-events-auto block p-3 transition-transform hover:scale-[1.04] ${className}`}
       data-accent={module.accent}
       href={`/services/${module.slug}`}
       style={{ borderRadius: "0.95rem" }}

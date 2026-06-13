@@ -3,13 +3,14 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Sparkles, Workflow, Zap } from "lucide-react";
 import Link from "next/link";
-import { OrbitalCards } from "../hero/OrbitalCards";
+import { SERVICE_MODULES } from "@/lib/services-config";
+import { OrbitalCards, OrbitCard } from "../hero/OrbitalCards";
 
 /**
- * Central AI hub for the orbital carousel — rendered as a flat plane
- * inside the 3D context at z=0. Big enough to occlude cards orbiting
- * behind it (giving the holographic depth effect), small enough to let
- * cards orbit visibly around it.
+ * Central AI hub for the orbital carousel — rendered as a flat layer
+ * beneath the orbiting cards (outside the 3D context; see OrbitalCards).
+ * Cards in the front half of the orbit pass over it, back-half cards hide
+ * via backface culling, which reads as orbiting "around" the hub.
  *
  * Layered from outermost to innermost:
  *   1. Faint outer haze (cyan radial glow)
@@ -19,9 +20,9 @@ import { OrbitalCards } from "../hero/OrbitalCards";
  *   5. The ai-brain.svg illustration itself
  *   6. Inner core glow + soft highlight
  */
-function AiHub() {
+function AiHub({ className = "" }: { className?: string }) {
   return (
-    <div className="pointer-events-none relative h-[780px] w-[780px] -translate-x-1/2 -translate-y-1/2">
+    <div className={`pointer-events-none relative ${className}`}>
       {/* Outer haze */}
       <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(79,209,255,0.32)_0%,rgba(124,130,255,0.20)_35%,transparent_65%)] blur-2xl" />
 
@@ -109,7 +110,7 @@ const STATS = [
 export function HeroSection() {
   return (
     <section className="section-shell relative pt-10 sm:pt-14 lg:pt-20" id="top">
-      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-8">
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-8">
         {/* LEFT — copy + CTAs + trust + stats */}
         <motion.div
           animate={{ opacity: 1, y: 0 }}
@@ -181,25 +182,53 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* RIGHT — AI hub + service mini-cards + beams */}
+        {/* RIGHT (tablet/desktop) — AI hub + orbiting service cards */}
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
-          className="relative mx-auto aspect-square w-full max-w-[760px] sm:aspect-[5/4] lg:aspect-[1/1] lg:max-w-[820px]"
+          className="relative mx-auto hidden w-full max-w-[760px] md:block md:aspect-[5/4] lg:aspect-[1/1] lg:max-w-[820px]"
           initial={{ opacity: 0, scale: 0.94 }}
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           {/* "SUMMIT AUTOMATES AI CORE" label */}
-          <div className="pointer-events-none absolute left-1/2 top-[80%] z-10 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.4em] text-cyan-200/80 sm:text-[0.65rem]">
+          <div className="pointer-events-none absolute left-1/2 top-[80%] z-10 -translate-x-1/2 font-mono text-[0.65rem] uppercase tracking-[0.4em] text-cyan-200/80">
             Summit Automates AI Core
           </div>
 
-          {/* 5 service cards orbit around the hub — rotates 360° in ~15s, pauses 1s, repeats.
-              The brain hub is rendered INSIDE OrbitalCards' 3D context at z=0 so cards
-              naturally pass behind it when they rotate to the back of the carousel. */}
+          {/* Service cards orbit around the hub. The hub renders as a flat
+              layer under the carousel; back-half cards hide via backface
+              culling (see OrbitalCards). */}
           <OrbitalCards
             radius={310}
-            center={<AiHub />}
+            center={<AiHub className="h-[780px] w-[780px] -translate-x-1/2 -translate-y-1/2" />}
           />
+        </motion.div>
+
+        {/* RIGHT (phones / small tablets) — compact hub + swipeable service
+            card row. Below ~768px the 3D carousel can't fit readable cards,
+            and live 3D + big filtered layers are what flicker on mobile
+            GPUs — so small screens get a flat, lightweight variant instead.
+            Cards snap to the horizontal center of the screen. */}
+        <motion.div
+          animate={{ opacity: 1, scale: 1 }}
+          className="relative md:hidden"
+          initial={{ opacity: 0, scale: 0.96 }}
+          transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
+        >
+          <AiHub className="mx-auto h-[270px] w-[270px]" />
+          <p className="mt-3 text-center font-mono text-[0.6rem] uppercase tracking-[0.4em] text-cyan-200/80">
+            Summit Automates AI Core
+          </p>
+
+          <div className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6">
+            {SERVICE_MODULES.map((module, i) => (
+              <OrbitCard
+                badge={`0${i + 1}`}
+                className="w-[11.5rem] shrink-0 snap-center"
+                key={module.slug}
+                module={module}
+              />
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
