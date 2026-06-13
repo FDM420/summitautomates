@@ -60,16 +60,16 @@ export function ServiceDirectorySection() {
       <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex max-w-2xl flex-col gap-4">
           <span className="eyebrow">Explore Our Services</span>
-          <h2 className="text-balance text-4xl font-semibold tracking-[-0.045em] text-white sm:text-5xl">
+          <h2 className="text-balance text-4xl font-semibold tracking-[-0.045em] text-ink sm:text-5xl">
             Service Directory.
           </h2>
-          <p className="text-base leading-7 text-slate-300 sm:text-lg">
+          <p className="text-base leading-7 text-muted sm:text-lg">
             Five connected systems on a shared automation core. Each card opens its full
             discovery path with live workflow views and case-style proof.
           </p>
         </div>
         <Link
-          className="inline-flex items-center gap-1 text-sm font-medium text-cyan-200 transition hover:text-cyan-100"
+          className="inline-flex items-center gap-1 text-sm font-medium text-accent-ink transition hover:text-ink"
           href="/services"
         >
           View all services

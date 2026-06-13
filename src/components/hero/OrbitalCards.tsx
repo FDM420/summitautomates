@@ -103,7 +103,7 @@ export function OrbitCard({
       <span
         className="absolute -top-2.5 left-3 flex h-5 w-7 items-center justify-center rounded border text-[0.6rem] font-bold tracking-wider"
         style={{
-          backgroundColor: "#040817",
+          backgroundColor: "var(--surface)",
           borderColor: hexWithAlpha(module.hex, 0.45),
           color: module.hex,
         }}
@@ -125,16 +125,16 @@ export function OrbitCard({
       {/* Title + tagline */}
       <div className="mt-2 flex items-center gap-1.5">
         <span
-          className="grid h-5 w-5 place-items-center rounded border border-white/10 bg-white/5"
+          className="grid h-5 w-5 place-items-center rounded border border-hair bg-overlay"
           style={{ color: module.hex }}
         >
           <module.Icon className="h-3 w-3" />
         </span>
-        <h3 className="text-[0.75rem] font-semibold leading-tight text-white">
+        <h3 className="text-[0.75rem] font-semibold leading-tight text-ink">
           {module.shortName}
         </h3>
       </div>
-      <p className="mt-1 line-clamp-2 text-[0.65rem] leading-4 text-slate-300/80">
+      <p className="mt-1 line-clamp-2 text-[0.65rem] leading-4 text-muted">
         {module.tagline}
       </p>
     </Link>

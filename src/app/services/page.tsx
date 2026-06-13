@@ -43,7 +43,7 @@ const servicePresentation: Record<string, ServicePresentation> = {
 
 function ServiceDirectoryIcon({ icon }: { icon: ServiceIconName }) {
   return (
-    <span className="flex h-13 w-13 items-center justify-center rounded-[1.15rem] border border-cyan-300/20 bg-cyan-300/10 text-cyan-100 shadow-[0_12px_32px_rgba(79,209,255,0.14)]">
+    <span className="flex h-13 w-13 items-center justify-center rounded-[1.15rem] border border-cyan-300/20 bg-cyan-300/10 text-accent-ink shadow-[0_12px_32px_rgba(79,209,255,0.14)]">
       {icon === "chat" ? (
         <svg aria-hidden="true" className="h-6 w-6" fill="none" viewBox="0 0 24 24">
           <path d="M7 8.5h10" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
@@ -140,18 +140,18 @@ export default function ServicesDirectoryPage() {
 
         <main className="relative z-10 pb-20 pt-12 sm:pt-16 lg:pt-20">
           <section className="section-shell">
-            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-slate-400">
-              <Link className="hover:text-slate-200" href="/">Home</Link>
+            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-faint">
+              <Link className="hover:text-muted" href="/">Home</Link>
               <span>/</span>
-              <span className="text-slate-200">Services</span>
+              <span className="text-muted">Services</span>
             </nav>
 
             <div className="max-w-3xl space-y-6">
               <span className="eyebrow">Service Directory</span>
-              <h1 className="text-balance text-5xl font-semibold tracking-[-0.06em] text-white sm:text-6xl lg:text-[4.8rem] lg:leading-[0.95]">
+              <h1 className="text-balance text-5xl font-semibold tracking-[-0.06em] text-ink sm:text-6xl lg:text-[4.8rem] lg:leading-[0.95]">
                 Five dedicated services explained clearly for clients and search.
               </h1>
-              <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
+              <p className="max-w-2xl text-lg leading-8 text-muted sm:text-xl">
                 These services explain Summit&apos;s main automation offers in plain language and give search engines clear,
                 focused content for each service area.
               </p>
@@ -181,26 +181,26 @@ export default function ServicesDirectoryPage() {
                     <div className="flex items-start gap-4">
                       <ServiceDirectoryIcon icon={presentation.icon} />
                       <div>
-                        <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">{presentation.eyebrow}</p>
-                        <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">{service.cardTitle}</h2>
+                        <p className="mono text-xs uppercase tracking-[0.22em] text-accent-ink/80">{presentation.eyebrow}</p>
+                        <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-ink">{service.cardTitle}</h2>
                       </div>
                     </div>
 
-                    <span className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-slate-300 transition group-hover:border-cyan-300/20 group-hover:text-cyan-100">
+                    <span className="rounded-full border border-hair bg-overlay px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-muted transition group-hover:border-cyan-300/20 group-hover:text-accent-ink">
                       Open
                     </span>
                   </div>
 
-                  <p className="mt-5 text-sm leading-7 text-slate-300">{service.metaDescription}</p>
+                  <p className="mt-5 text-sm leading-7 text-muted">{service.metaDescription}</p>
 
                   <div className="mt-6 grid gap-3 sm:grid-cols-2">
                     {service.heroStats.slice(0, 2).map((stat) => (
                       <div
-                        className="rounded-[1.35rem] border border-white/10 bg-white/6 px-4 py-3 transition group-hover:border-cyan-300/18 group-hover:bg-white/8"
+                        className="rounded-[1.35rem] border border-hair bg-overlay px-4 py-3 transition group-hover:border-cyan-300/18 group-hover:bg-overlay-strong"
                         key={stat.label}
                       >
-                        <p className="mono text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">{stat.label}</p>
-                        <p className="mt-2 text-base font-semibold text-white">{stat.value}</p>
+                        <p className="mono text-[0.68rem] uppercase tracking-[0.18em] text-faint">{stat.label}</p>
+                        <p className="mt-2 text-base font-semibold text-ink">{stat.value}</p>
                       </div>
                     ))}
                   </div>
@@ -208,7 +208,7 @@ export default function ServicesDirectoryPage() {
                   <div className="mt-6 flex flex-wrap gap-2">
                     {service.heroTags.slice(0, 3).map((tag) => (
                       <span
-                        className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs text-slate-200 transition group-hover:border-cyan-300/15 group-hover:text-white"
+                        className="rounded-full border border-hair bg-overlay px-3 py-1.5 text-xs text-muted transition group-hover:border-cyan-300/15 group-hover:text-ink"
                         key={tag}
                       >
                         {tag}
@@ -216,9 +216,9 @@ export default function ServicesDirectoryPage() {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-between gap-4 border-t border-white/10 pt-5">
-                    <p className="text-sm text-slate-300">Open the full service page and discovery path.</p>
-                    <span className="inline-flex items-center gap-2 text-sm font-medium text-cyan-100 transition duration-300 group-hover:translate-x-1 group-hover:text-cyan-50">
+                  <div className="mt-6 flex items-center justify-between gap-4 border-t border-hair pt-5">
+                    <p className="text-sm text-muted">Open the full service page and discovery path.</p>
+                    <span className="inline-flex items-center gap-2 text-sm font-medium text-accent-ink transition duration-300 group-hover:translate-x-1 group-hover:text-accent-ink">
                       View service
                       <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24">
                         <path d="M5 12h14" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />

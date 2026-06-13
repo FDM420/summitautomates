@@ -19,7 +19,7 @@ import { SiteHeader } from "./shared/SiteHeader";
 
 function ServiceExplainerIcon({ type }: { type: "inputs" | "process" | "outputs" | "benefits" }) {
   return (
-    <span className="flex h-11 w-11 items-center justify-center rounded-[1rem] border border-cyan-300/20 bg-cyan-300/10 text-cyan-100">
+    <span className="flex h-11 w-11 items-center justify-center rounded-[1rem] border border-cyan-300/20 bg-cyan-300/10 text-accent-ink">
       {type === "inputs" ? (
         <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24">
           <path d="M4 7h16" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
@@ -62,10 +62,10 @@ function SectionHeading({
   return (
     <div className="max-w-3xl space-y-4">
       <span className="eyebrow">{eyebrow}</span>
-      <h2 className="text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl lg:text-[3.1rem]">
+      <h2 className="text-balance text-3xl font-semibold tracking-[-0.04em] text-ink sm:text-4xl lg:text-[3.1rem]">
         {title}
       </h2>
-      <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">{description}</p>
+      <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg">{description}</p>
     </div>
   );
 }
@@ -91,18 +91,18 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="mono text-xs uppercase tracking-[0.24em] text-cyan-200/80">Interactive Service View</p>
-          <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-[-0.04em] text-white">
+          <p className="mono text-xs uppercase tracking-[0.24em] text-accent-ink/80">Interactive Service View</p>
+          <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-[-0.04em] text-ink">
             Live workflow view for {service.navTitle.toLowerCase()}.
           </h2>
         </div>
-        <div className="flex flex-wrap gap-2 rounded-full border border-white/10 bg-white/5 p-1">
+        <div className="flex flex-wrap gap-2 rounded-full border border-hair bg-overlay p-1">
           {service.liveModes.map((mode, index) => (
             <button
               className={`rounded-full px-3 py-2 text-xs transition sm:px-4 ${
                 index === activeModeIndex
                   ? "bg-cyan-300 text-slate-950"
-                  : "text-slate-300 hover:bg-white/8 hover:text-white"
+                  : "text-muted hover:bg-overlay-strong hover:text-ink"
               }`}
               key={mode.label}
               onClick={() => setActiveModeIndex(index)}
@@ -115,13 +115,13 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
       </div>
 
       <div className="mt-8 grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(300px,0.92fr)]">
-        <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,12,28,0.96),rgba(8,18,40,0.92))] p-5 sm:p-6">
+        <div className="overflow-hidden rounded-[2rem] border border-hair bg-surface p-5 sm:p-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Interactive vector map</p>
-              <p className="mt-2 text-lg text-slate-200">{activeMode.summary}</p>
+              <p className="mono text-xs uppercase tracking-[0.2em] text-faint">Interactive vector map</p>
+              <p className="mt-2 text-lg text-muted">{activeMode.summary}</p>
             </div>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
+            <span className="rounded-full border border-hair bg-overlay px-3 py-1 text-xs text-muted">
               Live feel
             </span>
           </div>
@@ -161,12 +161,12 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
                     animate={{ r: isActive ? 16 : 13 }}
                     cx={node.x}
                     cy={node.y}
-                    fill={isActive ? "#8bf6ff" : "rgba(255,255,255,0.12)"}
+                    fill={isActive ? "#8bf6ff" : "var(--overlay-strong)"}
                     initial={false}
                   />
-                  <circle cx={node.x} cy={node.y} fill="#03050d" r="6" />
+                  <circle cx={node.x} cy={node.y} fill="var(--surface)" r="6" />
                   <text
-                    fill="#eef7ff"
+                    fill="var(--ink)"
                     fontFamily="var(--font-mono)"
                     fontSize="12"
                     textAnchor="middle"
@@ -182,9 +182,9 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
 
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {activeMode.metrics.map((metric) => (
-              <div className="rounded-[1.35rem] border border-white/10 bg-white/5 p-4" key={metric.label}>
-                <p className="mono text-[0.68rem] uppercase tracking-[0.2em] text-slate-400">{metric.label}</p>
-                <p className="mt-3 text-2xl font-semibold text-white">{metric.value}</p>
+              <div className="rounded-[1.35rem] border border-hair bg-overlay p-4" key={metric.label}>
+                <p className="mono text-[0.68rem] uppercase tracking-[0.2em] text-faint">{metric.label}</p>
+                <p className="mt-3 text-2xl font-semibold text-ink">{metric.value}</p>
               </div>
             ))}
           </div>
@@ -192,25 +192,25 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
 
         <div className="space-y-4">
           <div className="panel rounded-[1.8rem] p-5">
-            <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Activity log</p>
+            <p className="mono text-xs uppercase tracking-[0.2em] text-faint">Activity log</p>
             <div className="mt-4 space-y-3">
               {activeMode.activity.map((entry) => (
                 <div className="flex items-start gap-3" key={entry}>
                   <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(79,209,255,0.8)]" />
-                  <p className="text-sm leading-6 text-slate-200">{entry}</p>
+                  <p className="text-sm leading-6 text-muted">{entry}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="panel rounded-[1.8rem] p-5">
-            <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Live service bars</p>
+            <p className="mono text-xs uppercase tracking-[0.2em] text-faint">Live service bars</p>
             <div className="mt-4 space-y-4">
               {activeMode.bars.map((bar) => (
                 <div key={bar.label}>
-                  <div className="mb-2 flex items-center justify-between gap-4 text-sm text-slate-200">
+                  <div className="mb-2 flex items-center justify-between gap-4 text-sm text-muted">
                     <span>{bar.label}</span>
-                    <span className="mono text-cyan-200">{bar.value}%</span>
+                    <span className="mono text-accent-ink">{bar.value}%</span>
                   </div>
                   <div className="data-bar h-2.5">
                     <span style={{ width: `${bar.value}%` }} />
@@ -227,7 +227,7 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
 
 function DiscoveryStripIcon({ type }: { type: "tools" | "plan" | "route" }) {
   return (
-    <span className="flex h-10 w-10 items-center justify-center rounded-[1rem] border border-cyan-300/20 bg-cyan-300/10 text-cyan-100">
+    <span className="flex h-10 w-10 items-center justify-center rounded-[1rem] border border-cyan-300/20 bg-cyan-300/10 text-accent-ink">
       {type === "tools" ? (
         <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24">
           <path d="M4 7h16" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
@@ -284,11 +284,11 @@ function PostProofCtaStrip({ service }: { service: ServicePageConfig }) {
       >
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.92fr)] lg:items-center">
           <div>
-            <p className="mono text-xs uppercase tracking-[0.24em] text-cyan-200/80">Ready For The Next Step</p>
-            <h2 className="mt-3 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+            <p className="mono text-xs uppercase tracking-[0.24em] text-accent-ink/80">Ready For The Next Step</p>
+            <h2 className="mt-3 text-balance text-3xl font-semibold tracking-[-0.04em] text-ink sm:text-4xl">
               If this looks like your workflow, start discovery now.
             </h2>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
+            <p className="mt-4 max-w-2xl text-base leading-8 text-muted sm:text-lg">
               We can review {service.contactFocus.toLowerCase()}, your current tools, and the fastest rollout path for
               your team before you commit to a build.
             </p>
@@ -301,7 +301,7 @@ function PostProofCtaStrip({ service }: { service: ServicePageConfig }) {
                 Start Discovery
               </a>
               <Link
-                className="rounded-full border border-white/12 bg-white/6 px-6 py-3 text-center text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10 active:scale-[0.99]"
+                className="rounded-full border border-hair bg-overlay px-6 py-3 text-center text-sm font-semibold text-ink transition hover:border-hair-strong hover:bg-overlay-strong active:scale-[0.99]"
                 href="/services"
               >
                 Compare Services
@@ -315,8 +315,8 @@ function PostProofCtaStrip({ service }: { service: ServicePageConfig }) {
                 <div className="flex items-start gap-3">
                   <DiscoveryStripIcon type={signal.type} />
                   <div>
-                    <p className="text-base font-semibold text-white">{signal.title}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-300">{signal.description}</p>
+                    <p className="text-base font-semibold text-ink">{signal.title}</p>
+                    <p className="mt-2 text-sm leading-6 text-muted">{signal.description}</p>
                   </div>
                 </div>
               </div>
@@ -372,12 +372,12 @@ export function ServiceLandingClient({
 
       <main className="relative z-10 pb-16 sm:pb-20">
         <section className="section-shell pt-8">
-          <nav aria-label="Breadcrumb" className="mono flex flex-wrap items-center gap-2 text-xs text-slate-400">
-            <Link className="hover:text-slate-200" href="/">Home</Link>
+          <nav aria-label="Breadcrumb" className="mono flex flex-wrap items-center gap-2 text-xs text-faint">
+            <Link className="hover:text-muted" href="/">Home</Link>
             <span>/</span>
-            <Link className="hover:text-slate-200" href="/services">Services</Link>
+            <Link className="hover:text-muted" href="/services">Services</Link>
             <span>/</span>
-            <span className="text-slate-200">{service.navTitle}</span>
+            <span className="text-muted">{service.navTitle}</span>
           </nav>
         </section>
 
@@ -405,9 +405,9 @@ export function ServiceLandingClient({
                 whileHover={{ y: -6, borderColor: "rgba(94, 234, 212, 0.35)" }}
                 whileInView={{ opacity: 1, y: 0 }}
               >
-                <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">Problem {String(index + 1).padStart(2, "0")}</p>
-                <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">{problem.title}</h2>
-                <p className="mt-4 text-base leading-7 text-slate-300">{problem.description}</p>
+                <p className="mono text-xs uppercase tracking-[0.22em] text-faint">Problem {String(index + 1).padStart(2, "0")}</p>
+                <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">{problem.title}</h2>
+                <p className="mt-4 text-base leading-7 text-muted">{problem.description}</p>
               </motion.article>
             ))}
           </div>
@@ -433,23 +433,23 @@ export function ServiceLandingClient({
                 <div className="flex items-start gap-4">
                   <ServiceExplainerIcon type={card.type} />
                   <div>
-                    <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">
+                    <p className="mono text-xs uppercase tracking-[0.22em] text-faint">
                       {card.type === "inputs" ? "Inputs" : null}
                       {card.type === "process" ? "Processing" : null}
                       {card.type === "outputs" ? "Outputs" : null}
                       {card.type === "benefits" ? "Benefits" : null}
                     </p>
-                    <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">{card.title}</h2>
+                    <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-ink">{card.title}</h2>
                   </div>
                 </div>
 
-                <p className="mt-4 text-base leading-7 text-slate-300">{card.description}</p>
+                <p className="mt-4 text-base leading-7 text-muted">{card.description}</p>
 
                 <div className="mt-6 space-y-3">
                   {card.bullets.map((bullet) => (
                     <div className="flex items-start gap-3" key={bullet}>
                       <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(79,209,255,0.8)]" />
-                      <p className="text-sm leading-7 text-slate-200">{bullet}</p>
+                      <p className="text-sm leading-7 text-muted">{bullet}</p>
                     </div>
                   ))}
                 </div>
@@ -475,9 +475,9 @@ export function ServiceLandingClient({
                 viewport={{ once: true, amount: 0.2 }}
                 whileInView={{ opacity: 1, y: 0 }}
               >
-                <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">Step {index + 1}</p>
-                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">{step.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-slate-300">{step.description}</p>
+                <p className="mono text-xs uppercase tracking-[0.22em] text-faint">Step {index + 1}</p>
+                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">{step.title}</h3>
+                <p className="mt-4 text-sm leading-7 text-muted">{step.description}</p>
               </motion.article>
             ))}
           </div>
@@ -502,36 +502,36 @@ export function ServiceLandingClient({
                     viewport={{ once: true, amount: 0.2 }}
                     whileInView={{ opacity: 1, y: 0 }}
                   >
-                    <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">{proof.eyebrow}</p>
-                    <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white">{proof.title}</h2>
-                    <p className="mt-4 text-base leading-7 text-slate-300">{proof.summary}</p>
+                    <p className="mono text-xs uppercase tracking-[0.22em] text-accent-ink/80">{proof.eyebrow}</p>
+                    <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-ink">{proof.title}</h2>
+                    <p className="mt-4 text-base leading-7 text-muted">{proof.summary}</p>
 
                     <div className="mt-6 grid gap-3">
                       {proof.outcomes.map((outcome) => (
                         <div className="panel rounded-[1.45rem] px-4 py-4" key={outcome}>
-                          <p className="text-sm leading-7 text-slate-100">{outcome}</p>
+                          <p className="text-sm leading-7 text-ink">{outcome}</p>
                         </div>
                       ))}
                     </div>
 
                     <div className="mt-6 grid gap-4 sm:grid-cols-3">
                       {proof.metrics.map((metric) => (
-                        <div className="rounded-[1.35rem] border border-white/10 bg-white/5 p-4" key={metric.label}>
-                          <p className="mono text-[0.68rem] uppercase tracking-[0.2em] text-slate-400">{metric.label}</p>
-                          <p className="mt-3 text-2xl font-semibold text-white">{metric.value}</p>
+                        <div className="rounded-[1.35rem] border border-hair bg-overlay p-4" key={metric.label}>
+                          <p className="mono text-[0.68rem] uppercase tracking-[0.2em] text-faint">{metric.label}</p>
+                          <p className="mt-3 text-2xl font-semibold text-ink">{metric.value}</p>
                         </div>
                       ))}
                     </div>
 
                     <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.84fr)]">
                       <div className="panel rounded-[1.8rem] p-5">
-                        <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Outcome bars</p>
+                        <p className="mono text-xs uppercase tracking-[0.2em] text-faint">Outcome bars</p>
                         <div className="mt-4 space-y-4">
                           {proof.bars.map((bar) => (
                             <div key={bar.label}>
-                              <div className="mb-2 flex items-center justify-between gap-4 text-sm text-slate-200">
+                              <div className="mb-2 flex items-center justify-between gap-4 text-sm text-muted">
                                 <span>{bar.label}</span>
-                                <span className="mono text-cyan-200">{bar.value}%</span>
+                                <span className="mono text-accent-ink">{bar.value}%</span>
                               </div>
                               <div className="data-bar h-2.5">
                                 <span style={{ width: `${bar.value}%` }} />
@@ -542,12 +542,12 @@ export function ServiceLandingClient({
                       </div>
 
                       <div className="panel rounded-[1.8rem] p-5">
-                        <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Activity feed</p>
+                        <p className="mono text-xs uppercase tracking-[0.2em] text-faint">Activity feed</p>
                         <div className="mt-4 space-y-3">
                           {proof.activity.map((entry) => (
                             <div className="flex items-start gap-3" key={entry}>
                               <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(79,209,255,0.8)]" />
-                              <p className="text-sm leading-6 text-slate-200">{entry}</p>
+                              <p className="text-sm leading-6 text-muted">{entry}</p>
                             </div>
                           ))}
                         </div>
@@ -566,19 +566,19 @@ export function ServiceLandingClient({
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.82fr)]">
             <div className="panel-strong rounded-[2.25rem] p-6 sm:p-8">
               <p className="eyebrow">What You Get</p>
-              <h2 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.05em] text-white sm:text-5xl">
+              <h2 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.05em] text-ink sm:text-5xl">
                 Practical deliverables, not vague promises.
               </h2>
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {service.deliverables.map((item) => (
                   <div className="panel rounded-[1.5rem] px-4 py-4" key={item}>
                     <div className="flex items-start gap-3">
-                      <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/10 text-cyan-100">
+                      <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/10 text-accent-ink">
                         <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24">
                           <path d="m7 12 3 3 7-7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" />
                         </svg>
                       </span>
-                      <p className="text-base text-slate-100">{item}</p>
+                      <p className="text-base text-ink">{item}</p>
                     </div>
                   </div>
                 ))}
@@ -586,12 +586,12 @@ export function ServiceLandingClient({
             </div>
 
             <div className="panel-strong rounded-[2.25rem] p-6 sm:p-8">
-              <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">Good Fit Industries</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">Teams that commonly need this service.</h2>
+              <p className="mono text-xs uppercase tracking-[0.22em] text-accent-ink/80">Good Fit Industries</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-ink">Teams that commonly need this service.</h2>
               <div className="mt-8 flex flex-wrap gap-3">
                 {service.industries.map((industry) => (
                   <span
-                    className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm text-slate-100"
+                    className="rounded-full border border-hair bg-overlay px-4 py-2 text-sm text-ink"
                     key={industry}
                   >
                     {industry}
@@ -620,9 +620,9 @@ export function ServiceLandingClient({
                 whileHover={{ y: -4, borderColor: "rgba(94, 234, 212, 0.28)" }}
                 whileInView={{ opacity: 1, y: 0 }}
               >
-                <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">Question {index + 1}</p>
-                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">{item.question}</h3>
-                <p className="mt-4 text-base leading-7 text-slate-300">{item.answer}</p>
+                <p className="mono text-xs uppercase tracking-[0.22em] text-faint">Question {index + 1}</p>
+                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">{item.question}</h3>
+                <p className="mt-4 text-base leading-7 text-muted">{item.answer}</p>
               </motion.article>
             ))}
           </div>
@@ -642,9 +642,9 @@ export function ServiceLandingClient({
                 href={`/services/${relatedService.slug}`}
                 key={relatedService.slug}
               >
-                <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">Related service</p>
-                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">{relatedService.cardTitle}</h3>
-                <p className="mt-4 text-sm leading-7 text-slate-300">{relatedService.metaDescription}</p>
+                <p className="mono text-xs uppercase tracking-[0.22em] text-faint">Related service</p>
+                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-ink">{relatedService.cardTitle}</h3>
+                <p className="mt-4 text-sm leading-7 text-muted">{relatedService.metaDescription}</p>
               </Link>
             ))}
           </div>

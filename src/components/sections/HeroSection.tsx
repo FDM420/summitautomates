@@ -67,7 +67,7 @@ function AiHub({ className = "" }: { className?: string }) {
         className="absolute inset-[14%] rounded-full"
         style={{
           background:
-            "radial-gradient(circle at center, rgba(8,14,32,0.92) 0%, rgba(8,14,32,0.85) 45%, rgba(8,14,32,0.55) 75%, rgba(8,14,32,0) 100%)",
+            "radial-gradient(circle at center, rgb(var(--hub-disc-rgb) / 0.92) 0%, rgb(var(--hub-disc-rgb) / 0.85) 45%, rgb(var(--hub-disc-rgb) / 0.55) 75%, rgb(var(--hub-disc-rgb) / 0) 100%)",
           boxShadow:
             "inset 0 0 60px rgba(79,209,255,0.18), 0 0 70px rgba(79,209,255,0.30)",
         }}
@@ -122,14 +122,14 @@ export function HeroSection() {
             <Sparkles className="h-3 w-3" /> Automation Command Center
           </span>
 
-          <h1 className="text-balance text-[2.65rem] font-semibold leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.6rem]">
+          <h1 className="text-balance text-[2.65rem] font-semibold leading-[1.02] tracking-[-0.04em] text-ink sm:text-5xl lg:text-[3.6rem]">
             Automate your business workflows{" "}
             <span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 bg-clip-text text-transparent">
               with smart AI systems.
             </span>
           </h1>
 
-          <p className="max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
+          <p className="max-w-xl text-base leading-7 text-muted sm:text-lg">
             Summit Automates builds intelligent automation systems that streamline operations,
             reduce costs, and accelerate business growth — across WhatsApp, recruitment, CRM,
             documents, and workforce.
@@ -144,7 +144,7 @@ export function HeroSection() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              className="inline-flex items-center justify-center rounded-full border border-white/14 bg-white/6 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/25 hover:bg-white/10 active:scale-[0.99]"
+              className="inline-flex items-center justify-center rounded-full border border-hair bg-overlay px-6 py-3 text-sm font-semibold text-ink transition hover:border-hair-strong hover:bg-overlay-strong active:scale-[0.99]"
               href="#services"
             >
               Explore Services
@@ -155,10 +155,10 @@ export function HeroSection() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {TRUST_PILLS.map(({ label, Icon }) => (
               <div
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 py-2.5 text-xs text-white/80 backdrop-blur"
+                className="flex items-center gap-2 rounded-xl border border-hair bg-overlay px-3 py-2.5 text-xs text-ink/80 backdrop-blur"
                 key={label}
               >
-                <Icon className="h-3.5 w-3.5 text-cyan-300" />
+                <Icon className="h-3.5 w-3.5 text-accent-ink" />
                 <span className="font-medium">{label}</span>
               </div>
             ))}
@@ -168,13 +168,13 @@ export function HeroSection() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {STATS.map((stat) => (
               <div
-                className="rounded-2xl border border-white/8 bg-white/3 px-4 py-3 backdrop-blur"
+                className="rounded-2xl border border-hair bg-overlay px-4 py-3 backdrop-blur"
                 key={stat.label}
               >
-                <p className="bg-gradient-to-r from-cyan-200 to-violet-300 bg-clip-text text-2xl font-semibold tracking-tight text-transparent sm:text-3xl">
+                <p className="bg-gradient-to-r from-cyan-600 to-violet-600 bg-clip-text text-2xl font-semibold tracking-tight text-transparent dark:from-cyan-200 dark:to-violet-300 sm:text-3xl">
                   {stat.value}
                 </p>
-                <p className="mt-1 text-[0.7rem] uppercase tracking-[0.15em] text-white/55">
+                <p className="mt-1 text-[0.7rem] uppercase tracking-[0.15em] text-ink/55">
                   {stat.label}
                 </p>
               </div>
@@ -190,7 +190,7 @@ export function HeroSection() {
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           {/* "SUMMIT AUTOMATES AI CORE" label */}
-          <div className="pointer-events-none absolute left-1/2 top-[80%] z-10 -translate-x-1/2 font-mono text-[0.65rem] uppercase tracking-[0.4em] text-cyan-200/80">
+          <div className="pointer-events-none absolute left-1/2 top-[80%] z-10 -translate-x-1/2 font-mono text-[0.65rem] uppercase tracking-[0.4em] text-accent-ink/80">
             Summit Automates AI Core
           </div>
 
@@ -215,7 +215,7 @@ export function HeroSection() {
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           <AiHub className="mx-auto h-[270px] w-[270px]" />
-          <p className="mt-3 text-center font-mono text-[0.6rem] uppercase tracking-[0.4em] text-cyan-200/80">
+          <p className="mt-3 text-center font-mono text-[0.6rem] uppercase tracking-[0.4em] text-accent-ink/80">
             Summit Automates AI Core
           </p>
 

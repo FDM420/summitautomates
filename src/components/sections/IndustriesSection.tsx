@@ -69,10 +69,10 @@ export function IndustriesSection() {
     <section className="section-shell py-20 sm:py-24" id="industries">
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
         <span className="eyebrow">Industries We Serve</span>
-        <h2 className="text-balance text-4xl font-semibold tracking-[-0.045em] text-white sm:text-5xl">
+        <h2 className="text-balance text-4xl font-semibold tracking-[-0.045em] text-ink sm:text-5xl">
           Built for teams that grew faster than their tools.
         </h2>
-        <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+        <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
           The systems below ship across very different industries — but the operational pattern
           (messages, leads, documents, people, status) is the same. We translate that pattern
           into your context.
@@ -92,12 +92,12 @@ export function IndustriesSection() {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <div className="flex items-center gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-violet-200">
+              <span className="grid h-9 w-9 place-items-center rounded-lg border border-hair bg-overlay text-violet-600 dark:text-violet-200">
                 <industry.Icon className="h-4 w-4" />
               </span>
-              <h3 className="text-sm font-semibold text-white">{industry.name}</h3>
+              <h3 className="text-sm font-semibold text-ink">{industry.name}</h3>
             </div>
-            <p className="mt-3 text-xs leading-5 text-slate-300">{industry.blurb}</p>
+            <p className="mt-3 text-xs leading-5 text-muted">{industry.blurb}</p>
           </motion.div>
         ))}
       </div>

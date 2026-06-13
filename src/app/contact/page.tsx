@@ -58,19 +58,19 @@ export default function ContactPage() {
 
         <main className="relative z-10 pb-16 sm:pb-20">
           <section className="section-shell pt-12 sm:pt-16 lg:pt-24">
-            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-slate-400">
-              <Link className="hover:text-slate-200" href="/">Home</Link>
+            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-faint">
+              <Link className="hover:text-muted" href="/">Home</Link>
               <span>/</span>
-              <span className="text-slate-200">Contact</span>
+              <span className="text-muted">Contact</span>
             </nav>
 
             <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-start">
               <div>
                 <p className="eyebrow">Start a conversation</p>
-                <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.4rem]">
+                <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-ink sm:text-5xl lg:text-[3.4rem]">
                   Book a 30-minute automation discovery call.
                 </h1>
-                <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
+                <p className="mt-6 max-w-xl text-lg leading-8 text-muted">
                   We review the workflow you want to fix, propose what to automate first, and quote
                   the rollout. No commitment to take the call.
                 </p>
@@ -79,13 +79,13 @@ export default function ContactPage() {
               <div className="space-y-5">
                 <div className="panel rounded-[1.6rem] p-5">
                   <div className="flex items-start gap-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-accent-ink">
                       <Mail className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="text-sm font-semibold text-white">Email us directly</p>
+                      <p className="text-sm font-semibold text-ink">Email us directly</p>
                       <a
-                        className="mt-1 inline-block text-base text-cyan-200 hover:underline"
+                        className="mt-1 inline-block text-base text-accent-ink hover:underline"
                         href={`mailto:${contactEmail}`}
                       >
                         {contactEmail}
@@ -96,12 +96,12 @@ export default function ContactPage() {
 
                 <div className="panel rounded-[1.6rem] p-5">
                   <div className="flex items-start gap-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-accent-ink">
                       <MessageSquare className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="text-sm font-semibold text-white">Response time</p>
-                      <p className="mt-1 text-base text-slate-300">
+                      <p className="text-sm font-semibold text-ink">Response time</p>
+                      <p className="mt-1 text-base text-muted">
                         Within one business day, usually faster.
                       </p>
                     </div>
@@ -110,12 +110,12 @@ export default function ContactPage() {
 
                 <div className="panel rounded-[1.6rem] p-5">
                   <div className="flex items-start gap-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-accent-ink">
                       <MapPin className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="text-sm font-semibold text-white">Working globally</p>
-                      <p className="mt-1 text-base text-slate-300">
+                      <p className="text-sm font-semibold text-ink">Working globally</p>
+                      <p className="mt-1 text-base text-muted">
                         Remote-first. We work with teams across the Americas, EMEA, and APAC.
                       </p>
                     </div>

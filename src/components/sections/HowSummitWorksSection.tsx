@@ -49,10 +49,10 @@ export function HowSummitWorksSection() {
     <section className="section-shell py-20 sm:py-24" id="how">
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
         <span className="eyebrow">How Summit Works</span>
-        <h2 className="text-balance text-4xl font-semibold tracking-[-0.045em] text-white sm:text-5xl">
+        <h2 className="text-balance text-4xl font-semibold tracking-[-0.045em] text-ink sm:text-5xl">
           Discover → Design → Build → Automate → Monitor.
         </h2>
-        <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+        <p className="max-w-2xl text-base leading-7 text-muted sm:text-lg">
           We are an automation partner, not a tool vendor. The engagement starts with your
           messy reality and ends with a system that runs without you watching it.
         </p>
@@ -72,15 +72,15 @@ export function HowSummitWorksSection() {
             >
               <div className="glass-card flex h-full flex-col gap-4 p-6" data-accent="cyan" style={{ borderRadius: "1.5rem" }}>
                 <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/5 text-cyan-200">
+                  <span className="grid h-10 w-10 place-items-center rounded-full border border-hair bg-overlay text-accent-ink">
                     <step.Icon className="h-5 w-5" />
                   </span>
-                  <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-white/55">
+                  <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-ink/55">
                     0{i + 1}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-white">{step.title}</h3>
-                <p className="text-sm leading-6 text-slate-300">{step.description}</p>
+                <h3 className="text-lg font-semibold text-ink">{step.title}</h3>
+                <p className="text-sm leading-6 text-muted">{step.description}</p>
               </div>
             </motion.li>
           ))}

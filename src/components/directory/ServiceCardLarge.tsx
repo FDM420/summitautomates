@@ -48,15 +48,12 @@ export function ServiceCardLarge({
   return (
     <motion.article
       animate={{ opacity: 1, y: 0 }}
-      className="group relative isolate overflow-hidden rounded-[2rem] border bg-[#070b1c] transition-all duration-500 hover:-translate-y-1"
+      className="group relative isolate overflow-hidden rounded-[2rem] border bg-surface-2 transition-all duration-500 hover:-translate-y-1"
       data-accent={module.accent}
       initial={{ opacity: 0, y: 24 }}
       style={{
         borderColor: hexWithAlpha(module.hex, 0.25),
-        boxShadow: `
-          0 30px 80px rgba(0,0,0,0.45),
-          inset 0 1px 0 rgba(255,255,255,0.04)
-        `,
+        boxShadow: "var(--shadow-depth-3)",
       }}
       transition={{ duration: 0.7, ease: EASE, delay: index * 0.08 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -81,7 +78,7 @@ export function ServiceCardLarge({
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.18]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)`,
           backgroundSize: "32px 32px",
           maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
         }}
@@ -115,10 +112,10 @@ export function ServiceCardLarge({
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.04em] text-white sm:text-4xl">
+            <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.04em] text-ink sm:text-4xl">
               {module.fullName}
             </h2>
-            <p className="max-w-md text-sm leading-6 text-slate-300/85 sm:text-base sm:leading-7">
+            <p className="max-w-md text-sm leading-6 text-muted sm:text-base sm:leading-7">
               {module.blurb}
             </p>
           </div>
@@ -136,7 +133,7 @@ export function ServiceCardLarge({
                     borderColor: hexWithAlpha(tone, 0.3),
                   }}
                 >
-                  <p className="text-[0.65rem] uppercase tracking-[0.15em] text-white/55">
+                  <p className="text-[0.65rem] uppercase tracking-[0.15em] text-ink/55">
                     {metric.label}
                   </p>
                   <p className="mt-1 text-lg font-semibold" style={{ color: tone }}>
@@ -152,12 +149,12 @@ export function ServiceCardLarge({
             {bullets.map((b) => (
               <li className="flex items-center gap-2.5" key={b}>
                 <CheckCircle2 className="h-4 w-4 shrink-0" style={{ color: module.hex }} />
-                <span className="text-sm text-white/85">{b}</span>
+                <span className="text-sm text-ink/85">{b}</span>
               </li>
             ))}
           </ul>
 
-          <div className="mt-2 flex items-center gap-2 border-t border-white/8 pt-5 text-xs text-white/55">
+          <div className="mt-2 flex items-center gap-2 border-t border-hair pt-5 text-xs text-ink/55">
             <ArrowRight className="h-3.5 w-3.5" />
             Open the full service page and discovery path.
           </div>
@@ -176,7 +173,7 @@ export function ServiceCardLarge({
         </div>
 
         {/* RIGHT: illustration */}
-        <div className="relative min-h-[420px] overflow-hidden border-t border-white/5 lg:border-l lg:border-t-0">
+        <div className="relative min-h-[420px] overflow-hidden border-t border-hair bg-[#070b1c] lg:border-l lg:border-t-0">
           {/* Soft accent glow background */}
           <div
             aria-hidden

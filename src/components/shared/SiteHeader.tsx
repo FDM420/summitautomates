@@ -23,6 +23,7 @@ import {
 import Link from "next/link";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { insights } from "@/lib/insights";
+import { ThemeToggle } from "./ThemeToggle";
 
 /* ============================================================
    Menu data — single source of truth for the mega-menu layout.
@@ -248,16 +249,16 @@ export function SiteHeader() {
   }, [mobileOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-[rgba(3,6,15,0.75)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-hair bg-chrome backdrop-blur-xl">
       <div className="section-shell flex items-center justify-between gap-4 py-4 sm:gap-6">
         {/* LOGO */}
         <Link aria-label="Summit Automates home" className="flex items-center gap-3" href="/">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10 text-sm font-semibold tracking-[0.3em] text-cyan-100">
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10 text-sm font-semibold tracking-[0.3em] text-accent-ink">
             SA
           </span>
           <div className="hidden sm:block">
-            <p className="text-sm font-medium text-white">Summit AI Automation</p>
-            <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">
+            <p className="text-sm font-medium text-ink">Summit AI Automation</p>
+            <p className="mono text-xs uppercase tracking-[0.2em] text-faint">
               SUMMITAUTOMATES
             </p>
           </div>
@@ -273,7 +274,7 @@ export function SiteHeader() {
             if (item.type === "link") {
               return (
                 <Link
-                  className="rounded-lg px-3.5 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white"
+                  className="rounded-lg px-3.5 py-2 text-sm text-muted transition hover:bg-overlay hover:text-ink"
                   href={item.href}
                   key={item.label}
                   onMouseEnter={() => handleEnter("")}
@@ -294,8 +295,8 @@ export function SiteHeader() {
                   aria-haspopup="menu"
                   className={`inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm transition ${
                     isOpen
-                      ? "bg-white/8 text-white"
-                      : "text-slate-300 hover:bg-white/5 hover:text-white"
+                      ? "bg-overlay-strong text-ink"
+                      : "text-muted hover:bg-overlay hover:text-ink"
                   }`}
                   onClick={() => {
                     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -321,38 +322,41 @@ export function SiteHeader() {
           })}
         </nav>
 
-        {/* CTA */}
-        <Link
-          className="hidden rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2.5 text-sm font-medium text-cyan-50 transition hover:border-cyan-200/40 hover:bg-cyan-300/15 sm:inline-flex sm:px-5 sm:py-3"
-          href="/contact"
-        >
-          Start Discovery
-        </Link>
+        {/* RIGHT CLUSTER — theme toggle, CTA, mobile menu */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeToggle />
 
-        {/* MOBILE TOGGLE */}
-        <button
-          aria-expanded={mobileOpen}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-white lg:hidden"
-          onClick={() => setMobileOpen((v) => !v)}
-          type="button"
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+          <Link
+            className="hidden rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2.5 text-sm font-medium text-accent-ink transition hover:border-cyan-300/50 hover:bg-cyan-300/20 sm:inline-flex sm:px-5 sm:py-3"
+            href="/contact"
+          >
+            Start Discovery
+          </Link>
+
+          <button
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            className="grid h-10 w-10 place-items-center rounded-xl border border-hair bg-overlay text-ink lg:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            type="button"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* MOBILE DRAWER (accordion-style) */}
       {mobileOpen ? (
         <nav
           aria-label="Mobile primary"
-          className="max-h-[calc(100vh-72px)] overflow-y-auto border-t border-white/8 bg-[rgba(3,6,15,0.96)] backdrop-blur-xl lg:hidden"
+          className="max-h-[calc(100vh-72px)] overflow-y-auto border-t border-hair bg-chrome backdrop-blur-xl lg:hidden"
         >
           <div className="section-shell flex flex-col gap-1 py-5">
             {MENU.map((item) => {
               if (item.type === "link") {
                 return (
                   <Link
-                    className="rounded-xl px-4 py-3 text-base text-slate-200 transition hover:bg-white/5 hover:text-white"
+                    className="rounded-xl px-4 py-3 text-base text-muted transition hover:bg-overlay hover:text-ink"
                     href={item.href}
                     key={item.label}
                     onClick={() => setMobileOpen(false)}
@@ -363,10 +367,10 @@ export function SiteHeader() {
               }
               const expanded = mobileExpanded === item.label;
               return (
-                <div className="rounded-xl border border-white/5 bg-white/[0.02]" key={item.label}>
+                <div className="rounded-xl border border-hair bg-overlay" key={item.label}>
                   <button
                     aria-expanded={expanded}
-                    className="flex w-full items-center justify-between px-4 py-3 text-base text-white"
+                    className="flex w-full items-center justify-between px-4 py-3 text-base text-ink"
                     onClick={() =>
                       setMobileExpanded((cur) => (cur === item.label ? null : item.label))
                     }
@@ -378,21 +382,21 @@ export function SiteHeader() {
                     />
                   </button>
                   {expanded ? (
-                    <div className="border-t border-white/5 px-2 py-2">
+                    <div className="border-t border-hair px-2 py-2">
                       {item.sections.flatMap((s) => s.items).map((entry) => (
                         <Link
-                          className="flex items-start gap-3 rounded-lg px-3 py-3 transition hover:bg-white/5"
+                          className="flex items-start gap-3 rounded-lg px-3 py-3 transition hover:bg-overlay"
                           href={entry.href}
                           key={entry.href}
                           onClick={() => setMobileOpen(false)}
                         >
-                          <span className="mt-0.5 text-cyan-200">{entry.icon}</span>
+                          <span className="mt-0.5 text-accent-ink">{entry.icon}</span>
                           <span>
-                            <span className="block text-sm font-medium text-white">
+                            <span className="block text-sm font-medium text-ink">
                               {entry.label}
                             </span>
                             {entry.description ? (
-                              <span className="mt-0.5 block text-xs text-slate-400">
+                              <span className="mt-0.5 block text-xs text-faint">
                                 {entry.description}
                               </span>
                             ) : null}
@@ -400,7 +404,7 @@ export function SiteHeader() {
                         </Link>
                       ))}
                       <Link
-                        className="mt-2 flex items-center justify-between rounded-lg border border-cyan-300/20 bg-cyan-300/5 px-3 py-3 text-sm text-cyan-200"
+                        className="mt-2 flex items-center justify-between rounded-lg border border-cyan-300/20 bg-cyan-300/5 px-3 py-3 text-sm text-accent-ink"
                         href={item.featured.href}
                         onClick={() => setMobileOpen(false)}
                       >
@@ -413,7 +417,7 @@ export function SiteHeader() {
               );
             })}
             <Link
-              className="mt-3 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-3 text-center text-sm font-medium text-cyan-50"
+              className="mt-3 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-3 text-center text-sm font-medium text-accent-ink"
               href="/contact"
               onClick={() => setMobileOpen(false)}
             >
@@ -449,13 +453,13 @@ function MegaPanel({
       className="absolute left-0 top-full z-50 pt-3"
       role="menu"
     >
-      <div className="grid w-[min(72rem,90vw)] grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-6 rounded-2xl border border-white/10 bg-[rgba(8,12,28,0.96)] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+      <div className="grid w-[min(72rem,90vw)] grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-6 rounded-2xl border border-hair bg-surface-2 p-6 shadow-[var(--shadow-depth-3)] backdrop-blur-xl">
         {/* LEFT — items grid */}
         <div className="flex flex-col gap-6">
           {sections.map((section) => (
             <div key={section.heading ?? "default"}>
               {section.heading ? (
-                <p className="mono mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-200/70">
+                <p className="mono mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent-ink/70">
                   {section.heading}
                 </p>
               ) : null}
@@ -463,22 +467,22 @@ function MegaPanel({
                 {section.items.map((entry) => (
                   <li key={entry.href}>
                     <Link
-                      className="group flex items-start gap-3 rounded-xl border border-transparent px-3 py-3 transition hover:border-white/10 hover:bg-white/5"
+                      className="group flex items-start gap-3 rounded-xl border border-transparent px-3 py-3 transition hover:border-hair hover:bg-overlay"
                       href={entry.href}
                       onClick={onLinkClick}
                     >
-                      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-cyan-300/20 bg-cyan-300/10 text-cyan-200 transition group-hover:border-cyan-300/35 group-hover:bg-cyan-300/15">
+                      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-cyan-300/20 bg-cyan-300/10 text-accent-ink transition group-hover:border-cyan-300/35 group-hover:bg-cyan-300/15">
                         {entry.icon}
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="flex items-center justify-between gap-2">
-                          <span className="text-sm font-semibold text-white">
+                          <span className="text-sm font-semibold text-ink">
                             {entry.label}
                           </span>
-                          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-cyan-200" />
+                          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-faint transition group-hover:translate-x-0.5 group-hover:text-accent-ink" />
                         </span>
                         {entry.description ? (
-                          <span className="mt-1 block text-xs leading-5 text-slate-400">
+                          <span className="mt-1 block text-xs leading-5 text-faint">
                             {entry.description}
                           </span>
                         ) : null}
@@ -502,16 +506,16 @@ function MegaPanel({
           <div className="pointer-events-none absolute -bottom-12 -left-8 h-32 w-32 rounded-full bg-violet-500/20 blur-3xl" />
 
           <div className="relative">
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-accent-ink">
               <Sparkles className="h-6 w-6" />
             </span>
-            <h3 className="mt-5 text-base font-semibold leading-tight text-white">
+            <h3 className="mt-5 text-base font-semibold leading-tight text-ink">
               {featured.title}
             </h3>
-            <p className="mt-3 text-sm leading-6 text-slate-300">{featured.description}</p>
+            <p className="mt-3 text-sm leading-6 text-muted">{featured.description}</p>
           </div>
 
-          <p className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-cyan-200 transition group-hover:translate-x-0.5">
+          <p className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent-ink transition group-hover:translate-x-0.5">
             {featured.cta}
             <ArrowRight className="h-4 w-4" />
           </p>
