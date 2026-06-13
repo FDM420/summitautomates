@@ -11,7 +11,7 @@ export type FAQItem = {
 
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://summitautomates.com";
 
-export const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@summitautomates.com";
+export const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "admin@summitautomates.com";
 
 export const siteKeywords = [
   "AI automation services",
