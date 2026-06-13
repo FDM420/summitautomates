@@ -45,25 +45,25 @@ export default function PrivacyPage() {
 
         <main className="relative z-10 pb-16 sm:pb-20">
           <article className="section-shell pt-12 sm:pt-16 lg:pt-24">
-            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-slate-400">
-              <Link className="hover:text-slate-200" href="/">Home</Link>
+            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-faint">
+              <Link className="hover:text-muted" href="/">Home</Link>
               <span>/</span>
-              <span className="text-slate-200">Privacy</span>
+              <span className="text-muted">Privacy</span>
             </nav>
             <p className="eyebrow">Legal</p>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl">
+            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-ink sm:text-5xl">
               Privacy Policy
             </h1>
-            <p className="mt-3 text-sm text-slate-400">Last updated: 19 May 2026</p>
+            <p className="mt-3 text-sm text-faint">Last updated: 19 May 2026</p>
 
-            <div className="mt-12 max-w-3xl space-y-6 text-base leading-8 text-slate-200 sm:text-lg sm:leading-9">
+            <div className="mt-12 max-w-3xl space-y-6 text-base leading-8 text-muted sm:text-lg sm:leading-9">
               <p>
                 This page explains how Summit AI Automation Services (&ldquo;Summit,&rdquo;
                 &ldquo;we,&rdquo; &ldquo;us&rdquo;) collects, uses, and protects information from
                 people who contact us through this site or use the systems we build.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 What we collect
               </h2>
               <p>
@@ -73,7 +73,7 @@ export default function PrivacyPage() {
                 metadata for security and abuse prevention.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 How we use it
               </h2>
               <p>
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
                 information. We do not share it with third parties for marketing.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Systems we build for clients
               </h2>
               <p>
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
                 the engagement.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Cookies
               </h2>
               <p>
@@ -100,19 +100,19 @@ export default function PrivacyPage() {
                 preferences. We do not use third-party advertising or tracking cookies.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Your rights
               </h2>
               <p>
                 You can ask what data we hold about you, ask us to correct it, or ask us to delete
                 it. Send any such request to{" "}
-                <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
+                <a className="text-accent-ink hover:underline" href={`mailto:${contactEmail}`}>
                   {contactEmail}
                 </a>{" "}
                 and we will respond within 30 days.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Changes to this policy
               </h2>
               <p>
@@ -121,12 +121,12 @@ export default function PrivacyPage() {
                 clients in their engagement updates.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Contact us
               </h2>
               <p>
                 For any privacy question or request, reach out at{" "}
-                <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
+                <a className="text-accent-ink hover:underline" href={`mailto:${contactEmail}`}>
                   {contactEmail}
                 </a>
                 .

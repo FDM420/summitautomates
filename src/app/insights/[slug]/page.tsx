@@ -114,36 +114,36 @@ export default async function InsightPage({
 
         <main className="relative z-10 pb-16 sm:pb-20">
           <article className="section-shell pt-12 sm:pt-16 lg:pt-24">
-            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-slate-400">
-              <Link className="hover:text-slate-200" href="/">Home</Link>
+            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-faint">
+              <Link className="hover:text-muted" href="/">Home</Link>
               <span>/</span>
-              <Link className="hover:text-slate-200" href="/insights">Insights</Link>
+              <Link className="hover:text-muted" href="/insights">Insights</Link>
               <span>/</span>
-              <span className="text-slate-200 line-clamp-1">{post.title}</span>
+              <span className="text-muted line-clamp-1">{post.title}</span>
             </nav>
 
-            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
-              <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-200">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-faint">
+              <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-accent-ink">
                 {post.category}
               </span>
               <span className="mono">{formatDate(post.publishedAt)}</span>
-              <span className="inline-flex items-center gap-1.5 text-slate-400">
+              <span className="inline-flex items-center gap-1.5 text-faint">
                 <Clock className="h-3.5 w-3.5" />
                 {post.readingMinutes} min read
               </span>
             </div>
 
-            <h1 className="mt-6 max-w-4xl text-balance text-4xl font-semibold leading-[1.1] tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-6 max-w-4xl text-balance text-4xl font-semibold leading-[1.1] tracking-[-0.04em] text-ink sm:text-5xl lg:text-[3.4rem]">
               {post.title}
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">{post.excerpt}</p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted">{post.excerpt}</p>
 
             <div className="mt-12 max-w-3xl space-y-6">
               {post.body.map((section, index) => {
                 if (section.type === "p") {
                   return (
                     <p
-                      className="text-base leading-8 text-slate-200 sm:text-lg sm:leading-9"
+                      className="text-base leading-8 text-muted sm:text-lg sm:leading-9"
                       key={index}
                     >
                       {section.text}
@@ -153,7 +153,7 @@ export default async function InsightPage({
                 if (section.type === "h2") {
                   return (
                     <h2
-                      className="mt-10 text-balance text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl"
+                      className="mt-10 text-balance text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl"
                       key={index}
                     >
                       {section.text}
@@ -163,7 +163,7 @@ export default async function InsightPage({
                 if (section.type === "h3") {
                   return (
                     <h3
-                      className="mt-6 text-balance text-xl font-semibold tracking-[-0.03em] text-white sm:text-2xl"
+                      className="mt-6 text-balance text-xl font-semibold tracking-[-0.03em] text-ink sm:text-2xl"
                       key={index}
                     >
                       {section.text}
@@ -175,7 +175,7 @@ export default async function InsightPage({
                     <ul className="space-y-3 pl-5" key={index}>
                       {section.items.map((item) => (
                         <li
-                          className="relative list-disc text-base leading-8 text-slate-200 marker:text-cyan-300"
+                          className="relative list-disc text-base leading-8 text-muted marker:text-accent-ink"
                           key={item}
                         >
                           {item}
@@ -190,7 +190,7 @@ export default async function InsightPage({
                       className="my-8 rounded-2xl border border-cyan-300/25 bg-cyan-300/8 p-6"
                       key={index}
                     >
-                      <p className="text-lg italic leading-8 text-cyan-100">{section.text}</p>
+                      <p className="text-lg italic leading-8 text-accent-ink">{section.text}</p>
                     </aside>
                   );
                 }
@@ -205,13 +205,13 @@ export default async function InsightPage({
               <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)] lg:items-center">
                 <div>
                   <p className="eyebrow">Want this for your team?</p>
-                  <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                  <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-ink sm:text-4xl">
                     Book a 30-minute discovery call.
                   </h2>
-                  <p className="mt-4 text-base leading-7 text-slate-300">
+                  <p className="mt-4 text-base leading-7 text-muted">
                     We&apos;ll review your workflow and propose the first thing to automate. Or reach out
                     directly at{" "}
-                    <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
+                    <a className="text-accent-ink hover:underline" href={`mailto:${contactEmail}`}>
                       {contactEmail}
                     </a>
                     .
@@ -232,7 +232,7 @@ export default async function InsightPage({
           {related.length > 0 ? (
             <section className="section-shell py-12">
               <p className="eyebrow">More insights</p>
-              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white">
+              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-ink">
                 Keep reading.
               </h2>
               <div className="mt-8 grid gap-5 md:grid-cols-3">
@@ -242,13 +242,13 @@ export default async function InsightPage({
                     href={`/insights/${p.slug}`}
                     key={p.slug}
                   >
-                    <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">
+                    <p className="mono text-xs uppercase tracking-[0.2em] text-faint">
                       {p.category}
                     </p>
-                    <h3 className="mt-4 text-xl font-semibold leading-tight tracking-[-0.03em] text-white">
+                    <h3 className="mt-4 text-xl font-semibold leading-tight tracking-[-0.03em] text-ink">
                       {p.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-300">{p.excerpt}</p>
+                    <p className="mt-3 text-sm leading-6 text-muted">{p.excerpt}</p>
                   </Link>
                 ))}
               </div>

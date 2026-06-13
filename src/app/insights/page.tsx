@@ -70,16 +70,16 @@ export default function InsightsIndexPage() {
 
         <main className="relative z-10 pb-16 sm:pb-20">
           <section className="section-shell pt-12 sm:pt-16 lg:pt-24">
-            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-slate-400">
-              <Link className="hover:text-slate-200" href="/">Home</Link>
+            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-faint">
+              <Link className="hover:text-muted" href="/">Home</Link>
               <span>/</span>
-              <span className="text-slate-200">Insights</span>
+              <span className="text-muted">Insights</span>
             </nav>
             <p className="eyebrow">Insights</p>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-ink sm:text-5xl lg:text-[3.4rem]">
               Field notes from building AI automation in production.
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted">
               Playbooks, strategy notes, and implementation patterns from Summit rollouts — written
               for managers and operators, not developers.
             </p>
@@ -93,17 +93,17 @@ export default function InsightsIndexPage() {
                   href={`/insights/${post.slug}`}
                   key={post.slug}
                 >
-                  <div className="flex items-center gap-3 text-xs text-slate-400">
-                    <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-200">
+                  <div className="flex items-center gap-3 text-xs text-faint">
+                    <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-accent-ink">
                       {post.category}
                     </span>
                     <span className="mono">{formatDate(post.publishedAt)}</span>
                   </div>
-                  <h2 className="mt-5 text-balance text-2xl font-semibold leading-tight tracking-[-0.03em] text-white">
+                  <h2 className="mt-5 text-balance text-2xl font-semibold leading-tight tracking-[-0.03em] text-ink">
                     {post.title}
                   </h2>
-                  <p className="mt-4 flex-1 text-sm leading-7 text-slate-300">{post.excerpt}</p>
-                  <p className="mt-6 inline-flex items-center gap-2 text-sm text-cyan-200">
+                  <p className="mt-4 flex-1 text-sm leading-7 text-muted">{post.excerpt}</p>
+                  <p className="mt-6 inline-flex items-center gap-2 text-sm text-accent-ink">
                     {post.readingMinutes} min read
                     <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-1" />
                   </p>

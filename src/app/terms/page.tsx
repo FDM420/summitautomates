@@ -44,25 +44,25 @@ export default function TermsPage() {
 
         <main className="relative z-10 pb-16 sm:pb-20">
           <article className="section-shell pt-12 sm:pt-16 lg:pt-24">
-            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-slate-400">
-              <Link className="hover:text-slate-200" href="/">Home</Link>
+            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-faint">
+              <Link className="hover:text-muted" href="/">Home</Link>
               <span>/</span>
-              <span className="text-slate-200">Terms</span>
+              <span className="text-muted">Terms</span>
             </nav>
             <p className="eyebrow">Legal</p>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl">
+            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-ink sm:text-5xl">
               Terms of Service
             </h1>
-            <p className="mt-3 text-sm text-slate-400">Last updated: 19 May 2026</p>
+            <p className="mt-3 text-sm text-faint">Last updated: 19 May 2026</p>
 
-            <div className="mt-12 max-w-3xl space-y-6 text-base leading-8 text-slate-200 sm:text-lg sm:leading-9">
+            <div className="mt-12 max-w-3xl space-y-6 text-base leading-8 text-muted sm:text-lg sm:leading-9">
               <p>
                 These terms govern your use of the Summit AI Automation Services website. The
                 website is informational. Engagements with Summit are governed by separate, signed
                 contracts with terms specific to the agreed scope.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Use of this site
               </h2>
               <p>
@@ -71,7 +71,7 @@ export default function TermsPage() {
                 use it for any unlawful purpose.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Content ownership
               </h2>
               <p>
@@ -80,7 +80,7 @@ export default function TermsPage() {
                 commentary with attribution and a link back.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 No professional advice
               </h2>
               <p>
@@ -89,7 +89,7 @@ export default function TermsPage() {
                 a recommendation tailored to your business, book a discovery call.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Limitation of liability
               </h2>
               <p>
@@ -98,7 +98,7 @@ export default function TermsPage() {
                 only to clients under signed engagement contracts.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Changes to these terms
               </h2>
               <p>
@@ -106,12 +106,12 @@ export default function TermsPage() {
                 recent version. Continued use of the site after changes constitutes acceptance.
               </p>
 
-              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                 Contact
               </h2>
               <p>
                 Questions about these terms? Reach out at{" "}
-                <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
+                <a className="text-accent-ink hover:underline" href={`mailto:${contactEmail}`}>
                   {contactEmail}
                 </a>
                 .

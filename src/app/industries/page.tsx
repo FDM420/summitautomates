@@ -63,16 +63,16 @@ export default function IndustriesIndexPage() {
 
         <main className="relative z-10 pb-16 sm:pb-20">
           <section className="section-shell pt-12 sm:pt-16 lg:pt-24">
-            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-slate-400">
-              <Link className="hover:text-slate-200" href="/">Home</Link>
+            <nav aria-label="Breadcrumb" className="mono mb-6 flex items-center gap-2 text-xs text-faint">
+              <Link className="hover:text-muted" href="/">Home</Link>
               <span>/</span>
-              <span className="text-slate-200">Industries</span>
+              <span className="text-muted">Industries</span>
             </nav>
             <p className="eyebrow">Industries</p>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-ink sm:text-5xl lg:text-[3.4rem]">
               Vertical playbooks for the businesses we automate.
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted">
               Every industry has its own version of &quot;the operations problem.&quot; Below are the
               playbooks Summit ships most often — what hurts, what the system handles, and which of
               our connected services apply.
@@ -88,19 +88,19 @@ export default function IndustriesIndexPage() {
                   key={industry.slug}
                 >
                   <div className="flex items-start justify-between">
-                    <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">
+                    <p className="mono text-xs uppercase tracking-[0.22em] text-accent-ink/80">
                       Vertical {String(index + 1).padStart(2, "0")}
                     </p>
-                    <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1 group-hover:text-cyan-200" />
+                    <ArrowRight className="h-4 w-4 text-faint transition group-hover:translate-x-1 group-hover:text-accent-ink" />
                   </div>
-                  <h2 className="mt-5 text-balance text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+                  <h2 className="mt-5 text-balance text-2xl font-semibold tracking-[-0.03em] text-ink sm:text-3xl">
                     {industry.name}
                   </h2>
-                  <p className="mt-4 text-base leading-7 text-slate-300">{industry.intro}</p>
+                  <p className="mt-4 text-base leading-7 text-muted">{industry.intro}</p>
                   <div className="mt-6 flex flex-wrap gap-2">
                     {industry.relevantServices.slice(0, 3).map((slug) => (
                       <span
-                        className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-xs text-slate-200"
+                        className="rounded-full border border-hair bg-overlay px-3 py-1 text-xs text-muted"
                         key={slug}
                       >
                         {slug.split("-").slice(0, 2).join(" ")}
@@ -117,10 +117,10 @@ export default function IndustriesIndexPage() {
               <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)] lg:items-center">
                 <div>
                   <p className="eyebrow">Not on the list?</p>
-                  <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                  <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-ink sm:text-4xl">
                     We&apos;ve built automation for 40+ verticals.
                   </h2>
-                  <p className="mt-4 text-base leading-7 text-slate-300 sm:text-lg">
+                  <p className="mt-4 text-base leading-7 text-muted sm:text-lg">
                     If your industry isn&apos;t shown above, the answer is probably still yes — most
                     operational pain (lead handling, document workflow, scheduling, reporting) is
                     industry-agnostic. Send us a description of the workflow and we&apos;ll tell you what
@@ -135,7 +135,7 @@ export default function IndustriesIndexPage() {
                     Start a discovery call
                   </Link>
                   <Link
-                    className="inline-flex items-center justify-center rounded-full border border-white/14 bg-white/6 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                    className="inline-flex items-center justify-center rounded-full border border-hair bg-overlay px-6 py-3 text-sm font-semibold text-ink transition hover:bg-overlay-strong"
                     href="/services"
                   >
                     Explore services

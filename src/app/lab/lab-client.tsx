@@ -25,7 +25,7 @@ export function LabClient() {
   const [focusedSlug, setFocusedSlug] = useState<string | null>(null);
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="dark relative min-h-screen overflow-hidden bg-[#040817]">
       {tab === "command" ? (
         <div className="absolute inset-0">
           <SceneRoot cameraPosition={[0, 0.6, 7]} fov={42}>

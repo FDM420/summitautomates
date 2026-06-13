@@ -25,11 +25,11 @@ export default function NotFound() {
 
       <main className="relative z-10 pb-16 sm:pb-20">
         <section className="section-shell pt-16 sm:pt-24 lg:pt-32">
-          <p className="mono text-sm uppercase tracking-[0.32em] text-cyan-200/80">404</p>
-          <h1 className="mt-6 text-balance text-5xl font-semibold tracking-[-0.04em] text-white sm:text-6xl lg:text-[5rem]">
+          <p className="mono text-sm uppercase tracking-[0.32em] text-accent-ink/80">404</p>
+          <h1 className="mt-6 text-balance text-5xl font-semibold tracking-[-0.04em] text-ink sm:text-6xl lg:text-[5rem]">
             That page is off-grid.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
             The page you tried to reach doesn&apos;t exist — moved, renamed, or never was. Here are the
             places worth heading next.
           </p>
@@ -41,9 +41,9 @@ export default function NotFound() {
                 href={link.href}
                 key={link.href}
               >
-                <p className="text-lg font-semibold text-white">{link.label}</p>
-                <p className="mt-3 text-sm leading-6 text-slate-300">{link.description}</p>
-                <p className="mt-5 text-sm text-cyan-200 transition group-hover:translate-x-1">
+                <p className="text-lg font-semibold text-ink">{link.label}</p>
+                <p className="mt-3 text-sm leading-6 text-muted">{link.description}</p>
+                <p className="mt-5 text-sm text-accent-ink transition group-hover:translate-x-1">
                   Go →
                 </p>
               </Link>
