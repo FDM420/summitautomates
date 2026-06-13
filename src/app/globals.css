@@ -543,6 +543,22 @@ button {
 		backdrop-filter: none !important;
 	}
 
+	/* Backdrop blur is off on mobile, so the translucent chrome (sticky
+	   header / footer / drawer) would let page content bleed under it.
+	   Force it near-opaque. Element-qualified to beat the bg-chrome utility
+	   (Tailwind hoists :root var overrides, so we can't flip --chrome-bg
+	   in a media query). */
+	header.bg-chrome,
+	footer.bg-chrome,
+	nav.bg-chrome {
+		background-color: rgba(255, 255, 255, 0.97);
+	}
+	.dark header.bg-chrome,
+	.dark footer.bg-chrome,
+	.dark nav.bg-chrome {
+		background-color: rgba(4, 8, 23, 0.97);
+	}
+
 	body::before {
 		animation: none;
 	}

@@ -219,11 +219,11 @@ export function HeroSection() {
             Summit Automates AI Core
           </p>
 
-          <div className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6">
+          <div className="mt-6 grid grid-cols-2 gap-3">
             {SERVICE_MODULES.map((module, i) => (
               <OrbitCard
                 badge={`0${i + 1}`}
-                className="w-[11.5rem] shrink-0 snap-center"
+                className="w-full"
                 key={module.slug}
                 module={module}
               />
