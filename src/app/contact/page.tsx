@@ -74,66 +74,64 @@ export default function ContactPage() {
                   We review the workflow you want to fix, propose what to automate first, and quote
                   the rollout. No commitment to take the call.
                 </p>
+              </div>
 
-                <div className="mt-10 space-y-5">
-                  <div className="panel rounded-[1.6rem] p-5">
-                    <div className="flex items-start gap-4">
-                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
-                        <Mail className="h-5 w-5" />
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold text-white">Email us directly</p>
-                        <a
-                          className="mt-1 inline-block text-base text-cyan-200 hover:underline"
-                          href={`mailto:${contactEmail}`}
-                        >
-                          {contactEmail}
-                        </a>
-                      </div>
+              <div className="space-y-5">
+                <div className="panel rounded-[1.6rem] p-5">
+                  <div className="flex items-start gap-4">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                      <Mail className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Email us directly</p>
+                      <a
+                        className="mt-1 inline-block text-base text-cyan-200 hover:underline"
+                        href={`mailto:${contactEmail}`}
+                      >
+                        {contactEmail}
+                      </a>
                     </div>
                   </div>
+                </div>
 
-                  <div className="panel rounded-[1.6rem] p-5">
-                    <div className="flex items-start gap-4">
-                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
-                        <MessageSquare className="h-5 w-5" />
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold text-white">Response time</p>
-                        <p className="mt-1 text-base text-slate-300">
-                          Within one business day, usually faster.
-                        </p>
-                      </div>
+                <div className="panel rounded-[1.6rem] p-5">
+                  <div className="flex items-start gap-4">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                      <MessageSquare className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Response time</p>
+                      <p className="mt-1 text-base text-slate-300">
+                        Within one business day, usually faster.
+                      </p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="panel rounded-[1.6rem] p-5">
-                    <div className="flex items-start gap-4">
-                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
-                        <MapPin className="h-5 w-5" />
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold text-white">Working globally</p>
-                        <p className="mt-1 text-base text-slate-300">
-                          Remote-first. We work with teams across the Americas, EMEA, and APAC.
-                        </p>
-                      </div>
+                <div className="panel rounded-[1.6rem] p-5">
+                  <div className="flex items-start gap-4">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                      <MapPin className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Working globally</p>
+                      <p className="mt-1 text-base text-slate-300">
+                        Remote-first. We work with teams across the Americas, EMEA, and APAC.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div>
-                <ContactFlow
-                  description="Tell us what you want to automate. We'll map the workflow and quote the rollout."
-                  eyebrow="Discovery"
-                  presetFocus="general inquiry"
-                  submitLabel="Send my brief"
-                  title="What should we automate first?"
-                />
-              </div>
             </div>
           </section>
+
+          <ContactFlow
+            description="Tell us what you want to automate. We'll map the workflow and quote the rollout."
+            eyebrow="Discovery"
+            presetFocus="general inquiry"
+            submitLabel="Send my brief"
+            title="What should we automate first?"
+          />
         </main>
 
         <SiteFooter />
