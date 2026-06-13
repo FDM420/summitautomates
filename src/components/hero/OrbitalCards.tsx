@@ -10,17 +10,16 @@ import { OrbitCardIcon } from "./OrbitCardIcon";
  * The carousel rotates one step per card, pausing at the "spotlight"
  * front position, then continues to the next.
  *
- * The optional `center` slot is rendered as a flat layer UNDERNEATH the
- * carousel, deliberately OUTSIDE the preserve-3d context. Cards in the
- * front half of the orbit paint over it; cards in the back half disappear
- * via backface-visibility (their face points away from the camera). This
- * keeps the "cards pass behind the hub" depth effect without any card
- * plane ever geometrically intersecting the hub plane — plane intersection
- * inside preserve-3d is what caused z-fighting flicker on mobile GPUs.
+ * The optional `center` slot (the AI hub) is rendered at translateZ(0)
+ * INSIDE the same preserve-3d context as the cards, giving true 3D
+ * occlusion: cards orbit around and pass behind the hub. This is the
+ * desktop/tablet experience only — phones render a separate flat hero
+ * (hub + swipeable card row) in HeroSection, so this 3D rig never runs on
+ * the mobile GPUs that were prone to z-fighting flicker.
  *
  * The whole rig is authored at desktop size and scaled down responsively
  * via the `.orbit-rig` class (see globals.css), so it never overflows
- * small viewports.
+ * its container.
  */
 export function OrbitalCards({
   radius = 280,
@@ -34,17 +33,24 @@ export function OrbitalCards({
       className="orbit-rig pointer-events-none absolute inset-0 grid place-items-center"
       style={{ perspective: "1100px" }}
     >
-      {/* Center layer (the hub) — flat, non-3D, painted below the cards. */}
-      {center ? (
-        <div className="pointer-events-none absolute left-1/2 top-1/2">
-          {center}
-        </div>
-      ) : null}
-
       <div
         className="relative h-0 w-0"
         style={{ transformStyle: "preserve-3d" }}
       >
+        {/* Center plane (the hub) — flat at z=0 but INSIDE the same
+            preserve-3d context as the cards, so the carousel orbits around
+            AND passes behind it for true holographic depth. The hub disc's
+            opaque centre occludes back-half cards (they "emerge from behind
+            the wheel" at the rim). */}
+        {center ? (
+          <div
+            className="pointer-events-none absolute left-0 top-0"
+            style={{ transformStyle: "preserve-3d", transform: "translateZ(0px)" }}
+          >
+            {center}
+          </div>
+        ) : null}
+
         {/* Orbiting cards */}
         <div
           className="absolute left-0 top-0"
@@ -60,7 +66,7 @@ export function OrbitalCards({
                 className="absolute left-0 top-0"
                 key={module.slug}
                 style={{
-                  backfaceVisibility: "hidden",
+                  transformStyle: "preserve-3d",
                   transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
                 }}
               >
