@@ -381,7 +381,9 @@ export function ServiceLandingClient({
           </nav>
         </section>
 
-        <ServiceHeroCardBySlug service={service} />
+        <div data-surface="dark">
+          <ServiceHeroCardBySlug service={service} />
+        </div>
 
         <section className="section-shell py-16" id="workflow">
           <ServiceLivePanel service={service} />
