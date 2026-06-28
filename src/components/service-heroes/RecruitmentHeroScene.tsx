@@ -23,7 +23,7 @@ export function RecruitmentHeroScene() {
       {/* Center: pipeline strip */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex left-1/2 top-[42%] flex w-[28rem] -translate-x-1/2 -translate-y-1/2 items-center gap-1 p-3"
+        className="glass-card absolute hidden lg:flex left-1/2 top-[42%] w-[28rem] -translate-x-1/2 -translate-y-1/2 items-center gap-1 p-3"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 12 }}
         style={{ borderRadius: "1rem" }}
@@ -53,7 +53,7 @@ export function RecruitmentHeroScene() {
       {/* Top-left: CV intake */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex left-0 top-[4%] flex w-[15rem] flex-col gap-2 p-4"
+        className="glass-card absolute hidden lg:flex left-0 top-[4%] w-[15rem] flex-col gap-2 p-4"
         data-accent={m.accent}
         initial={{ opacity: 0, x: -16 }}
         style={{ borderRadius: "1rem" }}
@@ -86,7 +86,7 @@ export function RecruitmentHeroScene() {
       {/* Top-right: Smart Screening */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex right-0 top-[4%] flex w-[16rem] flex-col gap-2 p-4"
+        className="glass-card absolute hidden lg:flex right-0 top-[4%] w-[16rem] flex-col gap-2 p-4"
         data-accent={m.accent}
         initial={{ opacity: 0, x: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -119,7 +119,7 @@ export function RecruitmentHeroScene() {
       {/* Bottom-left: Top Candidate */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex bottom-[3%] left-[2%] flex w-[14rem] flex-col gap-2 p-4"
+        className="glass-card absolute hidden lg:flex bottom-[3%] left-[2%] w-[14rem] flex-col gap-2 p-4"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -159,7 +159,7 @@ export function RecruitmentHeroScene() {
       {/* Bottom-right: Interview scheduled */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex bottom-[6%] right-[2%] flex w-[15rem] flex-col gap-2 p-4"
+        className="glass-card absolute hidden lg:flex bottom-[6%] right-[2%] w-[15rem] flex-col gap-2 p-4"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -181,7 +181,7 @@ export function RecruitmentHeroScene() {
       {/* Right edge: Document Verification */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex right-[1%] top-[42%] flex w-[11rem] flex-col gap-1 p-3"
+        className="glass-card absolute hidden lg:flex right-[1%] top-[42%] w-[11rem] flex-col gap-1 p-3"
         data-accent={m.accent}
         initial={{ opacity: 0, x: 16 }}
         style={{ borderRadius: "1rem" }}

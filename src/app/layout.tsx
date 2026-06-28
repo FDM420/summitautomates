@@ -58,7 +58,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html data-theme="light" lang="en" suppressHydrationWarning>
+      <head>
+        {/* Apply the saved theme before first paint to avoid a flash.
+            Default theme is set here and in the <html data-theme> above. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('summit.theme');if(t!=='light'&&t!=='dark'){t='light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
+          }}
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} font-[family:var(--font-display)] antialiased`}
       >

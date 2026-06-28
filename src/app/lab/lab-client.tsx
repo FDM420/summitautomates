@@ -37,7 +37,7 @@ export function LabClient() {
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
         <header className="flex items-center justify-between gap-4">
           <div>
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-cyan-200/80">
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-gold-200/80">
               Summit Lab
             </p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">

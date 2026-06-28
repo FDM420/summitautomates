@@ -290,9 +290,9 @@ function SummitLogo() {
   return (
     <div className="flex items-center gap-3">
       <div className="relative h-11 w-12">
-        <span className="absolute left-0 top-6 h-[4px] w-7 rotate-[-42deg] rounded-full bg-sky-500" />
-        <span className="absolute left-4 top-6 h-[4px] w-8 rotate-[42deg] rounded-full bg-cyan-300" />
-        <span className="absolute left-5 top-3 h-[4px] w-6 rotate-[45deg] rounded-full bg-blue-500" />
+        <span className="absolute left-0 top-6 h-[4px] w-7 rotate-[-42deg] rounded-full bg-gold-500" />
+        <span className="absolute left-4 top-6 h-[4px] w-8 rotate-[42deg] rounded-full bg-gold-300" />
+        <span className="absolute left-5 top-3 h-[4px] w-6 rotate-[45deg] rounded-full bg-gold-600" />
       </div>
       <div>
         <div className="text-[15px] font-bold uppercase tracking-[0.24em] text-white">Summit</div>

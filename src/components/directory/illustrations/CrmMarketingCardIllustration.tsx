@@ -69,8 +69,7 @@ export function CrmMarketingCardIllustration() {
                 <span className="text-[0.5rem] text-white/55">{row.role}</span>
               </div>
               <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: TEAL }} />
-              {i === 0 ? null : null}
-            </div>
+              </div>
           ))}
         </div>
       </motion.div>

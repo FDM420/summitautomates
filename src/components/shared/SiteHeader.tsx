@@ -20,9 +20,11 @@ import {
   UsersRound,
   X,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { insights } from "@/lib/insights";
+import { ThemeToggle } from "./ThemeToggle";
 
 /* ============================================================
    Menu data — single source of truth for the mega-menu layout.
@@ -252,9 +254,14 @@ export function SiteHeader() {
       <div className="section-shell flex items-center justify-between gap-4 py-4 sm:gap-6">
         {/* LOGO */}
         <Link aria-label="Summit Automates home" className="flex items-center gap-3" href="/">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10 text-sm font-semibold tracking-[0.3em] text-cyan-100">
-            SA
-          </span>
+          <Image
+            alt="Summit AI Automation"
+            className="h-10 w-auto sm:h-11"
+            height={549}
+            priority
+            src="/summit-logo-gold.png"
+            width={1012}
+          />
           <div className="hidden sm:block">
             <p className="text-sm font-medium text-white">Summit AI Automation</p>
             <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">
@@ -321,9 +328,11 @@ export function SiteHeader() {
           })}
         </nav>
 
+        <ThemeToggle />
+
         {/* CTA */}
         <Link
-          className="hidden rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2.5 text-sm font-medium text-cyan-50 transition hover:border-cyan-200/40 hover:bg-cyan-300/15 sm:inline-flex sm:px-5 sm:py-3"
+          className="hidden rounded-full border border-gold-300/25 bg-gold-300/10 px-4 py-2.5 text-sm font-medium text-gold-50 transition hover:border-gold-200/40 hover:bg-gold-300/15 sm:inline-flex sm:px-5 sm:py-3"
           href="/contact"
         >
           Start Discovery
@@ -386,7 +395,7 @@ export function SiteHeader() {
                           key={entry.href}
                           onClick={() => setMobileOpen(false)}
                         >
-                          <span className="mt-0.5 text-cyan-200">{entry.icon}</span>
+                          <span className="mt-0.5 text-gold-200">{entry.icon}</span>
                           <span>
                             <span className="block text-sm font-medium text-white">
                               {entry.label}
@@ -400,7 +409,7 @@ export function SiteHeader() {
                         </Link>
                       ))}
                       <Link
-                        className="mt-2 flex items-center justify-between rounded-lg border border-cyan-300/20 bg-cyan-300/5 px-3 py-3 text-sm text-cyan-200"
+                        className="mt-2 flex items-center justify-between rounded-lg border border-gold-300/20 bg-gold-300/5 px-3 py-3 text-sm text-gold-200"
                         href={item.featured.href}
                         onClick={() => setMobileOpen(false)}
                       >
@@ -413,7 +422,7 @@ export function SiteHeader() {
               );
             })}
             <Link
-              className="mt-3 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-3 text-center text-sm font-medium text-cyan-50"
+              className="mt-3 rounded-full border border-gold-300/25 bg-gold-300/10 px-4 py-3 text-center text-sm font-medium text-gold-50"
               href="/contact"
               onClick={() => setMobileOpen(false)}
             >
@@ -455,7 +464,7 @@ function MegaPanel({
           {sections.map((section) => (
             <div key={section.heading ?? "default"}>
               {section.heading ? (
-                <p className="mono mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-200/70">
+                <p className="mono mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-200/70">
                   {section.heading}
                 </p>
               ) : null}
@@ -467,7 +476,7 @@ function MegaPanel({
                       href={entry.href}
                       onClick={onLinkClick}
                     >
-                      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-cyan-300/20 bg-cyan-300/10 text-cyan-200 transition group-hover:border-cyan-300/35 group-hover:bg-cyan-300/15">
+                      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-gold-300/20 bg-gold-300/10 text-gold-200 transition group-hover:border-gold-300/35 group-hover:bg-gold-300/15">
                         {entry.icon}
                       </span>
                       <span className="min-w-0 flex-1">
@@ -475,7 +484,7 @@ function MegaPanel({
                           <span className="text-sm font-semibold text-white">
                             {entry.label}
                           </span>
-                          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-cyan-200" />
+                          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-gold-200" />
                         </span>
                         {entry.description ? (
                           <span className="mt-1 block text-xs leading-5 text-slate-400">
@@ -493,16 +502,16 @@ function MegaPanel({
 
         {/* RIGHT — featured block */}
         <Link
-          className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-cyan-300/25 bg-gradient-to-br from-cyan-500/15 via-sky-500/8 to-violet-500/12 p-6 transition hover:border-cyan-300/40"
+          className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-gold-300/25 bg-gradient-to-br from-gold-500/16 via-gold-600/10 to-gold-800/14 p-6 transition hover:border-gold-300/40"
           href={featured.href}
           onClick={onLinkClick}
         >
           {/* Decorative glow */}
-          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-cyan-400/25 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-12 -left-8 h-32 w-32 rounded-full bg-violet-500/20 blur-3xl" />
+          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold-400/25 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-12 -left-8 h-32 w-32 rounded-full bg-gold-700/20 blur-3xl" />
 
           <div className="relative">
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-gold-300/30 bg-gold-300/10 text-gold-200">
               <Sparkles className="h-6 w-6" />
             </span>
             <h3 className="mt-5 text-base font-semibold leading-tight text-white">
@@ -511,7 +520,7 @@ function MegaPanel({
             <p className="mt-3 text-sm leading-6 text-slate-300">{featured.description}</p>
           </div>
 
-          <p className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-cyan-200 transition group-hover:translate-x-0.5">
+          <p className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-gold-200 transition group-hover:translate-x-0.5">
             {featured.cta}
             <ArrowRight className="h-4 w-4" />
           </p>

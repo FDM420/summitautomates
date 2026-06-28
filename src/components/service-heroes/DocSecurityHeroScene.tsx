@@ -52,7 +52,7 @@ export function DocSecurityHeroScene() {
       {/* Top-left: contract / OCR */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex left-0 top-[2%] flex w-[15rem] flex-col gap-2 p-3.5"
+        className="glass-card absolute hidden lg:flex left-0 top-[2%] w-[15rem] flex-col gap-2 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, x: -16 }}
         style={{ borderRadius: "1rem" }}
@@ -85,7 +85,7 @@ export function DocSecurityHeroScene() {
       {/* Top-right: Access Control */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex right-0 top-[2%] flex w-[15rem] flex-col gap-1.5 p-3.5"
+        className="glass-card absolute hidden lg:flex right-0 top-[2%] w-[15rem] flex-col gap-1.5 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, x: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -112,7 +112,7 @@ export function DocSecurityHeroScene() {
       {/* Bottom-left: Audit log */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex bottom-[4%] left-[1%] flex w-[16rem] flex-col gap-1.5 p-3.5"
+        className="glass-card absolute hidden lg:flex bottom-[4%] left-[1%] w-[16rem] flex-col gap-1.5 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -140,7 +140,7 @@ export function DocSecurityHeroScene() {
       {/* Bottom-right: Expiry alerts */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex bottom-[2%] right-[2%] flex w-[14rem] flex-col gap-1.5 p-3.5"
+        className="glass-card absolute hidden lg:flex bottom-[2%] right-[2%] w-[14rem] flex-col gap-1.5 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 16 }}
         style={{ borderRadius: "1rem" }}

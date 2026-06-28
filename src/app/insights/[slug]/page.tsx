@@ -108,7 +108,7 @@ export default async function InsightPage({
         type="application/ld+json"
       />
       <div className="relative overflow-x-clip">
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(79,209,255,0.16),transparent_60%)]" />
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(233,200,120,0.16),transparent_60%)]" />
 
         <SiteHeader />
 
@@ -123,7 +123,7 @@ export default async function InsightPage({
             </nav>
 
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
-              <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-200">
+              <span className="rounded-full border border-gold-300/30 bg-gold-300/10 px-3 py-1 text-gold-200">
                 {post.category}
               </span>
               <span className="mono">{formatDate(post.publishedAt)}</span>
@@ -175,7 +175,7 @@ export default async function InsightPage({
                     <ul className="space-y-3 pl-5" key={index}>
                       {section.items.map((item) => (
                         <li
-                          className="relative list-disc text-base leading-8 text-slate-200 marker:text-cyan-300"
+                          className="relative list-disc text-base leading-8 text-slate-200 marker:text-gold-300"
                           key={item}
                         >
                           {item}
@@ -187,10 +187,10 @@ export default async function InsightPage({
                 if (section.type === "callout") {
                   return (
                     <aside
-                      className="my-8 rounded-2xl border border-cyan-300/25 bg-cyan-300/8 p-6"
+                      className="my-8 rounded-2xl border border-gold-300/25 bg-gold-300/8 p-6"
                       key={index}
                     >
-                      <p className="text-lg italic leading-8 text-cyan-100">{section.text}</p>
+                      <p className="text-lg italic leading-8 text-gold-100">{section.text}</p>
                     </aside>
                   );
                 }
@@ -211,14 +211,14 @@ export default async function InsightPage({
                   <p className="mt-4 text-base leading-7 text-slate-300">
                     We&apos;ll review your workflow and propose the first thing to automate. Or reach out
                     directly at{" "}
-                    <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
+                    <a className="text-gold-200 hover:underline" href={`mailto:${contactEmail}`}>
                       {contactEmail}
                     </a>
                     .
                   </p>
                 </div>
                 <Link
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(79,209,255,0.25)] transition hover:scale-[1.02]"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(233,200,120,0.25)] transition hover:scale-[1.02]"
                   href="/contact"
                 >
                   Start discovery
@@ -238,7 +238,7 @@ export default async function InsightPage({
               <div className="mt-8 grid gap-5 md:grid-cols-3">
                 {related.map((p) => (
                   <Link
-                    className="panel group rounded-[2rem] p-6 transition hover:-translate-y-1 hover:border-cyan-300/30"
+                    className="panel group rounded-[2rem] p-6 transition hover:-translate-y-1 hover:border-gold-300/30"
                     href={`/insights/${p.slug}`}
                     key={p.slug}
                   >

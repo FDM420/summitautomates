@@ -97,7 +97,7 @@ export function ContactFlow({
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             {hasPrimaryAction ? (
               <a
-                className="rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 px-6 py-3 text-center text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(79,209,255,0.25)] transition hover:scale-[1.02] active:scale-[0.99]"
+                className="rounded-full bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 px-6 py-3 text-center text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(233,200,120,0.25)] transition hover:scale-[1.02] active:scale-[0.99]"
                 href={primaryHref}
                 rel={primaryIsExternalUrl ? "noreferrer" : undefined}
                 target={primaryIsExternalUrl ? "_blank" : undefined}
@@ -137,7 +137,7 @@ export function ContactFlow({
             <div className="mt-4 space-y-3">
               {intakeChecklist.map((item) => (
                 <div className="flex items-start gap-3" key={item}>
-                  <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(79,209,255,0.8)]" />
+                  <span className="mt-2 h-2 w-2 rounded-full bg-gold-300 shadow-[0_0_12px_rgba(233,200,120,0.8)]" />
                   <p className="text-sm leading-7 text-slate-200">{item}</p>
                 </div>
               ))}
@@ -154,7 +154,7 @@ export function ContactFlow({
         >
           {hasEmbeddedForm ? (
             <>
-              <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">Embedded CRM Form</p>
+              <p className="mono text-xs uppercase tracking-[0.22em] text-gold-200/80">Embedded CRM Form</p>
               <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">Live intake form</h3>
               <p className="mt-4 text-sm leading-7 text-slate-300">
                 This embedded form sends the request directly into the connected CRM workflow.
@@ -170,7 +170,7 @@ export function ContactFlow({
             </>
           ) : (
             <>
-              <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">Live Intake Guidance</p>
+              <p className="mono text-xs uppercase tracking-[0.22em] text-gold-200/80">Live Intake Guidance</p>
               <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">
                 {hasLiveForm
                   ? "Open the live CRM form to send this opportunity into Summit's pipeline."
@@ -194,7 +194,7 @@ export function ContactFlow({
                 <div className="panel rounded-[1.6rem] px-5 py-4">
                   <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Direct contact</p>
                   <a
-                    className="mt-2 inline-flex text-lg font-semibold text-white transition hover:text-cyan-100 hover:underline"
+                    className="mt-2 inline-flex text-lg font-semibold text-white transition hover:text-gold-100 hover:underline"
                     href={`mailto:${contactEmail}`}
                   >
                     {contactEmail}
@@ -209,7 +209,7 @@ export function ContactFlow({
             <div className="mt-4 space-y-3">
               {fitSignals.map((signal) => (
                 <div className="flex items-start gap-3" key={signal}>
-                  <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(79,209,255,0.8)]" />
+                  <span className="mt-2 h-2 w-2 rounded-full bg-gold-300 shadow-[0_0_12px_rgba(233,200,120,0.8)]" />
                   <p className="text-sm leading-7 text-slate-200">{signal}</p>
                 </div>
               ))}

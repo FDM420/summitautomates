@@ -19,7 +19,7 @@ const snapshots = [
     ],
     tags: ["WhatsApp automation", "Shared inbox", "CRM sync"],
     bars: [82, 64, 91],
-    frameTone: "from-cyan-300/14 via-sky-400/10 to-white/5",
+    frameTone: "from-gold-300/14 via-gold-400/10 to-white/5",
   },
   {
     title: "Recruitment Intake Grid",
@@ -37,7 +37,7 @@ const snapshots = [
     ],
     tags: ["CV screening", "Verification", "Lifecycle tracking"],
     bars: [74, 89, 58],
-    frameTone: "from-violet-300/14 via-sky-400/8 to-white/5",
+    frameTone: "from-gold-300/14 via-gold-400/8 to-white/5",
   },
   {
     title: "Industrial Reporting Cockpit",
@@ -55,7 +55,7 @@ const snapshots = [
     ],
     tags: ["Engineering AI", "Reporting", "Compliance logic"],
     bars: [67, 83, 76],
-    frameTone: "from-amber-300/12 via-cyan-300/8 to-white/5",
+    frameTone: "from-amber-300/12 via-gold-300/8 to-white/5",
   },
 ];
 
@@ -92,7 +92,7 @@ export function ProductSnapshots() {
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">Representative view</p>
+                <p className="mono text-xs uppercase tracking-[0.22em] text-gold-200/80">Representative view</p>
                 <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">{snapshot.title}</h3>
               </div>
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">Live UI</span>
@@ -114,7 +114,7 @@ export function ProductSnapshots() {
                 <div className="grid grid-cols-3 gap-3">
                   {snapshot.stats.map((stat) => (
                     <div className="rounded-[1.15rem] border border-white/10 bg-[rgba(3,8,18,0.55)] p-3" key={stat.label}>
-                      <p className="mono text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">{stat.label}</p>
+                      <p className="mono text-[0.68rem] uppercase tracking-[0.18em] text-slate-300">{stat.label}</p>
                       <p className="mt-2 text-xl font-semibold text-white">{stat.value}</p>
                     </div>
                   ))}
@@ -135,7 +135,7 @@ export function ProductSnapshots() {
                   <div className="space-y-4">
                     <div className="rounded-[1.35rem] border border-white/10 bg-[rgba(3,8,18,0.58)] p-4">
                       <div className="mb-4 flex items-center justify-between gap-4">
-                        <p className="mono text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Automation load</p>
+                        <p className="mono text-[0.7rem] uppercase tracking-[0.2em] text-slate-300">Automation load</p>
                         <span className="text-xs text-slate-300">Realtime view</span>
                       </div>
                       <div className="space-y-3">
@@ -154,11 +154,11 @@ export function ProductSnapshots() {
                     </div>
 
                     <div className="rounded-[1.35rem] border border-white/10 bg-[rgba(3,8,18,0.58)] p-4">
-                      <p className="mono text-[0.7rem] uppercase tracking-[0.2em] text-slate-400">Activity log</p>
+                      <p className="mono text-[0.7rem] uppercase tracking-[0.2em] text-slate-300">Activity log</p>
                       <div className="mt-4 space-y-3">
                         {snapshot.activity.map((entry) => (
                           <div className="flex items-start gap-3" key={entry}>
-                            <span className="mt-1.5 h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(79,209,255,0.8)]" />
+                            <span className="mt-1.5 h-2 w-2 rounded-full bg-gold-300 shadow-[0_0_12px_rgba(233,200,120,0.8)]" />
                             <p className="text-sm leading-6 text-slate-200">{entry}</p>
                           </div>
                         ))}

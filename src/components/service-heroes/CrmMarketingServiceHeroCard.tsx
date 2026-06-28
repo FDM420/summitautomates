@@ -208,7 +208,7 @@ function ContactCard() {
     <div className="w-[180px] rounded-2xl border border-cyan-400/25 bg-[#071527]/95 p-3.5 shadow-[0_20px_50px_rgba(34,211,238,0.28)] backdrop-blur-xl">
       <div className="flex items-center gap-2.5">
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 text-white">
-          <UserRound className="h-4.5 w-4.5" />
+          <UserRound className="h-4 w-4" />
         </div>
         <div className="min-w-0">
           <div className="truncate text-sm font-semibold text-white">Rohan Khanna</div>

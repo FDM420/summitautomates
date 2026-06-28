@@ -31,10 +31,10 @@ export type ServiceCardLargeProps = {
 
 const TONE_COLOR: Record<NonNullable<MetricPill["tone"]>, string> = {
   green: "#34d8a4",
-  blue: "#60a5fa",
+  blue: "#e6c878",
   violet: "#a78bfa",
   gold: "#f5c46b",
-  cyan: "#4fd1ff",
+  cyan: "#f4dd95",
 };
 
 export function ServiceCardLarge({
@@ -99,7 +99,7 @@ export function ServiceCardLarge({
                 color: module.hex,
               }}
             >
-              <module.Icon className="h-4.5 w-4.5" />
+              <module.Icon className="h-4 w-4" />
             </span>
             <span
               className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.7rem] font-medium"

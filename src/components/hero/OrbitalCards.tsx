@@ -1,90 +1,196 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { hexWithAlpha, SERVICE_MODULES, type ServiceModule } from "@/lib/services-config";
 import { OrbitCardIcon } from "./OrbitCardIcon";
 
 /**
- * 5 service cards arranged on a horizontal 3D circle (carousel).
- * The carousel rotates -72° per step, pausing ~1s at each card so it sits
- * at the "spotlight" front position, then continues to the next.
+ * Spotlight + side-preview carousel (Cover Flow style).
  *
- * The optional `center` slot is rendered as a flat plane at translateZ(0)
- * inside the SAME preserve-3d context as the orbiting cards. That gives
- * proper 3D occlusion — cards in front of the hub appear on top of it,
- * cards behind get partially hidden by the hub. True holographic depth.
+ * Unlike a rotating ring (where every card is bolted to one spinning wheel and
+ * therefore sweeps THROUGH the centre), here the centre is a FIXED position.
+ * One card is locked dead-centre; the next/prev cards sit as small, dimmed,
+ * angled previews on the sides. An `active` index advances on a timer, and each
+ * card animates to its slot — so the centre never moves, cards just swap into it.
+ *
+ * Slots are keyed by the card's circular offset from `active`:
+ *   0  → centre (full size, facing forward)
+ *  ±1  → side preview (smaller, angled, dimmed)
+ *  ±2  → far preview (smaller still, fainter)
+ *  ±3  → hidden (parked off to the side; transition disabled so it can wrap
+ *        from one side to the other invisibly).
+ *
+ * Paused when scrolled out of view (battery / low-end GPUs) and while the centre
+ * card is hovered or focused (so it can be read and clicked).
  */
-export function OrbitalCards({
-  radius = 280,
-  center,
-}: {
-  radius?: number;
-  center?: ReactNode;
-}) {
+
+const N = SERVICE_MODULES.length;
+const STEP_MS = 2600;
+const HALF = Math.floor(N / 2);
+
+type Slot = { x: number; z: number; ry: number; scale: number; opacity: number; zi: number };
+
+function slotFor(offset: number, compact: boolean): Slot {
+  if (compact) {
+    // Narrow phones: keep every card inside the viewport. Centre card at full
+    // size, small angled peeks on each side, and far cards parked close + hidden
+    // so they can never push the page wider than the screen (no h-scroll).
+    switch (offset) {
+      case 0:
+        return { x: 0, z: 30, ry: 0, scale: 1, opacity: 1, zi: 50 };
+      case -1:
+        return { x: -112, z: -55, ry: 26, scale: 0.64, opacity: 0.42, zi: 40 };
+      case 1:
+        return { x: 112, z: -55, ry: -26, scale: 0.64, opacity: 0.42, zi: 40 };
+      default:
+        return {
+          x: offset < 0 ? -150 : 150,
+          z: -90,
+          ry: offset < 0 ? 32 : -32,
+          scale: 0.55,
+          opacity: 0,
+          zi: 0,
+        };
+    }
+  }
+  switch (offset) {
+    case 0:
+      return { x: 0, z: 80, ry: 0, scale: 1.28, opacity: 1, zi: 50 };
+    case -1:
+      return { x: -205, z: 0, ry: 34, scale: 1, opacity: 0.92, zi: 40 };
+    case 1:
+      return { x: 205, z: 0, ry: -34, scale: 1, opacity: 0.92, zi: 40 };
+    case -2:
+      return { x: -330, z: -90, ry: 44, scale: 0.74, opacity: 0.4, zi: 30 };
+    case 2:
+      return { x: 330, z: -90, ry: -44, scale: 0.74, opacity: 0.4, zi: 30 };
+    default:
+      return {
+        x: offset < 0 ? -420 : 420,
+        z: -160,
+        ry: offset < 0 ? 52 : -52,
+        scale: 0.6,
+        opacity: 0,
+        zi: 0,
+      };
+  }
+}
+
+export function OrbitalCards({ center }: { radius?: number; center?: ReactNode }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const [inView, setInView] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const [compact, setCompact] = useState(false);
+
+  // Pause when the hero scrolls out of view.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      threshold: 0.1,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Narrow phones use a compact layout so cards never overflow the screen.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const m = window.matchMedia("(max-width: 640px)");
+    const update = () => setCompact(m.matches);
+    update();
+    m.addEventListener?.("change", update);
+    return () => m.removeEventListener?.("change", update);
+  }, []);
+
+  // Advance the spotlight while visible and not hovered.
+  useEffect(() => {
+    if (!inView || hovered) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % N), STEP_MS);
+    return () => clearInterval(id);
+  }, [inView, hovered]);
+
   return (
     <div
       className="pointer-events-none absolute inset-0 grid place-items-center"
-      style={{ perspective: "1100px" }}
+      ref={rootRef}
+      style={{ perspective: "1200px" }}
     >
-      <div
-        className="relative h-0 w-0"
-        style={{ transformStyle: "preserve-3d" }}
-      >
-        {/* Center plane (the brain/hub) — flat at z=0, doesn't rotate.
-            Lives inside the same preserve-3d context so cards orbit
-            around AND through its z plane. */}
+      <div className="relative h-0 w-0" style={{ transformStyle: "preserve-3d" }}>
+        {/* AI hub — dead centre, behind the cards. */}
         {center ? (
           <div
             className="pointer-events-none absolute left-0 top-0"
-            style={{ transformStyle: "preserve-3d", transform: "translateZ(0px)" }}
+            style={{ transform: "translateZ(-1px)" }}
           >
             {center}
           </div>
         ) : null}
 
-        {/* Orbiting cards */}
-        <div
-          className="absolute left-0 top-0"
-          style={{
-            transformStyle: "preserve-3d",
-            animation: "carousel-rotate 21s cubic-bezier(0.45, 0, 0.55, 1) infinite",
-          }}
-        >
-          {SERVICE_MODULES.map((module, i) => {
-            const angle = (i / SERVICE_MODULES.length) * 360;
-            return (
-              <div
-                className="absolute left-0 top-0"
-                key={module.slug}
-                style={{
-                  transformStyle: "preserve-3d",
-                  transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
-                }}
-              >
-                <OrbitCard badge={`0${i + 1}`} module={module} />
-              </div>
-            );
-          })}
-        </div>
+        {/* Spotlight + previews */}
+        {SERVICE_MODULES.map((module, i) => {
+          let offset = (((i - active) % N) + N) % N; // 0..N-1
+          if (offset > HALF) offset -= N; // -HALF..HALF
+          const s = slotFor(offset, compact);
+          const isCenter = offset === 0;
+          const parked = Math.abs(offset) === HALF; // hidden wrap slot → no transition
+
+          return (
+            <div
+              className="absolute left-0 top-0"
+              key={module.slug}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              style={{
+                transform: `translateX(${s.x}px) translateZ(${s.z}px) rotateY(${s.ry}deg) scale(${s.scale})`,
+                opacity: s.opacity,
+                zIndex: s.zi,
+                pointerEvents: isCenter ? "auto" : "none",
+                transition: parked
+                  ? "none"
+                  : "transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+              }}
+            >
+              <OrbitCard active={isCenter} badge={`0${i + 1}`} module={module} onHoverChange={setHovered} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 }
 
-function OrbitCard({ module, badge }: { module: ServiceModule; badge: string }) {
+function OrbitCard({
+  module,
+  badge,
+  active,
+  onHoverChange,
+}: {
+  module: ServiceModule;
+  badge: string;
+  active: boolean;
+  onHoverChange?: (hovered: boolean) => void;
+}) {
   return (
     <Link
+      aria-hidden={active ? undefined : true}
       className="glass-card pointer-events-auto block w-[12rem] -translate-x-1/2 -translate-y-1/2 p-3 transition-transform hover:scale-[1.04]"
       data-accent={module.accent}
       href={`/services/${module.slug}`}
+      onBlur={() => onHoverChange?.(false)}
+      onFocus={() => onHoverChange?.(true)}
       style={{ borderRadius: "0.95rem" }}
+      tabIndex={active ? undefined : -1}
     >
       {/* Number badge */}
       <span
         className="absolute -top-2.5 left-3 flex h-5 w-7 items-center justify-center rounded border text-[0.6rem] font-bold tracking-wider"
         style={{
-          backgroundColor: "#040817",
+          backgroundColor: "#070d20",
           borderColor: hexWithAlpha(module.hex, 0.45),
           color: module.hex,
         }}
@@ -111,11 +217,11 @@ function OrbitCard({ module, badge }: { module: ServiceModule; badge: string }) 
         >
           <module.Icon className="h-3 w-3" />
         </span>
-        <h3 className="text-[0.75rem] font-semibold leading-tight text-white">
+        <h3 className="text-[0.75rem] font-semibold leading-tight text-gold-200">
           {module.shortName}
         </h3>
       </div>
-      <p className="mt-1 line-clamp-2 text-[0.65rem] leading-4 text-slate-300/80">
+      <p className="mt-1 line-clamp-2 text-[0.65rem] leading-4 text-gold-200/75">
         {module.tagline}
       </p>
     </Link>

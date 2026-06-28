@@ -4,6 +4,8 @@ import { insights } from "@/lib/insights";
 import { servicePages } from "@/lib/service-pages";
 import { siteUrl } from "@/lib/site-content";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [

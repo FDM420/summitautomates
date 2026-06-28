@@ -11,7 +11,7 @@ import { SiteHeader } from "./shared/SiteHeader";
 
 export function CommandCenterPage() {
   return (
-    <div className="relative">
+    <div className="relative overflow-x-clip">
       <SiteHeader />
 
       <main className="relative z-10 pb-12 sm:pb-16">

@@ -83,7 +83,7 @@ export function IndustriesSection() {
         {INDUSTRIES.map((industry, i) => (
           <motion.div
             className="glass-card p-5"
-            data-accent="violet"
+            data-accent="gold"
             initial={{ opacity: 0, y: 18 }}
             key={industry.name}
             style={{ borderRadius: "1.25rem" }}
@@ -92,7 +92,7 @@ export function IndustriesSection() {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <div className="flex items-center gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-violet-200">
+              <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-gold-200">
                 <industry.Icon className="h-4 w-4" />
               </span>
               <h3 className="text-sm font-semibold text-white">{industry.name}</h3>

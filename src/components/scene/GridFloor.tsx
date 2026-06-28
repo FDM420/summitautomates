@@ -20,7 +20,7 @@ export function GridFloor({
   size = 12,
   divisions = 28,
   y = -2,
-  color = "#3b82f6",
+  color = "#c79a4e",
   opacity = 0.32,
 }: GridFloorProps) {
   const positions = useMemo(() => {

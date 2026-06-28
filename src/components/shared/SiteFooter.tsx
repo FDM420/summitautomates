@@ -1,4 +1,5 @@
 import { contactEmail } from "@/lib/site-content";
+import Image from "next/image";
 import Link from "next/link";
 
 const SERVICES = [
@@ -37,9 +38,13 @@ export function SiteFooter() {
         {/* Brand block */}
         <div>
           <Link className="flex items-center gap-3" href="/">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10 text-sm font-semibold tracking-[0.3em] text-cyan-100">
-              SA
-            </span>
+            <Image
+              alt="Summit AI Automation"
+              className="h-11 w-auto"
+              height={549}
+              src="/summit-logo-gold.png"
+              width={1012}
+            />
             <div>
               <p className="text-sm font-medium text-white">Summit AI Automation</p>
               <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">
@@ -52,7 +57,7 @@ export function SiteFooter() {
             recruitment, document workflows, and operations tracking.
           </p>
           <a
-            className="mt-6 inline-block text-sm text-cyan-200 transition hover:text-cyan-100"
+            className="mt-6 inline-block text-sm text-gold-200 transition hover:text-gold-100"
             href={`mailto:${contactEmail}`}
           >
             {contactEmail}
@@ -61,7 +66,7 @@ export function SiteFooter() {
 
         {/* Services */}
         <div>
-          <h3 className="mono text-xs uppercase tracking-[0.24em] text-cyan-200/80">
+          <h3 className="mono text-xs uppercase tracking-[0.24em] text-gold-200/80">
             Services
           </h3>
           <ul className="mt-5 space-y-3">
@@ -80,7 +85,7 @@ export function SiteFooter() {
 
         {/* Industries */}
         <div>
-          <h3 className="mono text-xs uppercase tracking-[0.24em] text-cyan-200/80">
+          <h3 className="mono text-xs uppercase tracking-[0.24em] text-gold-200/80">
             Industries
           </h3>
           <ul className="mt-5 space-y-3">
@@ -99,7 +104,7 @@ export function SiteFooter() {
 
         {/* Company */}
         <div>
-          <h3 className="mono text-xs uppercase tracking-[0.24em] text-cyan-200/80">
+          <h3 className="mono text-xs uppercase tracking-[0.24em] text-gold-200/80">
             Company
           </h3>
           <ul className="mt-5 space-y-3">

@@ -65,7 +65,7 @@ export function CrmMarketingHeroScene() {
       {/* Top-left: New Leads list */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex left-0 top-[2%] flex w-[14rem] flex-col gap-2 p-3.5"
+        className="glass-card absolute hidden lg:flex left-0 top-[2%] w-[14rem] flex-col gap-2 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, x: -16 }}
         style={{ borderRadius: "1rem" }}
@@ -96,7 +96,7 @@ export function CrmMarketingHeroScene() {
       {/* Top-right: Sales Pipeline (kanban) */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex right-0 top-[2%] flex w-[19rem] flex-col gap-2 p-3.5"
+        className="glass-card absolute hidden lg:flex right-0 top-[2%] w-[19rem] flex-col gap-2 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, x: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -132,7 +132,7 @@ export function CrmMarketingHeroScene() {
       {/* Bottom-left: Campaigns */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex bottom-[4%] left-[1%] flex w-[15rem] flex-col gap-1.5 p-3.5"
+        className="glass-card absolute hidden lg:flex bottom-[4%] left-[1%] w-[15rem] flex-col gap-1.5 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -162,7 +162,7 @@ export function CrmMarketingHeroScene() {
       {/* Bottom-right: Follow-up reminders */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex bottom-[2%] right-[2%] flex w-[16rem] flex-col gap-1.5 p-3.5"
+        className="glass-card absolute hidden lg:flex bottom-[2%] right-[2%] w-[16rem] flex-col gap-1.5 p-3.5"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -199,7 +199,7 @@ export function CrmMarketingHeroScene() {
       {/* Mini analytics indicator */}
       <motion.div
         animate={{ opacity: 1, scale: 1 }}
-        className="absolute hidden lg:flex left-[12%] top-[44%] flex items-center gap-1.5 rounded-full border px-3 py-1.5"
+        className="absolute hidden lg:flex left-[12%] top-[44%] items-center gap-1.5 rounded-full border px-3 py-1.5"
         initial={{ opacity: 0, scale: 0.9 }}
         style={{
           backgroundColor: "rgba(6,10,24,0.7)",

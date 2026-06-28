@@ -82,7 +82,7 @@ export function WhatsappHeroScene() {
       {/* Top-left: Automation Workflow */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex left-0 top-[6%] flex w-[15rem] flex-col gap-2 p-4"
+        className="glass-card absolute hidden lg:flex left-0 top-[6%] w-[15rem] flex-col gap-2 p-4"
         data-accent={m.accent}
         initial={{ opacity: 0, x: -16 }}
         style={{ borderRadius: "1rem" }}
@@ -120,7 +120,7 @@ export function WhatsappHeroScene() {
       {/* Top-right: Team Inbox */}
       <motion.div
         animate={{ opacity: 1, x: 0 }}
-        className="glass-card absolute hidden lg:flex right-0 top-[4%] flex w-[16rem] flex-col gap-2 p-4"
+        className="glass-card absolute hidden lg:flex right-0 top-[4%] w-[16rem] flex-col gap-2 p-4"
         data-accent={m.accent}
         initial={{ opacity: 0, x: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -169,7 +169,7 @@ export function WhatsappHeroScene() {
       {/* Bottom-left: Voice Note + Transcription */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="glass-card absolute hidden lg:flex bottom-[4%] left-[3%] flex w-[16rem] flex-col gap-2 p-4"
+        className="glass-card absolute hidden lg:flex bottom-[4%] left-[3%] w-[16rem] flex-col gap-2 p-4"
         data-accent={m.accent}
         initial={{ opacity: 0, y: 16 }}
         style={{ borderRadius: "1rem" }}
@@ -207,7 +207,7 @@ export function WhatsappHeroScene() {
       {/* Bottom-right: Lead Routing cards */}
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="absolute hidden lg:flex bottom-[2%] right-[2%] flex w-[16rem] flex-col gap-2"
+        className="absolute hidden lg:flex bottom-[2%] right-[2%] w-[16rem] flex-col gap-2"
         initial={{ opacity: 0, y: 16 }}
         transition={{ duration: 0.55, ease: EASE, delay: 0.48 }}
       >

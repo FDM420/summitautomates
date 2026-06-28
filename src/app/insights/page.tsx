@@ -64,7 +64,7 @@ export default function InsightsIndexPage() {
         type="application/ld+json"
       />
       <div className="relative overflow-x-clip">
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(79,209,255,0.16),transparent_60%)]" />
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(233,200,120,0.16),transparent_60%)]" />
 
         <SiteHeader />
 
@@ -89,12 +89,12 @@ export default function InsightsIndexPage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {sorted.map((post) => (
                 <Link
-                  className="panel group flex flex-col rounded-[2rem] p-6 transition hover:-translate-y-1 hover:border-cyan-300/30"
+                  className="panel group flex flex-col rounded-[2rem] p-6 transition hover:-translate-y-1 hover:border-gold-300/30"
                   href={`/insights/${post.slug}`}
                   key={post.slug}
                 >
                   <div className="flex items-center gap-3 text-xs text-slate-400">
-                    <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-cyan-200">
+                    <span className="rounded-full border border-gold-300/30 bg-gold-300/10 px-3 py-1 text-gold-200">
                       {post.category}
                     </span>
                     <span className="mono">{formatDate(post.publishedAt)}</span>
@@ -103,7 +103,7 @@ export default function InsightsIndexPage() {
                     {post.title}
                   </h2>
                   <p className="mt-4 flex-1 text-sm leading-7 text-slate-300">{post.excerpt}</p>
-                  <p className="mt-6 inline-flex items-center gap-2 text-sm text-cyan-200">
+                  <p className="mt-6 inline-flex items-center gap-2 text-sm text-gold-200">
                     {post.readingMinutes} min read
                     <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-1" />
                   </p>

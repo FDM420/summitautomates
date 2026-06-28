@@ -53,7 +53,7 @@ export function HubCore({ size = 1, showLabel = true, label = "AI" }: HubCorePro
       {/* Pedestal top trim ring */}
       <mesh position={[0, -0.95, 0]} ref={pedestalRing} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.45, 0.025, 12, 96]} />
-        <meshBasicMaterial color="#4fd1ff" depthWrite={false} toneMapped={false} transparent />
+        <meshBasicMaterial color="#e9c878" depthWrite={false} toneMapped={false} transparent />
       </mesh>
 
       {/* Soft halo above pedestal */}
@@ -61,7 +61,7 @@ export function HubCore({ size = 1, showLabel = true, label = "AI" }: HubCorePro
         <ringGeometry args={[1.05, 1.7, 64]} />
         <meshBasicMaterial
           blending={AdditiveBlending}
-          color="#4fd1ff"
+          color="#e9c878"
           depthWrite={false}
           opacity={0.22}
           side={2}
@@ -79,7 +79,7 @@ export function HubCore({ size = 1, showLabel = true, label = "AI" }: HubCorePro
             <cylinderGeometry args={[0.03, 0.005, 1.2, 8]} />
             <meshBasicMaterial
               blending={AdditiveBlending}
-              color="#4fd1ff"
+              color="#e9c878"
               depthWrite={false}
               opacity={0.55}
               transparent
@@ -95,7 +95,7 @@ export function HubCore({ size = 1, showLabel = true, label = "AI" }: HubCorePro
           <cylinderGeometry args={[0.62, 0.62, 0.78, 6]} />
           <meshStandardMaterial
             color="#0c1632"
-            emissive="#4fd1ff"
+            emissive="#e9c878"
             emissiveIntensity={1.7}
             metalness={0.85}
             roughness={0.2}
@@ -106,7 +106,7 @@ export function HubCore({ size = 1, showLabel = true, label = "AI" }: HubCorePro
         <mesh>
           <cylinderGeometry args={[0.62, 0.62, 0.78, 6]} />
           <meshBasicMaterial
-            color="#7c82ff"
+            color="#d4af5a"
             opacity={0.55}
             toneMapped={false}
             transparent
@@ -117,11 +117,11 @@ export function HubCore({ size = 1, showLabel = true, label = "AI" }: HubCorePro
         {/* Top and bottom hex face accents */}
         <mesh position={[0, 0.39, 0]}>
           <cylinderGeometry args={[0.6, 0.6, 0.012, 6]} />
-          <meshBasicMaterial color="#5eead4" toneMapped={false} />
+          <meshBasicMaterial color="#f4dd95" toneMapped={false} />
         </mesh>
         <mesh position={[0, -0.39, 0]}>
           <cylinderGeometry args={[0.6, 0.6, 0.012, 6]} />
-          <meshBasicMaterial color="#5eead4" toneMapped={false} />
+          <meshBasicMaterial color="#f4dd95" toneMapped={false} />
         </mesh>
       </group>
 
@@ -144,7 +144,7 @@ export function HubCore({ size = 1, showLabel = true, label = "AI" }: HubCorePro
         <sphereGeometry args={[1.7, 32, 32]} />
         <meshBasicMaterial
           blending={AdditiveBlending}
-          color="#4fd1ff"
+          color="#e9c878"
           depthWrite={false}
           opacity={0.06}
           transparent

@@ -16,34 +16,34 @@ type ServicePresentation = {
 const servicePresentation: Record<string, ServicePresentation> = {
   "whatsapp-automation": {
     eyebrow: "Support and inbound flow",
-    accent: "from-emerald-300/18 via-cyan-300/10 to-white/0",
+    accent: "from-emerald-300/18 via-gold-300/10 to-white/0",
     icon: "chat",
   },
   "recruitment-hr-automation": {
     eyebrow: "Hiring and team ops",
-    accent: "from-violet-300/16 via-sky-300/10 to-white/0",
+    accent: "from-gold-300/16 via-gold-300/10 to-white/0",
     icon: "hiring",
   },
   "crm-ai-marketing-automation": {
     eyebrow: "Pipeline and growth",
-    accent: "from-cyan-300/18 via-sky-400/10 to-white/0",
+    accent: "from-gold-300/18 via-gold-400/10 to-white/0",
     icon: "growth",
   },
   "document-verification-security-automation": {
     eyebrow: "Controls and compliance",
-    accent: "from-amber-300/16 via-cyan-300/10 to-white/0",
+    accent: "from-amber-300/16 via-gold-300/10 to-white/0",
     icon: "security",
   },
   "workforce-operations-tracking": {
     eyebrow: "Daily operations visibility",
-    accent: "from-blue-300/16 via-cyan-300/10 to-white/0",
+    accent: "from-gold-300/16 via-gold-300/10 to-white/0",
     icon: "operations",
   },
 };
 
 function ServiceDirectoryIcon({ icon }: { icon: ServiceIconName }) {
   return (
-    <span className="flex h-13 w-13 items-center justify-center rounded-[1.15rem] border border-cyan-300/20 bg-cyan-300/10 text-cyan-100 shadow-[0_12px_32px_rgba(79,209,255,0.14)]">
+    <span className="flex h-13 w-13 items-center justify-center rounded-[1.15rem] border border-gold-300/20 bg-gold-300/10 text-gold-100 shadow-[0_12px_32px_rgba(233,200,120,0.14)]">
       {icon === "chat" ? (
         <svg aria-hidden="true" className="h-6 w-6" fill="none" viewBox="0 0 24 24">
           <path d="M7 8.5h10" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
@@ -134,7 +134,7 @@ export default function ServicesDirectoryPage() {
         type="application/ld+json"
       />
       <div className="relative overflow-x-clip">
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[26rem] bg-[radial-gradient(circle_at_top,rgba(79,209,255,0.16),transparent_60%)]" />
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[26rem] bg-[radial-gradient(circle_at_top,rgba(233,200,120,0.16),transparent_60%)]" />
 
         <SiteHeader />
 
@@ -161,32 +161,32 @@ export default function ServicesDirectoryPage() {
           {servicePages.map((service) => {
             const presentation = servicePresentation[service.slug] ?? {
               eyebrow: "Automation workflow",
-              accent: "from-cyan-300/16 via-sky-300/10 to-white/0",
+              accent: "from-gold-300/16 via-gold-300/10 to-white/0",
               icon: "operations" as const,
             };
 
             return (
               <Link
-                className="group panel-strong relative overflow-hidden rounded-[2rem] p-6 transition duration-300 hover:-translate-y-2 hover:border-cyan-300/25 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] active:scale-[0.99]"
+                className="group panel-strong relative overflow-hidden rounded-[2rem] p-6 transition duration-300 hover:-translate-y-2 hover:border-gold-300/25 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] active:scale-[0.99]"
                 href={`/services/${service.slug}`}
                 key={service.slug}
               >
                 <div
                   className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${presentation.accent} opacity-80 transition duration-300 group-hover:opacity-100`}
                 />
-                <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent opacity-70" />
+                <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-gold-300/40 to-transparent opacity-70" />
 
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-4">
                       <ServiceDirectoryIcon icon={presentation.icon} />
                       <div>
-                        <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">{presentation.eyebrow}</p>
+                        <p className="mono text-xs uppercase tracking-[0.22em] text-gold-200/80">{presentation.eyebrow}</p>
                         <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">{service.cardTitle}</h2>
                       </div>
                     </div>
 
-                    <span className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-slate-300 transition group-hover:border-cyan-300/20 group-hover:text-cyan-100">
+                    <span className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-slate-300 transition group-hover:border-gold-300/20 group-hover:text-gold-100">
                       Open
                     </span>
                   </div>
@@ -196,7 +196,7 @@ export default function ServicesDirectoryPage() {
                   <div className="mt-6 grid gap-3 sm:grid-cols-2">
                     {service.heroStats.slice(0, 2).map((stat) => (
                       <div
-                        className="rounded-[1.35rem] border border-white/10 bg-white/6 px-4 py-3 transition group-hover:border-cyan-300/18 group-hover:bg-white/8"
+                        className="rounded-[1.35rem] border border-white/10 bg-white/6 px-4 py-3 transition group-hover:border-gold-300/18 group-hover:bg-white/8"
                         key={stat.label}
                       >
                         <p className="mono text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">{stat.label}</p>
@@ -208,7 +208,7 @@ export default function ServicesDirectoryPage() {
                   <div className="mt-6 flex flex-wrap gap-2">
                     {service.heroTags.slice(0, 3).map((tag) => (
                       <span
-                        className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs text-slate-200 transition group-hover:border-cyan-300/15 group-hover:text-white"
+                        className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs text-slate-200 transition group-hover:border-gold-300/15 group-hover:text-white"
                         key={tag}
                       >
                         {tag}
@@ -218,7 +218,7 @@ export default function ServicesDirectoryPage() {
 
                   <div className="mt-6 flex items-center justify-between gap-4 border-t border-white/10 pt-5">
                     <p className="text-sm text-slate-300">Open the full service page and discovery path.</p>
-                    <span className="inline-flex items-center gap-2 text-sm font-medium text-cyan-100 transition duration-300 group-hover:translate-x-1 group-hover:text-cyan-50">
+                    <span className="inline-flex items-center gap-2 text-sm font-medium text-gold-100 transition duration-300 group-hover:translate-x-1 group-hover:text-gold-50">
                       View service
                       <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24">
                         <path d="M5 12h14" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />

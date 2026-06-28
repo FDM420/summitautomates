@@ -85,7 +85,7 @@ export default async function IndustryPage({
         type="application/ld+json"
       />
       <div className="relative overflow-x-clip">
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(79,209,255,0.16),transparent_60%)]" />
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(233,200,120,0.16),transparent_60%)]" />
 
         <SiteHeader />
 
@@ -106,7 +106,7 @@ export default async function IndustryPage({
             <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">{industry.intro}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(79,209,255,0.25)] transition hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(233,200,120,0.25)] transition hover:scale-[1.02]"
                 href="/contact"
               >
                 Book a discovery call
@@ -156,7 +156,7 @@ export default async function IndustryPage({
               {industry.outcomes.map((outcome) => (
                 <article className="panel rounded-[2rem] p-6" key={outcome.title}>
                   <div className="flex items-start gap-4">
-                    <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 text-cyan-200">
+                    <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold-300/30 bg-gold-300/10 text-gold-200">
                       <CheckCircle2 className="h-5 w-5" />
                     </span>
                     <div>
@@ -185,7 +185,7 @@ export default async function IndustryPage({
               <div className="mt-10 grid gap-5 md:grid-cols-3">
                 {relevantServices.map((service) => (
                   <Link
-                    className="panel group rounded-[2rem] p-6 transition hover:-translate-y-1 hover:border-cyan-300/30"
+                    className="panel group rounded-[2rem] p-6 transition hover:-translate-y-1 hover:border-gold-300/30"
                     href={`/services/${service.slug}`}
                     key={service.slug}
                   >
@@ -195,7 +195,7 @@ export default async function IndustryPage({
                     <p className="mt-3 text-sm leading-6 text-slate-300">
                       {service.metaDescription}
                     </p>
-                    <p className="mt-5 inline-flex items-center gap-2 text-sm text-cyan-200">
+                    <p className="mt-5 inline-flex items-center gap-2 text-sm text-gold-200">
                       Explore service
                       <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-1" />
                     </p>
@@ -208,7 +208,7 @@ export default async function IndustryPage({
           {/* CTA */}
           <section className="section-shell py-16">
             <div className="panel-strong relative overflow-hidden rounded-[2.5rem] p-8 sm:p-12">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(124,82,255,0.20),transparent_60%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(233,200,120,0.20),transparent_60%)]" />
               <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
                 <div>
                   <p className="eyebrow">Talk to Summit</p>
@@ -221,7 +221,7 @@ export default async function IndustryPage({
                   </p>
                 </div>
                 <Link
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(79,209,255,0.25)] transition hover:scale-[1.02]"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(233,200,120,0.25)] transition hover:scale-[1.02]"
                   href="/contact"
                 >
                   Book a discovery call

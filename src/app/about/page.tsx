@@ -91,7 +91,7 @@ export default function AboutPage() {
         type="application/ld+json"
       />
       <div className="relative overflow-x-clip">
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(79,209,255,0.16),transparent_60%)]" />
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(233,200,120,0.16),transparent_60%)]" />
 
         <SiteHeader />
 
@@ -145,7 +145,7 @@ export default function AboutPage() {
                   className="rounded-2xl border border-white/8 bg-white/3 px-5 py-5 backdrop-blur"
                   key={stat.label}
                 >
-                  <p className="bg-gradient-to-r from-cyan-200 to-violet-300 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-4xl">
+                  <p className="bg-gradient-to-r from-gold-200 to-gold-300 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-4xl">
                     {stat.value}
                   </p>
                   <p className="mt-2 text-xs uppercase tracking-[0.15em] text-white/55">
@@ -179,23 +179,23 @@ export default function AboutPage() {
                 </p>
                 <p>
                   Today we build production automation systems across five connected services —{" "}
-                  <Link className="text-cyan-200 underline-offset-4 hover:underline" href="/services/whatsapp-automation">
+                  <Link className="text-gold-200 underline-offset-4 hover:underline" href="/services/whatsapp-automation">
                     WhatsApp automation
                   </Link>
                   ,{" "}
-                  <Link className="text-cyan-200 underline-offset-4 hover:underline" href="/services/recruitment-hr-automation">
+                  <Link className="text-gold-200 underline-offset-4 hover:underline" href="/services/recruitment-hr-automation">
                     recruitment &amp; HR
                   </Link>
                   ,{" "}
-                  <Link className="text-cyan-200 underline-offset-4 hover:underline" href="/services/crm-ai-marketing-automation">
+                  <Link className="text-gold-200 underline-offset-4 hover:underline" href="/services/crm-ai-marketing-automation">
                     CRM &amp; AI marketing
                   </Link>
                   ,{" "}
-                  <Link className="text-cyan-200 underline-offset-4 hover:underline" href="/services/document-verification-security-automation">
+                  <Link className="text-gold-200 underline-offset-4 hover:underline" href="/services/document-verification-security-automation">
                     document &amp; security
                   </Link>
                   , and{" "}
-                  <Link className="text-cyan-200 underline-offset-4 hover:underline" href="/services/workforce-operations-tracking">
+                  <Link className="text-gold-200 underline-offset-4 hover:underline" href="/services/workforce-operations-tracking">
                     workforce &amp; operations
                   </Link>{" "}
                   — for teams across recruitment agencies, real estate, healthcare, and call centers.
@@ -207,7 +207,7 @@ export default function AboutPage() {
           {/* CTA */}
           <section className="section-shell py-16">
             <div className="panel-strong relative overflow-hidden rounded-[2.5rem] p-8 sm:p-12">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(79,209,255,0.18),transparent_60%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(233,200,120,0.18),transparent_60%)]" />
               <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
                 <div>
                   <p className="eyebrow">Start a conversation</p>
@@ -221,7 +221,7 @@ export default function AboutPage() {
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                   <Link
-                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(79,209,255,0.25)] transition hover:scale-[1.02]"
+                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(233,200,120,0.25)] transition hover:scale-[1.02]"
                     href="/contact"
                   >
                     Book a discovery call

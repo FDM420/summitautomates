@@ -197,7 +197,7 @@ function GpsPin() {
           }}
         >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]">
-            <MapPin className="h-4.5 w-4.5 text-sky-600" />
+            <MapPin className="h-4 w-4 text-sky-600" />
           </div>
         </div>
         {/* Pulse beneath the pin */}

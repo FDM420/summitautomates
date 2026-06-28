@@ -69,7 +69,7 @@ export function ServiceDirectorySection() {
           </p>
         </div>
         <Link
-          className="inline-flex items-center gap-1 text-sm font-medium text-cyan-200 transition hover:text-cyan-100"
+          className="inline-flex items-center gap-1 text-sm font-medium text-gold-200 transition hover:text-gold-100"
           href="/services"
         >
           View all services

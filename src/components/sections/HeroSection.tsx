@@ -23,11 +23,11 @@ function AiHub() {
   return (
     <div className="pointer-events-none relative h-[780px] w-[780px] -translate-x-1/2 -translate-y-1/2">
       {/* Outer haze */}
-      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(79,209,255,0.32)_0%,rgba(124,130,255,0.20)_35%,transparent_65%)] blur-2xl" />
+      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(233,200,120,0.32)_0%,rgba(212,175,90,0.20)_35%,transparent_65%)] blur-2xl" />
 
       {/* Spinning dashed outer ring */}
       <div
-        className="absolute inset-[6%] rounded-full border border-cyan-300/30"
+        className="absolute inset-[6%] rounded-full border border-gold-300/30"
         style={{
           borderStyle: "dashed",
           animation: "hub-spin 38s linear infinite reverse",
@@ -36,7 +36,7 @@ function AiHub() {
 
       {/* Spinning dotted middle ring */}
       <div
-        className="absolute inset-[12%] rounded-full border border-violet-300/35"
+        className="absolute inset-[12%] rounded-full border border-gold-300/35"
         style={{
           borderStyle: "dotted",
           borderWidth: "2px",
@@ -46,15 +46,15 @@ function AiHub() {
 
       {/* Concentric pulse rings */}
       <div
-        className="absolute inset-[18%] rounded-full border border-cyan-300/40"
+        className="absolute inset-[18%] rounded-full border border-gold-300/40"
         style={{ animation: "hub-pulse 4s ease-out infinite" }}
       />
       <div
-        className="absolute inset-[18%] rounded-full border border-cyan-300/40"
+        className="absolute inset-[18%] rounded-full border border-gold-300/40"
         style={{ animation: "hub-pulse 4s ease-out infinite 1.3s" }}
       />
       <div
-        className="absolute inset-[18%] rounded-full border border-cyan-300/40"
+        className="absolute inset-[18%] rounded-full border border-gold-300/40"
         style={{ animation: "hub-pulse 4s ease-out infinite 2.6s" }}
       />
 
@@ -68,7 +68,7 @@ function AiHub() {
           background:
             "radial-gradient(circle at center, rgba(8,14,32,0.92) 0%, rgba(8,14,32,0.85) 45%, rgba(8,14,32,0.55) 75%, rgba(8,14,32,0) 100%)",
           boxShadow:
-            "inset 0 0 60px rgba(79,209,255,0.18), 0 0 70px rgba(79,209,255,0.30)",
+            "inset 0 0 60px rgba(233,200,120,0.18), 0 0 70px rgba(233,200,120,0.30)",
         }}
       />
 
@@ -79,13 +79,13 @@ function AiHub() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt="Summit Automates AI android — a refined synthetic-human core whose eyes glow in the accent color of each automation service as it orbits"
-          className="h-full w-full select-none object-contain drop-shadow-[0_0_55px_rgba(79,209,255,0.65)]"
+          className="h-full w-full select-none object-contain drop-shadow-[0_0_55px_rgba(233,200,120,0.65)]"
           src="/illustrations/android.svg"
         />
       </div>
 
       {/* Inner core highlight */}
-      <div className="absolute inset-[34%] rounded-full bg-[radial-gradient(circle_at_45%_40%,rgba(255,255,255,0.22)_0%,rgba(79,209,255,0.12)_35%,transparent_70%)]" />
+      <div className="absolute inset-[34%] rounded-full bg-[radial-gradient(circle_at_45%_40%,rgba(255,255,255,0.22)_0%,rgba(233,200,120,0.12)_35%,transparent_70%)]" />
     </div>
   );
 }
@@ -123,7 +123,7 @@ export function HeroSection() {
 
           <h1 className="text-balance text-[2.65rem] font-semibold leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.6rem]">
             Automate your business workflows{" "}
-            <span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 bg-clip-text text-transparent">
               with smart AI systems.
             </span>
           </h1>
@@ -136,7 +136,7 @@ export function HeroSection() {
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(79,209,255,0.28)] transition hover:scale-[1.02] active:scale-[0.99]"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(233,200,120,0.28)] transition hover:scale-[1.02] active:scale-[0.99]"
               href="#contact"
             >
               Book a Discovery Call
@@ -157,7 +157,7 @@ export function HeroSection() {
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 py-2.5 text-xs text-white/80 backdrop-blur"
                 key={label}
               >
-                <Icon className="h-3.5 w-3.5 text-cyan-300" />
+                <Icon className="h-3.5 w-3.5 text-gold-300" />
                 <span className="font-medium">{label}</span>
               </div>
             ))}
@@ -170,7 +170,7 @@ export function HeroSection() {
                 className="rounded-2xl border border-white/8 bg-white/3 px-4 py-3 backdrop-blur"
                 key={stat.label}
               >
-                <p className="bg-gradient-to-r from-cyan-200 to-violet-300 bg-clip-text text-2xl font-semibold tracking-tight text-transparent sm:text-3xl">
+                <p className="bg-gradient-to-r from-gold-200 to-gold-300 bg-clip-text text-2xl font-semibold tracking-tight text-transparent sm:text-3xl">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-[0.7rem] uppercase tracking-[0.15em] text-white/55">
@@ -189,7 +189,7 @@ export function HeroSection() {
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           {/* "SUMMIT AUTOMATES AI CORE" label */}
-          <div className="pointer-events-none absolute left-1/2 top-[80%] z-10 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.4em] text-cyan-200/80 sm:text-[0.65rem]">
+          <div className="pointer-events-none absolute left-1/2 top-[80%] z-10 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.4em] text-gold-200/80 sm:text-[0.65rem]">
             Summit Automates AI Core
           </div>
 

@@ -39,7 +39,7 @@ export default function PrivacyPage() {
         type="application/ld+json"
       />
       <div className="relative overflow-x-clip">
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(79,209,255,0.16),transparent_60%)]" />
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(233,200,120,0.16),transparent_60%)]" />
 
         <SiteHeader />
 
@@ -106,7 +106,7 @@ export default function PrivacyPage() {
               <p>
                 You can ask what data we hold about you, ask us to correct it, or ask us to delete
                 it. Send any such request to{" "}
-                <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
+                <a className="text-gold-200 hover:underline" href={`mailto:${contactEmail}`}>
                   {contactEmail}
                 </a>{" "}
                 and we will respond within 30 days.
@@ -126,7 +126,7 @@ export default function PrivacyPage() {
               </h2>
               <p>
                 For any privacy question or request, reach out at{" "}
-                <a className="text-cyan-200 hover:underline" href={`mailto:${contactEmail}`}>
+                <a className="text-gold-200 hover:underline" href={`mailto:${contactEmail}`}>
                   {contactEmail}
                 </a>
                 .

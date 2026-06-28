@@ -57,7 +57,7 @@ export default function IndustriesIndexPage() {
         type="application/ld+json"
       />
       <div className="relative overflow-x-clip">
-        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(124,82,255,0.18),transparent_60%)]" />
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(233,200,120,0.18),transparent_60%)]" />
 
         <SiteHeader />
 
@@ -83,15 +83,15 @@ export default function IndustriesIndexPage() {
             <div className="grid gap-6 md:grid-cols-2">
               {industries.map((industry, index) => (
                 <Link
-                  className="panel group relative overflow-hidden rounded-[2rem] p-7 transition hover:-translate-y-1 hover:border-cyan-300/30"
+                  className="panel group relative overflow-hidden rounded-[2rem] p-7 transition hover:-translate-y-1 hover:border-gold-300/30"
                   href={`/industries/${industry.slug}`}
                   key={industry.slug}
                 >
                   <div className="flex items-start justify-between">
-                    <p className="mono text-xs uppercase tracking-[0.22em] text-cyan-200/80">
+                    <p className="mono text-xs uppercase tracking-[0.22em] text-gold-200/80">
                       Vertical {String(index + 1).padStart(2, "0")}
                     </p>
-                    <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1 group-hover:text-cyan-200" />
+                    <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1 group-hover:text-gold-200" />
                   </div>
                   <h2 className="mt-5 text-balance text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
                     {industry.name}
@@ -129,7 +129,7 @@ export default function IndustriesIndexPage() {
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                   <Link
-                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-violet-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(79,209,255,0.25)] transition hover:scale-[1.02]"
+                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_18px_50px_rgba(233,200,120,0.25)] transition hover:scale-[1.02]"
                     href="/contact"
                   >
                     Start a discovery call

@@ -55,11 +55,11 @@ export function SceneRoot({
 
       {/* Layered lighting rig */}
       <ambientLight intensity={0.35} />
-      <pointLight color="#7c82ff" intensity={42} position={[-4.5, -2, 3]} />
-      <pointLight color="#4fd1ff" intensity={48} position={[4.5, 3.5, 3]} />
-      <pointLight color="#5eead4" intensity={22} position={[0, 4.5, -2.5]} />
+      <pointLight color="#f4dd95" intensity={42} position={[-4.5, -2, 3]} />
+      <pointLight color="#e9c878" intensity={48} position={[4.5, 3.5, 3]} />
+      <pointLight color="#d4af5a" intensity={22} position={[0, 4.5, -2.5]} />
       {/* Rim light from below for pedestal feel */}
-      <pointLight color="#4fd1ff" intensity={28} position={[0, -3, 1]} />
+      <pointLight color="#e9c878" intensity={28} position={[0, -3, 1]} />
 
       <Suspense fallback={null}>
         {/* HDRI environment for glossy reflections (this is the key 3D-look upgrade) */}
