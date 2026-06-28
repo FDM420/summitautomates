@@ -50,6 +50,7 @@ export function ServiceCardLarge({
       animate={{ opacity: 1, y: 0 }}
       className="group relative isolate overflow-hidden rounded-[2rem] border bg-[#070b1c] transition-all duration-500 hover:-translate-y-1"
       data-accent={module.accent}
+      data-surface="dark"
       initial={{ opacity: 0, y: 24 }}
       style={{
         borderColor: hexWithAlpha(module.hex, 0.25),
