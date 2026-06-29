@@ -109,15 +109,30 @@ export default function AboutPage() {
               <span>/</span>
               <span className="text-slate-200">About</span>
             </nav>
-            <p className="eyebrow">Why Summit</p>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.6rem]">
-              We build AI automation that actually runs your business — not pitch decks of it.
-            </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-              Summit Automates is a focused studio that builds connected automation systems for
-              customer communication, recruitment, lead management, document workflows, and live
-              operations. Everything we ship is in production within weeks and measurable from day one.
-            </p>
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
+              <div>
+                <p className="eyebrow">Why Summit</p>
+                <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.3rem]">
+                  We build AI automation that actually runs your business — not pitch decks of it.
+                </h1>
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+                  Summit Automates is a focused studio that builds connected automation systems for
+                  customer communication, recruitment, lead management, document workflows, and live
+                  operations. Everything we ship is in production within weeks and measurable from day one.
+                </p>
+              </div>
+              <div className="relative hidden lg:block">
+                <div className="aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    alt="A modern operations workspace"
+                    className="h-full w-full object-cover"
+                    src="/about/hero.jpg"
+                  />
+                </div>
+                <div className="pointer-events-none absolute -inset-3 -z-10 rounded-[3rem] bg-[radial-gradient(circle_at_70%_25%,rgba(233,200,120,0.16),transparent_70%)]" />
+              </div>
+            </div>
           </section>
 
           {/* VISION */}
