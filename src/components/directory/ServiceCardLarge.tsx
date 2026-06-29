@@ -66,7 +66,7 @@ export function ServiceCardLarge({
       {/* Outer luminous border on hover */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[2rem] opacity-60 transition-opacity duration-500 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 z-[2] rounded-[2rem] opacity-60 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           background: `linear-gradient(135deg, ${hexWithAlpha(module.hex, 0.6)}, transparent 35%, ${hexWithAlpha(module.hexSecondary, 0.5)})`,
           mask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
@@ -77,31 +77,18 @@ export function ServiceCardLarge({
         }}
       />
 
-      {/* Faint background grid */}
-      <span
+      {/* Animated illustration as the card background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+        {illustration}
+      </div>
+      {/* Readability scrim over the animation */}
+      <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.18]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)`,
-          backgroundSize: "32px 32px",
-          maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
-        }}
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#070b1c]/65 via-[#070b1c]/85 to-[#070b1c]/96"
       />
 
-      <div className="flex h-full flex-col">
-        {/* TOP: animated illustration banner */}
-        <div className="relative h-[180px] shrink-0 overflow-hidden border-b border-white/5">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-0"
-            style={{
-              background: `radial-gradient(circle at 50% 60%, ${hexWithAlpha(module.hex, 0.18)} 0%, transparent 55%), radial-gradient(circle at 80% 20%, ${hexWithAlpha(module.hexSecondary, 0.15)} 0%, transparent 50%)`,
-            }}
-          />
-          <div className="relative h-full w-full">{illustration}</div>
-        </div>
-
-        {/* copy + CTA */}
+      <div className="relative z-10 flex h-full flex-col">
+        {/* copy + CTA (over the animated background) */}
         <div className="flex flex-1 flex-col gap-4 p-6 sm:p-7">
           <div className="flex items-center gap-3">
             <span
