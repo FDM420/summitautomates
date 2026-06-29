@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClipboardCheck, MessageSquareText, Rocket, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { SiteFooter } from "@/components/shared/SiteFooter";
 import { SiteHeader } from "@/components/shared/SiteHeader";
@@ -28,21 +29,25 @@ export const metadata: Metadata = {
 
 const PRINCIPLES = [
   {
+    Icon: Rocket,
     title: "Ship in weeks, not quarters",
     description:
       "We use a 5-week rollout pattern that gets one workflow live in week two, then expands. No 3-month builds with no live value.",
   },
   {
+    Icon: MessageSquareText,
     title: "Plain language by default",
     description:
       "We translate operational headaches into workflows in language your team — not just your CTO — can follow and own.",
   },
   {
+    Icon: ClipboardCheck,
     title: "Audit every decision",
     description:
       "Every automated action is logged, scored, and explainable. You can show regulators, auditors, or stakeholders why anything happened.",
   },
   {
+    Icon: UserCheck,
     title: "Humans in the loop where it matters",
     description:
       "AI handles routine and routes the edge cases. Your team is freed from repetition, not replaced — and always has the final call.",
@@ -145,9 +150,14 @@ export default function AboutPage() {
             <div className="mt-10 grid gap-5 md:grid-cols-2">
               {PRINCIPLES.map((principle, index) => (
                 <article className="panel rounded-[2rem] p-6" key={principle.title}>
-                  <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">
-                    Principle {String(index + 1).padStart(2, "0")}
-                  </p>
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-gold-300/25 bg-gold-300/10 text-gold-200">
+                      <principle.Icon className="h-5 w-5" />
+                    </span>
+                    <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">
+                      Principle {String(index + 1).padStart(2, "0")}
+                    </p>
+                  </div>
                   <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">
                     {principle.title}
                   </h3>
