@@ -42,7 +42,6 @@ export function ServiceCardLarge({
   status = "Open",
   metrics,
   bullets,
-  illustration,
   index,
 }: ServiceCardLargeProps) {
   return (
@@ -88,9 +87,9 @@ export function ServiceCardLarge({
         }}
       />
 
-      <div className="grid items-stretch gap-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-        {/* LEFT: copy + CTA */}
-        <div className="flex flex-col gap-4 p-6 sm:p-7">
+      <div className="flex h-full flex-col">
+        {/* copy + CTA */}
+        <div className="flex flex-1 flex-col gap-4 p-6 sm:p-7">
           <div className="flex items-center gap-3">
             <span
               className="grid h-10 w-10 place-items-center rounded-xl border"
@@ -116,10 +115,10 @@ export function ServiceCardLarge({
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-balance text-2xl font-semibold leading-[1.1] tracking-[-0.04em] text-white sm:text-3xl">
+            <h2 className="text-balance text-2xl font-semibold leading-[1.1] tracking-[-0.04em] text-white">
               {module.fullName}
             </h2>
-            <p className="line-clamp-2 max-w-md text-sm leading-6 text-slate-300/85">
+            <p className="line-clamp-2 text-sm leading-6 text-slate-300/85">
               {module.blurb}
             </p>
           </div>
@@ -159,7 +158,7 @@ export function ServiceCardLarge({
           </ul>
 
           <Link
-            className="group/btn inline-flex w-fit items-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:gap-3"
+            className="group/btn mt-auto inline-flex w-fit items-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:gap-3"
             href={`/services/${module.slug}`}
             style={{
               background: `linear-gradient(120deg, ${hexWithAlpha(module.hex, 0.85)}, ${hexWithAlpha(module.hexSecondary, 0.95)})`,
@@ -169,19 +168,6 @@ export function ServiceCardLarge({
             View service
             <ArrowRight className="h-4 w-4 transition group-hover/btn:translate-x-0.5" />
           </Link>
-        </div>
-
-        {/* RIGHT: illustration */}
-        <div className="relative min-h-[260px] overflow-hidden border-t border-white/5 lg:border-l lg:border-t-0">
-          {/* Soft accent glow background */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-0"
-            style={{
-              background: `radial-gradient(circle at 50% 60%, ${hexWithAlpha(module.hex, 0.18)} 0%, transparent 55%), radial-gradient(circle at 80% 20%, ${hexWithAlpha(module.hexSecondary, 0.15)} 0%, transparent 50%)`,
-            }}
-          />
-          <div className="relative h-full w-full">{illustration}</div>
         </div>
       </div>
     </motion.article>

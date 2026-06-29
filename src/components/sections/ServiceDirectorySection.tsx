@@ -77,7 +77,7 @@ export function ServiceDirectorySection() {
         </Link>
       </div>
 
-      <div className="mt-10 flex flex-col gap-6">
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
         {SERVICE_MODULES.map((module, i) => {
           const spec = CARD_SPECS[module.slug];
           if (!spec) return null;
