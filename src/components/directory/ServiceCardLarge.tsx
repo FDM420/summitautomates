@@ -90,7 +90,7 @@ export function ServiceCardLarge({
 
       <div className="grid items-stretch gap-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         {/* LEFT: copy + CTA */}
-        <div className="flex flex-col gap-6 p-7 sm:p-10">
+        <div className="flex flex-col gap-4 p-6 sm:p-7">
           <div className="flex items-center gap-3">
             <span
               className="grid h-10 w-10 place-items-center rounded-xl border"
@@ -116,10 +116,10 @@ export function ServiceCardLarge({
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.04em] text-white sm:text-4xl">
+            <h2 className="text-balance text-2xl font-semibold leading-[1.1] tracking-[-0.04em] text-white sm:text-3xl">
               {module.fullName}
             </h2>
-            <p className="max-w-md text-sm leading-6 text-slate-300/85 sm:text-base sm:leading-7">
+            <p className="line-clamp-2 max-w-md text-sm leading-6 text-slate-300/85">
               {module.blurb}
             </p>
           </div>
@@ -158,11 +158,6 @@ export function ServiceCardLarge({
             ))}
           </ul>
 
-          <div className="mt-2 flex items-center gap-2 border-t border-white/8 pt-5 text-xs text-white/55">
-            <ArrowRight className="h-3.5 w-3.5" />
-            Open the full service page and discovery path.
-          </div>
-
           <Link
             className="group/btn inline-flex w-fit items-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:gap-3"
             href={`/services/${module.slug}`}
@@ -177,7 +172,7 @@ export function ServiceCardLarge({
         </div>
 
         {/* RIGHT: illustration */}
-        <div className="relative min-h-[420px] overflow-hidden border-t border-white/5 lg:border-l lg:border-t-0">
+        <div className="relative min-h-[260px] overflow-hidden border-t border-white/5 lg:border-l lg:border-t-0">
           {/* Soft accent glow background */}
           <div
             aria-hidden
