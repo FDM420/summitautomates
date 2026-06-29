@@ -490,7 +490,7 @@ function MegaPanel({
       className="absolute left-0 top-full z-50 pt-3"
       role="menu"
     >
-      <div className="grid w-[min(72rem,90vw)] grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-6 rounded-2xl border border-white/10 bg-[rgba(8,12,28,0.96)] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+      <div className="grid max-h-[calc(100vh-96px)] w-[min(72rem,90vw)] grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-6 overflow-y-auto overscroll-contain rounded-2xl border border-white/10 bg-[rgba(8,12,28,0.96)] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl">
         {/* LEFT — items grid */}
         <div className="flex flex-col gap-6">
           {sections.map((section) => (
