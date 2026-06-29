@@ -517,7 +517,7 @@ export default function AboutPage() {
                   quote:
                     "Summit built exactly what we needed and had it running in weeks, not months. They explained every part in plain language, so my team could actually use it — not just admire a demo.",
                   name: "Tashfeen Sohail",
-                  role: "Founder",
+                  role: "Founder, Tashfeen Immigrations",
                   initial: "TS",
                 },
                 {
