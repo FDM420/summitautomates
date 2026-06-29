@@ -115,7 +115,10 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
       </div>
 
       <div className="mt-8 grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(300px,0.92fr)]">
-        <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,12,28,0.96),rgba(8,18,40,0.92))] p-5 sm:p-6">
+        <div
+          className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,12,28,0.96),rgba(8,18,40,0.92))] p-5 sm:p-6"
+          data-dark-panel
+        >
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Interactive vector map</p>

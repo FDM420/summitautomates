@@ -694,6 +694,26 @@ button {
 	border-color: rgba(255, 255, 255, 0.14) !important;
 }
 
+/* Dark "live demo" panels use a bg-[linear-gradient(...)] class the rules above
+   don't match, so their text would darken on a dark panel in light mode.
+   data-dark-panel keeps them dark with light text. */
+[data-theme="light"] [data-dark-panel] .text-white,
+[data-theme="light"] [data-dark-panel] [class*="text-white/"],
+[data-theme="light"] [data-dark-panel] .text-slate-100,
+[data-theme="light"] [data-dark-panel] .text-slate-200 {
+	color: rgba(248, 250, 252, 0.96) !important;
+}
+[data-theme="light"] [data-dark-panel] .text-slate-300,
+[data-theme="light"] [data-dark-panel] [class*="text-slate-300/"],
+[data-theme="light"] [data-dark-panel] .text-slate-400 {
+	color: rgba(203, 213, 225, 0.82) !important;
+}
+[data-theme="light"] [data-dark-panel] .text-gold-100,
+[data-theme="light"] [data-dark-panel] .text-gold-200,
+[data-theme="light"] [data-dark-panel] .text-gold-300 {
+	color: #f4dd95 !important;
+}
+
 /* Service Directory card BODIES go light in light mode (the inner illustration
    panels stay dark with light text via the rules above — "excluding the
    animation"). Targets only the marked card root that also has a dark bg. */
