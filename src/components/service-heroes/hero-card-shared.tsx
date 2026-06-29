@@ -216,7 +216,7 @@ export function ServiceHeroCardShell({
         <div className={`pointer-events-none absolute inset-0 ${t.bgRadials}`} />
         <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(rgba(125,211,252,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.5)_1px,transparent_1px)] [background-size:36px_36px]" />
 
-        <div className="relative z-10 grid gap-12 lg:grid-cols-[0.36fr_0.64fr] lg:items-center">
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[0.36fr_0.64fr] lg:gap-12 lg:items-center">
           {/* LEFT */}
           <div>
             <SummitLogo />
@@ -262,7 +262,7 @@ export function ServiceHeroCardShell({
             </div>
 
             <Link
-              className={`mt-8 inline-flex h-16 w-full items-center justify-between rounded-2xl border ${t.starBorder} bg-gradient-to-r ${t.ctaGradient} px-7 text-xl font-bold text-white ${t.ctaShadow} transition-all duration-300 ${t.ctaShadowHover} md:w-[330px]`}
+              className={`mt-8 inline-flex h-16 w-full items-center justify-between rounded-2xl border ${t.starBorder} bg-gradient-to-r ${t.ctaGradient} px-5 text-lg font-bold text-white sm:px-7 sm:text-xl ${t.ctaShadow} transition-all duration-300 ${t.ctaShadowHover} md:w-[330px]`}
               href={ctaHref}
             >
               {ctaLabel}
@@ -271,7 +271,7 @@ export function ServiceHeroCardShell({
           </div>
 
           {/* RIGHT 3D SCENE */}
-          <div className="relative min-h-[640px] overflow-visible [perspective:1400px]">
+          <div className="relative hidden min-h-[640px] overflow-visible [perspective:1400px] lg:block">
             <div className="absolute inset-0 [transform-style:preserve-3d] transition-transform duration-700 ease-out group-hover:[transform:rotateX(2deg)_rotateY(-2deg)]">
               {scene}
             </div>
@@ -538,7 +538,7 @@ export function Podium({ accent }: { accent: Accent }) {
     <div className="pointer-events-none absolute bottom-[3%] left-1/2 -translate-x-1/2 [transform-style:preserve-3d] [transform:translateZ(0)]">
       {/* Outer halo blur */}
       <div
-        className="absolute left-1/2 top-1/2 h-[120px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+        className="absolute left-1/2 top-1/2 h-[120px] w-[min(560px,90vw)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
         style={{ background: c.outerGlow }}
       />
       {/* Disc body */}

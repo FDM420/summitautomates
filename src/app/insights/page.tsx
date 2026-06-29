@@ -76,7 +76,7 @@ export default function InsightsIndexPage() {
               <span className="text-slate-200">Insights</span>
             </nav>
             <p className="eyebrow">Insights</p>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl md:text-5xl lg:text-[3.4rem]">
               Field notes from building AI automation in production.
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">

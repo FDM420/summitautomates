@@ -39,10 +39,13 @@ html {
 	scroll-behavior: smooth;
 	scroll-padding-top: 6.5rem;
 	color-scheme: dark;
+	overflow-x: hidden;
 }
 
 body {
 	min-height: 100vh;
+	overflow-x: hidden;
+	max-width: 100%;
 	background:
 		radial-gradient(circle at 50% -8%, rgba(233, 200, 120, 0.16), transparent 40%),
 		radial-gradient(circle at 85% 8%, rgba(180, 134, 60, 0.10), transparent 30%),

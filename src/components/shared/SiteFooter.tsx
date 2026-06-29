@@ -34,7 +34,7 @@ const COMPANY = [
 export function SiteFooter() {
   return (
     <footer className="relative border-t border-white/8 bg-[rgba(3,6,15,0.85)] backdrop-blur-xl">
-      <div className="section-shell grid gap-12 py-16 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10">
+      <div className="section-shell grid gap-8 py-12 sm:gap-12 sm:py-16 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10">
         {/* Brand block */}
         <div>
           <Link className="flex items-center gap-3" href="/">

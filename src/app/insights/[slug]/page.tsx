@@ -133,10 +133,10 @@ export default async function InsightPage({
               </span>
             </div>
 
-            <h1 className="mt-6 max-w-4xl text-balance text-4xl font-semibold leading-[1.1] tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-6 max-w-4xl text-balance text-3xl font-semibold leading-[1.15] tracking-[-0.03em] text-white sm:text-4xl md:text-5xl lg:text-[3.4rem] sm:leading-[1.1] sm:tracking-[-0.04em]">
               {post.title}
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">{post.excerpt}</p>
+            <p className="mt-6 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">{post.excerpt}</p>
 
             <div className="mt-12 max-w-3xl space-y-6">
               {post.body.map((section, index) => {
@@ -200,12 +200,12 @@ export default async function InsightPage({
           </article>
 
           {/* CTA */}
-          <section className="section-shell py-16">
-            <div className="panel-strong rounded-[2.5rem] p-8 sm:p-10">
+          <section className="section-shell py-10 sm:py-16">
+            <div className="panel-strong rounded-[1.75rem] p-6 sm:p-10 sm:rounded-[2.5rem]">
               <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)] lg:items-center">
                 <div>
                   <p className="eyebrow">Want this for your team?</p>
-                  <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                  <h2 className="mt-4 text-balance text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl sm:tracking-[-0.04em] md:text-4xl">
                     Book a 30-minute discovery call.
                   </h2>
                   <p className="mt-4 text-base leading-7 text-slate-300">
@@ -232,7 +232,7 @@ export default async function InsightPage({
           {related.length > 0 ? (
             <section className="section-shell py-12">
               <p className="eyebrow">More insights</p>
-              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white">
+              <h2 className="mt-4 text-balance text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl sm:tracking-[-0.04em]">
                 Keep reading.
               </h2>
               <div className="mt-8 grid gap-5 md:grid-cols-3">

@@ -29,7 +29,7 @@ export function WhatsappServiceHeroCard() {
         {/* Grid texture */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(rgba(125,211,252,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.5)_1px,transparent_1px)] [background-size:36px_36px]" />
 
-        <div className="relative z-10 grid gap-12 lg:grid-cols-[0.36fr_0.64fr] lg:items-center">
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[0.36fr_0.64fr] lg:gap-12 lg:items-center">
           {/* LEFT SERVICE CONTENT */}
           <div>
             <SummitLogo />
@@ -80,7 +80,7 @@ export function WhatsappServiceHeroCard() {
             </div>
 
             <Link
-              className="mt-8 inline-flex h-16 w-full items-center justify-between rounded-2xl border border-blue-400/25 bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400 px-7 text-xl font-bold text-white shadow-[0_0_35px_rgba(56,189,248,0.38)] transition-all duration-300 hover:shadow-[0_0_55px_rgba(56,189,248,0.58)] md:w-[330px]"
+              className="mt-8 inline-flex h-16 w-full items-center justify-between rounded-2xl border border-blue-400/25 bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400 px-5 text-lg font-bold text-white sm:px-7 sm:text-xl shadow-[0_0_35px_rgba(56,189,248,0.38)] transition-all duration-300 hover:shadow-[0_0_55px_rgba(56,189,248,0.58)] md:w-[330px]"
               href="#contact"
             >
               Book a Discovery Call
@@ -89,7 +89,7 @@ export function WhatsappServiceHeroCard() {
           </div>
 
           {/* RIGHT 3D SCENE */}
-          <div className="relative min-h-[640px] overflow-visible [perspective:1400px]">
+          <div className="relative hidden min-h-[640px] overflow-visible [perspective:1400px] lg:block">
             <div className="absolute inset-0 [transform-style:preserve-3d] transition-transform duration-700 ease-out group-hover:[transform:rotateX(2deg)_rotateY(-2deg)]">
               <NeonLines />
               <Phone3D />

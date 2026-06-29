@@ -57,7 +57,7 @@ export function ServiceHeroShell({
             <Sparkles className="h-3 w-3" /> {module.shortName}
           </span>
 
-          <h1 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-white sm:text-5xl lg:text-[3.4rem]">
+          <h1 className="text-balance text-3xl font-semibold leading-[1.08] tracking-[-0.03em] text-white sm:text-5xl sm:tracking-[-0.045em] lg:text-[3.4rem]">
             {title ?? module.fullName}{" "}
             <span
               className="block bg-clip-text text-transparent"

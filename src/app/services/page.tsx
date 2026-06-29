@@ -168,10 +168,10 @@ export default function ServicesDirectoryPage() {
 
             <div className="max-w-3xl space-y-6">
               <span className="eyebrow">Service Directory</span>
-              <h1 className="text-balance text-5xl font-semibold tracking-[-0.06em] text-white sm:text-6xl lg:text-[4.8rem] lg:leading-[0.95]">
+              <h1 className="text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.03em] text-white sm:text-5xl sm:tracking-[-0.06em] lg:text-[4.8rem] lg:leading-[0.95]">
                 Eleven dedicated services explained clearly for clients and search.
               </h1>
-              <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
+              <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8 sm:text-xl">
                 These services explain Summit&apos;s main automation offers in plain language and give search engines clear,
                 focused content for each service area.
               </p>
@@ -236,7 +236,7 @@ export default function ServicesDirectoryPage() {
                     ))}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-between gap-4 border-t border-white/10 pt-5">
+                  <div className="mt-6 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:gap-4">
                     <p className="text-sm text-slate-300">Open the full service page and discovery path.</p>
                     <span className="inline-flex items-center gap-2 text-sm font-medium text-gold-100 transition duration-300 group-hover:translate-x-1 group-hover:text-gold-50">
                       View service

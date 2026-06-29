@@ -69,21 +69,21 @@ export default function IndustriesIndexPage() {
               <span className="text-slate-200">Industries</span>
             </nav>
             <p className="eyebrow">Industries</p>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.03em] text-white sm:text-5xl lg:text-[3.4rem]">
               Vertical playbooks for the businesses we automate.
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+            <p className="mt-6 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
               Every industry has its own version of &quot;the operations problem.&quot; Below are the
               playbooks Summit ships most often — what hurts, what the system handles, and which of
               our connected services apply.
             </p>
           </section>
 
-          <section className="section-shell py-16">
+          <section className="section-shell py-10 sm:py-16">
             <div className="grid gap-6 md:grid-cols-2">
               {industries.map((industry, index) => (
                 <Link
-                  className="panel group relative overflow-hidden rounded-[2rem] p-7 transition hover:-translate-y-1 hover:border-gold-300/30"
+                  className="panel group relative overflow-hidden rounded-[2rem] p-6 transition hover:-translate-y-1 hover:border-gold-300/30 sm:p-7"
                   href={`/industries/${industry.slug}`}
                   key={industry.slug}
                 >
@@ -112,7 +112,7 @@ export default function IndustriesIndexPage() {
             </div>
           </section>
 
-          <section className="section-shell py-16">
+          <section className="section-shell py-10 sm:py-16">
             <div className="panel-strong rounded-[2.5rem] p-8 sm:p-10">
               <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)] lg:items-center">
                 <div>

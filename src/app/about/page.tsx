@@ -112,7 +112,7 @@ export default function AboutPage() {
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
               <div>
                 <p className="eyebrow">Why Summit</p>
-                <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.3rem]">
+                <h1 className="mt-6 text-balance text-3xl tracking-[-0.02em] font-semibold text-white sm:text-5xl sm:tracking-[-0.04em] lg:text-[3.3rem]">
                   We build AI automation that actually runs your business — not pitch decks of it.
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
@@ -136,13 +136,13 @@ export default function AboutPage() {
           </section>
 
           {/* VISION */}
-          <section className="section-shell py-16">
-            <div className="panel-strong relative overflow-hidden rounded-[2.5rem] p-8 sm:p-12">
+          <section className="section-shell py-10 sm:py-14 lg:py-16">
+            <div className="panel-strong relative overflow-hidden rounded-[2rem] p-5 sm:p-8 md:p-12">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(233,200,120,0.16),transparent_60%)]" />
               <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-center">
                 <div>
                   <p className="eyebrow">Our vision</p>
-                  <h2 className="mt-5 text-balance text-3xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-4xl lg:text-[2.5rem]">
+                  <h2 className="mt-5 text-balance text-2xl tracking-[-0.02em] font-semibold leading-tight text-white sm:text-3xl sm:tracking-[-0.04em] md:text-4xl lg:text-[2.5rem]">
                     A world where every operations team — not just the big tech companies — runs on AI
                     automation they understand, own, and trust.
                   </h2>
@@ -189,7 +189,7 @@ export default function AboutPage() {
           </section>
 
           {/* PRINCIPLES */}
-          <section className="section-shell py-20">
+          <section className="section-shell py-12 sm:py-16 lg:py-20">
             <div className="max-w-2xl">
               <p className="eyebrow">Operating principles</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -217,7 +217,7 @@ export default function AboutPage() {
           </section>
 
           {/* MILESTONES */}
-          <section className="section-shell py-16">
+          <section className="section-shell py-10 sm:py-14 lg:py-16">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {MILESTONES.map((stat) => (
                 <div
@@ -236,8 +236,8 @@ export default function AboutPage() {
           </section>
 
           {/* STORY */}
-          <section className="section-shell py-20">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
+          <section className="section-shell py-12 sm:py-16 lg:py-20">
+            <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
               <div>
                 <p className="eyebrow">Our story</p>
                 <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -293,7 +293,7 @@ export default function AboutPage() {
           </section>
 
           {/* LIFE AT SUMMIT */}
-          <section className="section-shell py-16">
+          <section className="section-shell py-10 sm:py-14 lg:py-16">
             <div className="max-w-2xl">
               <p className="eyebrow">Inside the studio</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -322,7 +322,7 @@ export default function AboutPage() {
           </section>
 
           {/* TEAM */}
-          <section className="section-shell py-20" id="team">
+          <section className="section-shell py-12 sm:py-16 lg:py-20" id="team">
             <div className="max-w-2xl">
               <p className="eyebrow">The team</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -336,8 +336,8 @@ export default function AboutPage() {
             {/* Co-founders */}
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               {founders.map((person) => (
-                <article className="panel flex items-center gap-5 rounded-[1.8rem] p-6" key={person.name}>
-                  <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl border border-gold-300/30 bg-gold-300/10">
+                <article className="panel flex items-center gap-4 sm:gap-5 rounded-[1.8rem] p-5 sm:p-6" key={person.name}>
+                  <div className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-2xl border border-gold-300/30 bg-gold-300/10">
                     {person.photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img alt={person.name} className="h-full w-full object-cover" src={person.photo} />
@@ -418,7 +418,7 @@ export default function AboutPage() {
             <p className="mono text-center text-xs uppercase tracking-[0.24em] text-slate-400">
               Teams we&apos;ve worked with
             </p>
-            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
               {[
                 { name: "HR Business Solutions", slug: "hrbs" },
                 { name: "Teleport Manpower", slug: "teleport" },
@@ -451,7 +451,7 @@ export default function AboutPage() {
           </section>
 
           {/* CASE STUDIES (representative placeholders — replace with named client stories) */}
-          <section className="section-shell py-16">
+          <section className="section-shell py-10 sm:py-14 lg:py-16">
             <div className="max-w-2xl">
               <p className="eyebrow">Results</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -504,7 +504,7 @@ export default function AboutPage() {
           </section>
 
           {/* TESTIMONIALS (placeholder — replace with real client quotes) */}
-          <section className="section-shell py-16">
+          <section className="section-shell py-10 sm:py-14 lg:py-16">
             <div className="max-w-2xl">
               <p className="eyebrow">What clients say</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -552,7 +552,7 @@ export default function AboutPage() {
           </section>
 
           {/* CTA */}
-          <section className="section-shell py-16">
+          <section className="section-shell py-10 sm:py-14 lg:py-16">
             <div className="panel-strong relative overflow-hidden rounded-[2.5rem] p-8 sm:p-12">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(233,200,120,0.18),transparent_60%)]" />
               <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">

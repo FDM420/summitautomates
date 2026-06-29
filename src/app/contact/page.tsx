@@ -85,7 +85,7 @@ export default function ContactPage() {
                     <div>
                       <p className="text-sm font-semibold text-white">Email us directly</p>
                       <a
-                        className="mt-1 inline-block text-base text-gold-200 hover:underline"
+                        className="mt-1 inline-block break-all text-base text-gold-200 hover:underline"
                         href={`mailto:${contactEmail}`}
                       >
                         {contactEmail}

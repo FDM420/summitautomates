@@ -129,7 +129,7 @@ function ServiceLivePanel({ service }: { service: ServicePageConfig }) {
             </span>
           </div>
 
-          <svg className="mt-6 h-[320px] w-full" fill="none" viewBox="0 0 720 260">
+          <svg className="mt-6 aspect-[720/260] h-auto w-full sm:h-[320px]" fill="none" viewBox="0 0 720 260" preserveAspectRatio="xMidYMid meet">
             <defs>
               <linearGradient id="service-flow-gradient" x1="0" x2="1" y1="0" y2="0">
                 <stop offset="0%" stopColor="#f4dd95" />
@@ -470,7 +470,7 @@ export function ServiceLandingClient({
             description="This breaks the service into a clear journey from input to result so non-technical buyers can follow the logic easily."
           />
 
-          <div className="mt-10 grid gap-5 xl:grid-cols-4">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {service.workflowSteps.map((step, index) => (
               <motion.article
                 className="panel rounded-[2rem] p-6"

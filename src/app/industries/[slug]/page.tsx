@@ -122,7 +122,7 @@ export default async function IndustryPage({
           </section>
 
           {/* PAINS */}
-          <section className="section-shell py-20">
+          <section className="section-shell py-12 sm:py-16 lg:py-20">
             <div className="max-w-2xl">
               <p className="eyebrow">What hurts here</p>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -135,7 +135,7 @@ export default async function IndustryPage({
                   <p className="mono text-xs uppercase tracking-[0.22em] text-slate-400">
                     Pain {String(i + 1).padStart(2, "0")}
                   </p>
-                  <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">
+                  <h3 className="mt-4 text-xl font-semibold tracking-[-0.03em] text-white sm:text-2xl">
                     {pain.title}
                   </h3>
                   <p className="mt-4 text-base leading-7 text-slate-300">{pain.description}</p>
@@ -206,8 +206,8 @@ export default async function IndustryPage({
           ) : null}
 
           {/* CTA */}
-          <section className="section-shell py-16">
-            <div className="panel-strong relative overflow-hidden rounded-[2.5rem] p-8 sm:p-12">
+          <section className="section-shell py-10 sm:py-14 lg:py-16">
+            <div className="panel-strong relative overflow-hidden rounded-3xl p-6 sm:rounded-[2.5rem] sm:p-12">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(233,200,120,0.20),transparent_60%)]" />
               <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
                 <div>

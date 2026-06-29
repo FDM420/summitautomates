@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
  * this button just flips that attribute and persists the choice.
  */
 export function ThemeToggle({ className = "" }: { className?: string }) {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
     const current = document.documentElement.getAttribute("data-theme");
@@ -30,7 +30,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
   return (
     <button
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-      className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/5 text-gold-200 transition hover:border-gold-300/30 hover:bg-white/10 ${className}`}
+      className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/5 text-gold-200 transition hover:border-gold-300/30 hover:bg-white/10 sm:h-10 sm:w-10 ${className}`}
       onClick={toggle}
       title={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
       type="button"

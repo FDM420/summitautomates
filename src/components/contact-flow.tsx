@@ -66,7 +66,7 @@ export function ContactFlow({
       : "Fallback email route";
 
   return (
-    <section className="section-shell py-20" id="contact">
+    <section className="section-shell py-12 sm:py-16 lg:py-20" id="contact">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)]">
         <motion.div
           className="panel-strong rounded-[2.25rem] p-6 sm:p-8"
@@ -76,7 +76,7 @@ export function ContactFlow({
           whileInView={{ opacity: 1, y: 0 }}
         >
           <span className="eyebrow">{eyebrow}</span>
-          <h2 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.05em] text-white sm:text-5xl">
+          <h2 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl sm:tracking-[-0.05em] md:text-5xl">
             {title}
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">
@@ -194,7 +194,7 @@ export function ContactFlow({
                 <div className="panel rounded-[1.6rem] px-5 py-4">
                   <p className="mono text-xs uppercase tracking-[0.2em] text-slate-400">Direct contact</p>
                   <a
-                    className="mt-2 inline-flex text-lg font-semibold text-white transition hover:text-gold-100 hover:underline"
+                    className="mt-2 inline-flex break-all text-lg font-semibold text-white transition hover:text-gold-100 hover:underline"
                     href={`mailto:${contactEmail}`}
                   >
                     {contactEmail}

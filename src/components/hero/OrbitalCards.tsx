@@ -144,7 +144,7 @@ export function OrbitalCards({ center }: { radius?: number; center?: ReactNode }
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               style={{
-                transform: `translateX(${s.x}px) translateY(112px) translateZ(${s.z}px) rotateY(${s.ry}deg) scale(${s.scale})`,
+                transform: `translateX(${s.x}px) translateY(${compact ? 28 : 112}px) translateZ(${s.z}px) rotateY(${s.ry}deg) scale(${s.scale})`,
                 opacity: s.opacity,
                 zIndex: s.zi,
                 pointerEvents: isCenter ? "auto" : "none",

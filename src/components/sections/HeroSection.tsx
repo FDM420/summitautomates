@@ -21,7 +21,7 @@ import { OrbitalCards } from "../hero/OrbitalCards";
  */
 function AiHub() {
   return (
-    <div className="pointer-events-none relative h-[780px] w-[780px] -translate-x-1/2 -translate-y-1/2">
+    <div className="pointer-events-none relative h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 sm:h-[560px] sm:w-[560px] lg:h-[780px] lg:w-[780px]">
       {/* Outer haze */}
       <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(233,200,120,0.32)_0%,rgba(212,175,90,0.20)_35%,transparent_65%)] blur-2xl" />
 
@@ -121,7 +121,7 @@ export function HeroSection() {
             <Sparkles className="h-3 w-3" /> Automation Command Center
           </span>
 
-          <h1 className="text-balance text-[2.65rem] font-semibold leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl lg:text-[3.6rem]">
+          <h1 className="text-balance text-[2.1rem] font-semibold leading-[1.06] tracking-[-0.03em] text-white sm:text-5xl sm:leading-[1.02] sm:tracking-[-0.04em] lg:text-[3.6rem]">
             Automate your business workflows{" "}
             <span className="bg-gradient-to-r from-gold-200 via-gold-400 to-gold-500 bg-clip-text text-transparent">
               with smart AI systems.
@@ -184,12 +184,12 @@ export function HeroSection() {
         {/* RIGHT — AI hub + service mini-cards + beams */}
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
-          className="relative mx-auto aspect-square w-full max-w-[760px] sm:aspect-[5/4] lg:aspect-[1/1] lg:max-w-[820px]"
+          className="relative mx-auto aspect-[4/3] w-full max-w-[760px] sm:aspect-[5/4] lg:aspect-[1/1] lg:max-w-[820px]"
           initial={{ opacity: 0, scale: 0.94 }}
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           {/* "SUMMIT AUTOMATES AI CORE" label */}
-          <div className="pointer-events-none absolute bottom-[-1.5rem] left-1/2 z-10 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.4em] text-gold-200/80 sm:text-[0.65rem]">
+          <div className="pointer-events-none absolute bottom-[-0.75rem] left-1/2 z-10 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.3em] text-gold-200/80 sm:bottom-[-1.5rem] sm:tracking-[0.4em] sm:text-[0.65rem]">
             Summit Automates AI Core
           </div>
 

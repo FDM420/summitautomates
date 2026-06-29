@@ -35,19 +35,19 @@ export function LabClient() {
       ) : null}
 
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
-        <header className="flex items-center justify-between gap-4">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-gold-200/80">
               Summit Lab
             </p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
               {tab === "command" ? "Automation Command Center" : "Service Modules"}
             </h1>
           </div>
           <div className="flex gap-2 rounded-full border border-white/10 bg-white/5 p-1">
             {(["command", "modules"] as const).map((t) => (
               <button
-                className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                className={`rounded-full px-4 py-2.5 text-sm font-medium transition sm:py-1.5 sm:text-xs ${
                   tab === t ? "bg-white/15 text-white" : "text-white/60 hover:text-white"
                 }`}
                 key={t}

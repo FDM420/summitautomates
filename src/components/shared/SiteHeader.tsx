@@ -374,7 +374,7 @@ export function SiteHeader() {
         <button
           aria-expanded={mobileOpen}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-white lg:hidden"
+          className="grid h-11 w-11 place-items-center rounded-xl border border-white/10 bg-white/5 text-white lg:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           type="button"
         >
