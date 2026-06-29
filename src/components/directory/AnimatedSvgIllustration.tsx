@@ -12,6 +12,7 @@ const SVG_BY_SLUG: Record<string, string> = {
   "crm-ai-marketing-automation": "/illustrations/crm.svg",
   "document-verification-security-automation": "/illustrations/docsec.svg",
   "workforce-operations-tracking": "/illustrations/workforce.svg",
+  "ai-voice-agents": "/illustrations/voice.svg",
 };
 
 const ALT_BY_SLUG: Record<string, string> = {
@@ -25,6 +26,8 @@ const ALT_BY_SLUG: Record<string, string> = {
     "Animated diagram of documents flowing through OCR and verification with audit and compliance outputs",
   "workforce-operations-tracking":
     "Animated diagram of GPS pins and attendance check-ins flowing into an operations hub with daily reporting",
+  "ai-voice-agents":
+    "Animated diagram of live calls, transcript, QA scoring and outcome routing flowing into a central voice AI hub",
 };
 
 export function AnimatedSvgIllustration({ slug }: { slug: string }) {

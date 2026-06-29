@@ -4,7 +4,6 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { AnimatedSvgIllustration } from "../directory/AnimatedSvgIllustration";
 import { ServiceCardLarge, type MetricPill } from "../directory/ServiceCardLarge";
-import { AiVoiceAgentsHeroScene } from "../service-heroes/AiVoiceAgentsHeroScene";
 import { SERVICE_MODULES } from "@/lib/services-config";
 
 type CardSpec = {
@@ -92,13 +91,7 @@ export function ServiceDirectorySection() {
           return (
             <ServiceCardLarge
               bullets={spec.bullets}
-              illustration={
-                module.slug === "ai-voice-agents" ? (
-                  <AiVoiceAgentsHeroScene />
-                ) : (
-                  <AnimatedSvgIllustration slug={module.slug} />
-                )
-              }
+              illustration={<AnimatedSvgIllustration slug={module.slug} />}
               index={i}
               key={module.slug}
               metrics={spec.metrics}

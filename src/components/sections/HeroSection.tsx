@@ -189,7 +189,7 @@ export function HeroSection() {
           transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
         >
           {/* "SUMMIT AUTOMATES AI CORE" label */}
-          <div className="pointer-events-none absolute left-1/2 top-[80%] z-10 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.4em] text-gold-200/80 sm:text-[0.65rem]">
+          <div className="pointer-events-none absolute bottom-[-1.5rem] left-1/2 z-10 -translate-x-1/2 font-mono text-[0.6rem] uppercase tracking-[0.4em] text-gold-200/80 sm:text-[0.65rem]">
             Summit Automates AI Core
           </div>
 

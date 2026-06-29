@@ -23,6 +23,14 @@ export function OrbitCardIcon({ slug }: { slug: string }) {
       return <EndpointIcon />;
     case "forex-trading-automation":
       return <ForexIcon />;
+    case "ai-voice-agents":
+      return <AiVoiceIcon />;
+    case "ai-document-generation":
+      return <AiDocIcon />;
+    case "ai-video-generation":
+      return <AiVideoIcon />;
+    case "custom-software-development":
+      return <CustomSoftwareIcon />;
     default: {
       const mod = SERVICE_MODULES_BY_SLUG[slug];
       if (!mod) return null;
@@ -366,6 +374,356 @@ function ForexIcon() {
         {/* Buy/sell arrow */}
         <path d="M 12 38 L 12 46 M 9 41 L 12 38 L 15 41" fill="none" stroke="#22c55e" strokeLinecap="round" strokeWidth="1.5" />
         <text fill="#22c55e" fontFamily="Inter, Arial, sans-serif" fontSize="5" fontWeight="900" x="20" y="44">BUY</text>
+      </g>
+    </svg>
+  );
+}
+
+function AiVoiceIcon() {
+  return (
+    <svg className="h-full w-full" preserveAspectRatio="xMidYMid meet" viewBox="0 0 160 80">
+      <defs>
+        <linearGradient id="vo-mini-bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="#34d399" />
+          <stop offset="100%" stopColor="#10b981" />
+        </linearGradient>
+        <radialGradient id="vo-mini-glow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      <rect fill="url(#vo-mini-bg)" height="80" rx="6" width="160" />
+
+      <circle cx="28" cy="40" fill="url(#vo-mini-glow)" r="18">
+        <animate attributeName="r" dur="2.2s" repeatCount="indefinite" values="14;19;14" />
+        <animate attributeName="opacity" dur="2.2s" repeatCount="indefinite" values="0.5;0.9;0.5" />
+      </circle>
+
+      <path d="M 38 40 Q 80 16 122 40" fill="none" stroke="#fff" strokeDasharray="3 4" strokeOpacity="0.55" strokeWidth="1.5">
+        <animate attributeName="stroke-dashoffset" dur="1.5s" from="0" repeatCount="indefinite" to="-14" />
+      </path>
+
+      <line stroke="#a7f3d0" strokeOpacity="0.7" strokeWidth="1.2" x1="44" x2="116" y1="58" y2="58">
+        <animate attributeName="x1" dur="2.4s" repeatCount="indefinite" values="44;116;44" />
+        <animate attributeName="x2" dur="2.4s" repeatCount="indefinite" values="48;120;48" />
+        <animate attributeName="stroke-opacity" dur="2.4s" repeatCount="indefinite" values="0;0.8;0" />
+      </line>
+
+      <g>
+        <rect fill="#fff" height="9" rx="2" stroke="#10b981" strokeWidth="1.1" width="12" x="-6" y="-4.5" />
+        <circle cx="0" cy="0" fill="#34d399" r="1.6" />
+        <animateMotion dur="2.8s" path="M 38 40 Q 80 16 122 40" repeatCount="indefinite" />
+        <animate attributeName="opacity" dur="2.8s" keyTimes="0;0.12;0.88;1" repeatCount="indefinite" values="0;1;1;0" />
+      </g>
+
+      <g>
+        <circle cx="28" cy="40" fill="#fff" r="9" />
+        <path d="M 24.5 34.5 C 23.5 34.5 23 35.2 23.2 36.2 C 24 41 27 44 31.8 44.8 C 32.8 45 33.5 44.5 33.5 43.5 L 33.5 41.6 C 33.5 40.9 33 40.4 32.3 40.4 C 31.7 40.4 31.1 40.5 30.6 40.7 C 30.2 40.8 29.8 40.7 29.5 40.4 L 27.6 38.5 C 27.3 38.2 27.2 37.8 27.3 37.4 C 27.5 36.9 27.6 36.3 27.6 35.7 C 27.6 35 27.1 34.5 26.4 34.5 Z" fill="#10b981" />
+      </g>
+
+      <g>
+        <rect fill="#fff" height="14" rx="2.5" width="3" x="62" y="33">
+          <animate attributeName="height" dur="0.9s" repeatCount="indefinite" values="6;20;6" />
+          <animate attributeName="y" dur="0.9s" repeatCount="indefinite" values="37;30;37" />
+        </rect>
+        <rect fill="#fff" height="14" rx="2.5" width="3" x="69" y="33">
+          <animate attributeName="height" dur="0.9s" begin="0.15s" repeatCount="indefinite" values="6;24;6" />
+          <animate attributeName="y" dur="0.9s" begin="0.15s" repeatCount="indefinite" values="37;28;37" />
+        </rect>
+        <rect fill="#a7f3d0" height="14" rx="2.5" width="3" x="76" y="33">
+          <animate attributeName="height" dur="0.9s" begin="0.3s" repeatCount="indefinite" values="6;30;6" />
+          <animate attributeName="y" dur="0.9s" begin="0.3s" repeatCount="indefinite" values="37;25;37" />
+        </rect>
+        <rect fill="#fff" height="14" rx="2.5" width="3" x="83" y="33">
+          <animate attributeName="height" dur="0.9s" begin="0.45s" repeatCount="indefinite" values="6;24;6" />
+          <animate attributeName="y" dur="0.9s" begin="0.45s" repeatCount="indefinite" values="37;28;37" />
+        </rect>
+        <rect fill="#fff" height="14" rx="2.5" width="3" x="90" y="33">
+          <animate attributeName="height" dur="0.9s" begin="0.6s" repeatCount="indefinite" values="6;20;6" />
+          <animate attributeName="y" dur="0.9s" begin="0.6s" repeatCount="indefinite" values="37;30;37" />
+        </rect>
+      </g>
+
+      <g>
+        <circle cx="122" cy="40" fill="#fff" r="9" />
+        <path d="M 117.5 40.5 L 121 44 L 127 36.5" fill="none" stroke="#10b981" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        <circle cx="122" cy="40" fill="none" stroke="#fff" strokeWidth="1.5" r="9">
+          <animate attributeName="r" dur="2.8s" repeatCount="indefinite" values="9;14;9" />
+          <animate attributeName="opacity" dur="2.8s" repeatCount="indefinite" values="0.7;0;0.7" />
+        </circle>
+      </g>
+    </svg>
+  );
+}
+
+function AiDocIcon() {
+  return (
+    <svg className="h-full w-full" preserveAspectRatio="xMidYMid meet" viewBox="0 0 160 80">
+      <defs>
+        <linearGradient id="dg-mini-bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="#fbbf24" />
+          <stop offset="100%" stopColor="#f59e0b" />
+        </linearGradient>
+        <linearGradient id="dg-page-fill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#fffdf5" />
+          <stop offset="100%" stopColor="#fef3c7" />
+        </linearGradient>
+      </defs>
+      <rect fill="url(#dg-mini-bg)" height="80" rx="6" width="160" />
+
+      <path d="M 26 40 Q 53 24 70 40" fill="none" stroke="#fff" strokeDasharray="3 4" strokeOpacity="0.65" strokeWidth="1.5">
+        <animate attributeName="stroke-dashoffset" dur="1.5s" from="0" repeatCount="indefinite" to="-14" />
+      </path>
+      <path d="M 90 40 Q 113 24 134 40" fill="none" stroke="#fff" strokeDasharray="3 4" strokeOpacity="0.65" strokeWidth="1.5">
+        <animate attributeName="stroke-dashoffset" dur="1.5s" from="0" repeatCount="indefinite" to="-14" />
+      </path>
+
+      <g>
+        <rect fill="#fff" height="9" rx="1.5" stroke="#f59e0b" strokeWidth="1.1" width="12" x="-6" y="-4.5" />
+        <line stroke="#fbbf24" strokeWidth="1" x1="-3.5" x2="3.5" y1="-1.5" y2="-1.5" />
+        <line stroke="#fbbf24" strokeWidth="1" x1="-3.5" x2="2" y1="1.5" y2="1.5" />
+        <animateMotion dur="2.8s" path="M 26 40 Q 53 24 70 40" repeatCount="indefinite" />
+        <animate attributeName="opacity" dur="2.8s" keyTimes="0;0.12;0.88;1" repeatCount="indefinite" values="0;1;1;0" />
+      </g>
+
+      <g>
+        <circle cx="26" cy="40" fill="#fff" r="9" />
+        <rect fill="none" height="9" rx="1" stroke="#f59e0b" strokeWidth="1.3" width="8" x="22" y="35.5" />
+        <line stroke="#f59e0b" strokeWidth="1" x1="24" x2="28" y1="38" y2="38" />
+        <line stroke="#f59e0b" strokeWidth="1" x1="24" x2="28" y1="40" y2="40" />
+        <line stroke="#f59e0b" strokeWidth="1" x1="24" x2="27" y1="42" y2="42" />
+        <animate attributeName="opacity" dur="2.2s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0.6;1" />
+      </g>
+
+      <g transform="translate(80 40)">
+        <rect fill="url(#dg-page-fill)" height="34" rx="2" stroke="#f59e0b" strokeWidth="1.4" width="26" x="-13" y="-17" />
+        <path d="M 7 -17 L 13 -17 L 13 -11 Z" fill="#f59e0b" fillOpacity="0.35" />
+        <line stroke="#f59e0b" strokeOpacity="0.85" strokeWidth="1.4" x1="-9" x2="6" y1="-9" y2="-9">
+          <animate attributeName="opacity" dur="2.4s" keyTimes="0;0.15;0.4;1" repeatCount="indefinite" values="0;0;1;1" />
+        </line>
+        <line stroke="#f59e0b" strokeOpacity="0.7" strokeWidth="1.4" x1="-9" x2="9" y1="-4" y2="-4">
+          <animate attributeName="opacity" dur="2.4s" keyTimes="0;0.35;0.55;1" repeatCount="indefinite" values="0;0;1;1" />
+        </line>
+        <line stroke="#f59e0b" strokeOpacity="0.7" strokeWidth="1.4" x1="-9" x2="9" y1="1" y2="1">
+          <animate attributeName="opacity" dur="2.4s" keyTimes="0;0.5;0.7;1" repeatCount="indefinite" values="0;0;1;1" />
+        </line>
+        <line stroke="#f59e0b" strokeOpacity="0.55" strokeWidth="1.4" x1="-9" x2="3" y1="6" y2="6">
+          <animate attributeName="opacity" dur="2.4s" keyTimes="0;0.65;0.85;1" repeatCount="indefinite" values="0;0;1;1" />
+        </line>
+        <line stroke="#25d366" strokeOpacity="0.9" strokeWidth="1.6" x1="-13" x2="13" y1="-13" y2="-13">
+          <animate attributeName="y1" dur="2.4s" repeatCount="indefinite" values="-13;9;-13" />
+          <animate attributeName="y2" dur="2.4s" repeatCount="indefinite" values="-13;9;-13" />
+          <animate attributeName="opacity" dur="2.4s" keyTimes="0;0.1;0.9;1" repeatCount="indefinite" values="0;0.9;0.9;0" />
+        </line>
+      </g>
+
+      <g>
+        <circle cx="134" cy="40" fill="#fff" r="9">
+          <animate attributeName="r" dur="1.8s" keyTimes="0;0.5;1" repeatCount="indefinite" values="9;9.6;9" />
+        </circle>
+        <rect fill="#f59e0b" height="7" rx="1" width="14" x="127" y="36.5" />
+        <text fill="#fff" fontFamily="Arial, sans-serif" fontSize="4.4" fontWeight="bold" textAnchor="middle" x="134" y="41.6">PDF</text>
+        <circle cx="134" cy="40" fill="none" r="9" stroke="#fff" strokeOpacity="0.6" strokeWidth="1">
+          <animate attributeName="r" dur="1.8s" keyTimes="0;1" repeatCount="indefinite" values="9;14" />
+          <animate attributeName="opacity" dur="1.8s" keyTimes="0;1" repeatCount="indefinite" values="0.6;0" />
+        </circle>
+      </g>
+    </svg>
+  );
+}
+
+function AiVideoIcon() {
+  return (
+    <svg className="h-full w-full" preserveAspectRatio="xMidYMid meet" viewBox="0 0 160 80">
+      <defs>
+        <linearGradient id="vd-mini-bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="#e879f9" />
+          <stop offset="100%" stopColor="#d946ef" />
+        </linearGradient>
+        <linearGradient id="vd-mini-frame" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#fdf4ff" />
+          <stop offset="100%" stopColor="#fae8ff" />
+        </linearGradient>
+      </defs>
+
+      <rect fill="url(#vd-mini-bg)" height="80" rx="6" width="160" />
+
+      {/* dashed beam: script node -> video frame */}
+      <path d="M 26 40 Q 48 26 64 40" fill="none" stroke="#fff" strokeDasharray="3 3" strokeOpacity="0.55" strokeWidth="1.5">
+        <animate attributeName="stroke-dashoffset" dur="1.4s" from="0" repeatCount="indefinite" to="-12" />
+      </path>
+
+      {/* dashed beam: video frame -> render node */}
+      <path d="M 96 40 Q 116 26 134 40" fill="none" stroke="#fff" strokeDasharray="3 3" strokeOpacity="0.55" strokeWidth="1.5">
+        <animate attributeName="stroke-dashoffset" dur="1.4s" from="0" repeatCount="indefinite" to="-12" />
+      </path>
+
+      {/* traveling clip packet along the full path */}
+      <g>
+        <rect fill="#fff" height="8" rx="1.5" stroke="#a21caf" strokeWidth="1" width="11" x="-5.5" y="-4" />
+        <path d="M -2 -1.5 L 2 0 L -2 1.5 Z" fill="#d946ef" />
+        <animateMotion dur="3s" path="M 26 40 Q 48 26 64 40 M 96 40 Q 116 26 134 40" repeatCount="indefinite" />
+        <animate attributeName="opacity" dur="3s" keyTimes="0;0.08;0.45;0.55;0.92;1" repeatCount="indefinite" values="0;1;1;1;1;0" />
+      </g>
+
+      {/* LEFT: trend / script node */}
+      <g>
+        <rect fill="#fff" height="22" rx="3" width="18" x="9" y="29" />
+        <line stroke="#d946ef" strokeWidth="1.6" x1="12" x2="24" y1="34" y2="34" />
+        <line stroke="#f0abfc" strokeWidth="1.6" x1="12" x2="22" y1="38" y2="38" />
+        <line stroke="#f0abfc" strokeWidth="1.6" x1="12" x2="24" y1="42" y2="42" />
+        <line stroke="#f0abfc" strokeWidth="1.6" x1="12" x2="20" y1="46" y2="46" />
+        {/* sparkle / AI cue */}
+        <g transform="translate(24 28)">
+          <path d="M 0 -3 L 0.9 -0.9 L 3 0 L 0.9 0.9 L 0 3 L -0.9 0.9 L -3 0 L -0.9 -0.9 Z" fill="#fff">
+            <animateTransform attributeName="transform" dur="2.2s" repeatCount="indefinite" type="rotate" values="0;360" />
+          </path>
+          <animate attributeName="opacity" dur="1.6s" repeatCount="indefinite" values="0.4;1;0.4" />
+        </g>
+      </g>
+
+      {/* CENTER: 9:16 video frame */}
+      <g>
+        <rect fill="url(#vd-mini-frame)" height="40" rx="3.5" stroke="#fff" strokeWidth="1.5" width="26" x="67" y="20" />
+        {/* play triangle */}
+        <path d="M 76 33 L 86 39 L 76 45 Z" fill="#d946ef">
+          <animate attributeName="opacity" dur="1.8s" repeatCount="indefinite" values="0.55;1;0.55" />
+        </path>
+        {/* caption bar */}
+        <rect fill="#f5d0fe" height="3" rx="1.5" width="16" x="72" y="50" />
+        <rect fill="#e879f9" height="3" rx="1.5" width="10" x="72" y="50">
+          <animate attributeName="width" dur="2.4s" repeatCount="indefinite" values="4;16;4" />
+        </rect>
+        {/* progress scrubber track */}
+        <line stroke="#f0abfc" strokeWidth="1.4" x1="70" x2="90" y1="56.5" y2="56.5" />
+        {/* moving scrubber head */}
+        <circle cx="70" cy="56.5" fill="#a21caf" r="2">
+          <animate attributeName="cx" dur="2.6s" repeatCount="indefinite" values="70;90;70" />
+        </circle>
+      </g>
+
+      {/* RIGHT: render node */}
+      <g>
+        <circle cx="139" cy="40" fill="#fff" r="9" />
+        {/* render gear / spinner */}
+        <g transform="translate(139 40)">
+          <circle cx="0" cy="0" fill="none" r="5" stroke="#f0abfc" strokeWidth="1.6" />
+          <path d="M 0 -5 A 5 5 0 0 1 5 0" fill="none" stroke="#d946ef" strokeLinecap="round" strokeWidth="1.8">
+            <animateTransform attributeName="transform" dur="1.1s" repeatCount="indefinite" type="rotate" values="0;360" />
+          </path>
+        </g>
+        {/* pulse ring on completion */}
+        <circle cx="139" cy="40" fill="none" stroke="#fff" strokeWidth="1.2" r="9">
+          <animate attributeName="r" dur="2.2s" repeatCount="indefinite" values="9;13;9" />
+          <animate attributeName="opacity" dur="2.2s" repeatCount="indefinite" values="0.7;0;0.7" />
+        </circle>
+      </g>
+
+      {/* scanning line sweeping the scene */}
+      <line stroke="#fff" strokeOpacity="0.25" strokeWidth="1" x1="0" x2="0" y1="6" y2="74">
+        <animate attributeName="x1" dur="3.4s" repeatCount="indefinite" values="10;150;10" />
+        <animate attributeName="x2" dur="3.4s" repeatCount="indefinite" values="10;150;10" />
+      </line>
+    </svg>
+  );
+}
+
+function CustomSoftwareIcon() {
+  return (
+    <svg className="h-full w-full" preserveAspectRatio="xMidYMid meet" viewBox="0 0 160 80">
+      <defs>
+        <linearGradient id="cs-mini-bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="#3b82f6" />
+          <stop offset="100%" stopColor="#2563eb" />
+        </linearGradient>
+        <linearGradient id="cs-mini-pkt" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stopColor="#dbeafe" />
+          <stop offset="100%" stopColor="#93c5fd" />
+        </linearGradient>
+      </defs>
+
+      <rect fill="url(#cs-mini-bg)" height="80" rx="6" width="160" />
+
+      <path d="M 36 30 Q 80 12 124 30" fill="none" stroke="#fff" strokeDasharray="3 4" strokeOpacity="0.55" strokeWidth="1.5">
+        <animate attributeName="stroke-dashoffset" dur="1.4s" from="0" repeatCount="indefinite" to="-14" />
+      </path>
+      <path d="M 36 52 Q 80 70 124 52" fill="none" stroke="#fff" strokeDasharray="2 5" strokeOpacity="0.4" strokeWidth="1.2">
+        <animate attributeName="stroke-dashoffset" dur="2.2s" from="0" repeatCount="indefinite" to="14" />
+      </path>
+
+      <line stroke="#fff" strokeOpacity="0.18" strokeWidth="1" x1="30" x2="30" y1="14" y2="66">
+        <animate attributeName="x1" dur="3s" repeatCount="indefinite" values="30;130;30" />
+        <animate attributeName="x2" dur="3s" repeatCount="indefinite" values="30;130;30" />
+        <animate attributeName="stroke-opacity" dur="3s" repeatCount="indefinite" values="0;0.22;0" />
+      </line>
+
+      <g>
+        <rect fill="url(#cs-mini-pkt)" height="9" rx="2" stroke="#1e3a8a" strokeWidth="0.8" width="13" x="-6.5" y="-4.5" />
+        <path d="M -3 -1 L -5 0 L -3 1 M 3 -1 L 5 0 L 3 1" fill="none" stroke="#1e3a8a" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9" />
+        <animateMotion dur="2.4s" path="M 36 30 Q 80 12 124 30" repeatCount="indefinite" rotate="auto" />
+        <animate attributeName="opacity" dur="2.4s" keyTimes="0;0.12;0.88;1" repeatCount="indefinite" values="0;1;1;0" />
+      </g>
+
+      <g>
+        <circle cx="80" cy="58" fill="#fff" r="3" opacity="0.9">
+          <animateMotion dur="3.2s" path="M 124 52 Q 80 70 36 52" repeatCount="indefinite" />
+          <animate attributeName="opacity" dur="3.2s" keyTimes="0;0.1;0.9;1" repeatCount="indefinite" values="0;0.9;0.9;0" />
+        </circle>
+      </g>
+
+      <g>
+        <rect fill="#fff" height="22" rx="3" width="26" x="23" y="29" />
+        <rect fill="#1e3a8a" height="4" rx="1" width="26" x="23" y="29" />
+        <circle cx="27" cy="31" fill="#60a5fa" r="0.9" />
+        <circle cx="30" cy="31" fill="#93c5fd" r="0.9" />
+        <rect fill="#3b82f6" height="1.6" rx="0.8" width="9" x="26" y="36">
+          <animate attributeName="width" dur="1.5s" repeatCount="indefinite" values="9;15;9" />
+        </rect>
+        <rect fill="#2563eb" height="1.6" rx="0.8" width="14" x="26" y="39.5">
+          <animate attributeName="width" dur="1.8s" repeatCount="indefinite" values="14;7;14" />
+        </rect>
+        <rect fill="#60a5fa" height="1.6" rx="0.8" width="7" x="29" y="43">
+          <animate attributeName="width" dur="1.3s" repeatCount="indefinite" values="7;12;7" />
+        </rect>
+        <rect fill="#93c5fd" height="1.6" rx="0.8" width="11" x="26" y="46.5">
+          <animate attributeName="width" dur="2s" repeatCount="indefinite" values="11;5;11" />
+        </rect>
+      </g>
+
+      <g>
+        <rect fill="#fff" height="26" rx="3" width="34" x="63" y="27" />
+        <rect fill="#1e3a8a" height="5" rx="1" width="34" x="63" y="27" />
+        <circle cx="67" cy="29.5" fill="#f87171" r="1" />
+        <circle cx="70.5" cy="29.5" fill="#fbbf24" r="1" />
+        <circle cx="74" cy="29.5" fill="#34d399" r="1" />
+        <rect fill="#dbeafe" height="3" rx="0.6" width="5" x="67" y="46">
+          <animate attributeName="height" attributeType="XML" begin="0s" dur="1.4s" repeatCount="indefinite" values="3;9;3" />
+          <animate attributeName="y" dur="1.4s" repeatCount="indefinite" values="46;40;46" />
+        </rect>
+        <rect fill="#60a5fa" height="6" rx="0.6" width="5" x="73" y="43">
+          <animate attributeName="height" dur="1.4s" begin="0.2s" repeatCount="indefinite" values="6;12;6" />
+          <animate attributeName="y" dur="1.4s" begin="0.2s" repeatCount="indefinite" values="43;37;43" />
+        </rect>
+        <rect fill="#2563eb" height="9" rx="0.6" width="5" x="79" y="40">
+          <animate attributeName="height" dur="1.4s" begin="0.4s" repeatCount="indefinite" values="9;15;9" />
+          <animate attributeName="y" dur="1.4s" begin="0.4s" repeatCount="indefinite" values="40;34;40" />
+        </rect>
+        <rect fill="#93c5fd" height="5" rx="0.6" width="5" x="85" y="44">
+          <animate attributeName="height" dur="1.4s" begin="0.6s" repeatCount="indefinite" values="5;11;5" />
+          <animate attributeName="y" dur="1.4s" begin="0.6s" repeatCount="indefinite" values="44;38;44" />
+        </rect>
+      </g>
+
+      <g>
+        <path d="M 116 36 a 6 6 0 1 1 11 2 a 4 4 0 0 1 -1 8 h -12 a 5 5 0 0 1 -1 -10 a 6 6 0 0 1 3 -0" fill="#fff" />
+        <circle cx="121" cy="44" fill="#22c55e" r="2.4">
+          <animate attributeName="opacity" dur="1.1s" repeatCount="indefinite" values="1;0.25;1" />
+          <animate attributeName="r" dur="1.1s" repeatCount="indefinite" values="2.4;3.1;2.4" />
+        </circle>
+        <path d="M 118 50 l 3 3 l 5 -6" fill="none" stroke="#22c55e" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6">
+          <animate attributeName="stroke-opacity" dur="2.4s" keyTimes="0;0.5;0.55;1" repeatCount="indefinite" values="0;0;1;1" />
+        </path>
       </g>
     </svg>
   );
