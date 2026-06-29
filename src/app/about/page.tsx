@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/shared/SiteFooter";
 import { SiteHeader } from "@/components/shared/SiteHeader";
 import { siteUrl } from "@/lib/site-content";
+import { founders, team } from "@/lib/team";
 
 export const metadata: Metadata = {
   title: "About Summit Automates | AI Automation for Real Business Operations",
@@ -114,6 +115,25 @@ export default function AboutPage() {
             </p>
           </section>
 
+          {/* VISION */}
+          <section className="section-shell py-16">
+            <div className="panel-strong relative overflow-hidden rounded-[2.5rem] p-8 sm:p-12">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(233,200,120,0.16),transparent_60%)]" />
+              <div className="relative max-w-3xl">
+                <p className="eyebrow">Our vision</p>
+                <h2 className="mt-5 text-balance text-3xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-4xl lg:text-[2.7rem]">
+                  A world where every operations team — not just the big tech companies — runs on AI
+                  automation they understand, own, and trust.
+                </h2>
+                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
+                  <span className="font-semibold text-gold-200">Our mission:</span> turn the slow,
+                  manual, error-prone parts of a business into production-grade AI systems that ship
+                  in weeks and keep running for years — in plain language the whole team can own.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* PRINCIPLES */}
           <section className="section-shell py-20">
             <div className="max-w-2xl">
@@ -202,6 +222,220 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
+          </section>
+
+          {/* TEAM */}
+          <section className="section-shell py-20" id="team">
+            <div className="max-w-2xl">
+              <p className="eyebrow">The team</p>
+              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                The people behind Summit.
+              </h2>
+              <p className="mt-4 text-base leading-7 text-slate-300 sm:text-lg">
+                A small, senior team that designs, builds, and ships the automation systems ourselves.
+              </p>
+            </div>
+
+            {/* Co-founders */}
+            <div className="mt-10 grid gap-6 sm:grid-cols-2">
+              {founders.map((person) => (
+                <article className="panel flex items-center gap-5 rounded-[1.8rem] p-6" key={person.name}>
+                  <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl border border-gold-300/30 bg-gold-300/10">
+                    {person.photo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img alt={person.name} className="h-full w-full object-cover" src={person.photo} />
+                    ) : (
+                      <span className="grid h-full w-full place-items-center text-2xl font-semibold text-gold-200">
+                        {person.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-xl font-semibold text-white">{person.name}</h3>
+                    <p className="mono mt-1 text-xs uppercase tracking-[0.2em] text-gold-200/80">
+                      {person.role}
+                    </p>
+                    {person.bio ? (
+                      <p className="mt-3 text-sm leading-6 text-slate-300">{person.bio}</p>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* Wider team grid */}
+            {team.length > 0 ? (
+              <div className="mt-12">
+                <p className="mono mb-5 text-xs uppercase tracking-[0.24em] text-gold-200/70">
+                  The wider team
+                </p>
+                <div
+                  className="group relative mt-6 overflow-hidden"
+                  style={{
+                    maskImage:
+                      "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
+                    WebkitMaskImage:
+                      "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent)",
+                  }}
+                >
+                  <style
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        "@keyframes summit-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}" +
+                        ".summit-marquee-track{animation:summit-marquee 30s linear infinite;will-change:transform}" +
+                        ".group:hover .summit-marquee-track{animation-play-state:paused}" +
+                        "@media (prefers-reduced-motion:reduce){.summit-marquee-track{animation:none;flex-wrap:wrap;justify-content:center}}",
+                    }}
+                  />
+                  <div className="summit-marquee-track flex w-max py-2">
+                    {[...team, ...team].map((person, i) => (
+                      <article
+                        aria-hidden={i >= team.length ? true : undefined}
+                        className="panel mr-5 flex w-56 shrink-0 flex-col items-center rounded-[1.5rem] p-5 text-center transition-transform duration-300 hover:-translate-y-1"
+                        key={`${person.name}-${i}`}
+                      >
+                        <div className="h-20 w-20 overflow-hidden rounded-2xl border border-gold-300/30 bg-gold-300/10">
+                          {person.photo ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img alt={person.name} className="h-full w-full object-cover" src={person.photo} />
+                          ) : (
+                            <span className="grid h-full w-full place-items-center text-xl font-semibold text-gold-200">
+                              {person.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="mt-4 text-base font-semibold text-white">{person.name}</h3>
+                        <p className="mono mt-1 text-[0.7rem] uppercase tracking-[0.18em] text-gold-200/80">
+                          {person.role}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+          </section>
+
+          {/* CLIENTS — teams we've worked with (logos in /public/clients) */}
+          <section className="section-shell py-12">
+            <p className="mono text-center text-xs uppercase tracking-[0.24em] text-slate-400">
+              Teams we&apos;ve worked with
+            </p>
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+              {[
+                { name: "HR Business Solutions", slug: "hrbs" },
+                { name: "Teleport Manpower", slug: "teleport" },
+                { name: "Stiryum", slug: "stiryum" },
+                { name: "TalentHue", slug: "talenthue" },
+                { name: "Etihad Town", slug: "etihad-town" },
+                { name: "Zameen", slug: "zameen" },
+                { name: "GFS Builders", slug: "gfs-builders" },
+                { name: "Makaan Solutions", slug: "makaan-solutions" },
+                { name: "Systems Limited", slug: "systems-limited" },
+                { name: "ibex", slug: "ibex" },
+                { name: "MindBridge", slug: "mindbridge" },
+                { name: "Abacus", slug: "abacus" },
+              ].map((c) => (
+                <div
+                  className="flex h-16 items-center justify-center rounded-xl border border-black/5 bg-white px-3 shadow-sm"
+                  key={c.slug}
+                  title={c.name}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    alt={c.name}
+                    className="max-h-9 w-auto object-contain"
+                    loading="lazy"
+                    src={`/clients/${c.slug}.png`}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* CASE STUDIES (representative placeholders — replace with named client stories) */}
+          <section className="section-shell py-16">
+            <div className="max-w-2xl">
+              <p className="eyebrow">Results</p>
+              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                Representative outcomes.
+              </h2>
+              <p className="mt-4 text-base leading-7 text-slate-400">
+                Illustrative examples of the kind of results we build toward — placeholders to be
+                replaced with named client case studies.
+              </p>
+            </div>
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {[
+                {
+                  tag: "Recruitment agency",
+                  problem: "CV screening, scheduling, and client updates ate days every week.",
+                  build:
+                    "An automated WhatsApp screening workflow paired with CRM calendar integration for self-scheduling.",
+                  outcome: "~40% faster time-to-hire · ~18 hrs/week saved per recruiter",
+                },
+                {
+                  tag: "Real estate team",
+                  problem: "Leads arrived across many portals and slipped before anyone replied.",
+                  build:
+                    "A unified webhook that ingests leads from every portal and fires an instant AI qualification sequence.",
+                  outcome: "Sub-2-minute first response · ~28% more qualified tours",
+                },
+                {
+                  tag: "Call center",
+                  problem: "Tickets were triaged and QA-scored by hand, slowing resolution.",
+                  build:
+                    "An NLP routing engine that auto-tags, scores, and assigns tier-1 tickets, escalating only edge cases.",
+                  outcome: "Triage in seconds (was hours) · ~98% QA accuracy",
+                },
+              ].map((c) => (
+                <article className="panel flex flex-col rounded-[1.8rem] p-6" key={c.tag}>
+                  <p className="mono text-xs uppercase tracking-[0.2em] text-gold-200/80">{c.tag}</p>
+                  <p className="mt-4 text-sm leading-6 text-slate-300">
+                    <span className="font-semibold text-white">Problem:</span> {c.problem}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">
+                    <span className="font-semibold text-white">The build:</span> {c.build}
+                  </p>
+                  <p className="mt-5 text-base font-semibold leading-6 text-gold-200">{c.outcome}</p>
+                </article>
+              ))}
+            </div>
+            <p className="mt-4 text-xs text-slate-500">
+              Representative figures — replace with verified client results.
+            </p>
+          </section>
+
+          {/* TESTIMONIALS (placeholder — replace with real client quotes) */}
+          <section className="section-shell py-16">
+            <div className="max-w-2xl">
+              <p className="eyebrow">What clients say</p>
+              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                In their words.
+              </h2>
+            </div>
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {[1, 2, 3].map((i) => (
+                <figure className="panel flex flex-col rounded-[1.8rem] p-6" key={i}>
+                  <blockquote className="text-base leading-7 text-slate-200">
+                    &ldquo;Client testimonial goes here — a sentence or two on the outcome and what it
+                    was like to work with Summit.&rdquo;
+                  </blockquote>
+                  <figcaption className="mt-5 flex items-center gap-3">
+                    <span className="grid h-10 w-10 place-items-center rounded-full border border-gold-300/30 bg-gold-300/10 text-xs font-semibold text-gold-200">
+                      ★
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold text-white">Client Name</span>
+                      <span className="block text-xs text-slate-400">Title · Company</span>
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+            <p className="mt-4 text-xs text-slate-500">
+              Placeholder testimonials — replace with real client quotes.
+            </p>
           </section>
 
           {/* CTA */}
