@@ -1,8 +1,14 @@
 "use client";
 
 import { SERVICE_MODULES_BY_SLUG } from "@/lib/services-config";
+import { AiDocumentHeroScene } from "./AiDocumentHeroScene";
+import { AiVideoHeroScene } from "./AiVideoHeroScene";
+import { AiVoiceAgentsHeroScene } from "./AiVoiceAgentsHeroScene";
 import { CrmMarketingHeroScene } from "./CrmMarketingHeroScene";
+import { CustomSoftwareHeroScene } from "./CustomSoftwareHeroScene";
 import { DocSecurityHeroScene } from "./DocSecurityHeroScene";
+import { EndpointHeroScene } from "./EndpointHeroScene";
+import { ForexHeroScene } from "./ForexHeroScene";
 import { RecruitmentHeroScene } from "./RecruitmentHeroScene";
 import { ServiceHeroShell } from "./ServiceHeroShell";
 import { WhatsappHeroScene } from "./WhatsappHeroScene";
@@ -41,6 +47,42 @@ const STATS_BY_SLUG: Record<string, Stat[]> = {
     { value: "Live", label: "Manager visibility" },
     { value: "+12%", label: "Productivity lift" },
   ],
+  "ai-voice-agents": [
+    { value: "24/7", label: "Call coverage" },
+    { value: "100%", label: "Calls recorded" },
+    { value: "Auto", label: "QA scoring" },
+    { value: "2x+", label: "Calls handled" },
+  ],
+  "ai-document-generation": [
+    { value: "Minutes", label: "Draft turnaround" },
+    { value: "PDF", label: "Branded export" },
+    { value: "100%", label: "Human reviewed" },
+    { value: "Cited", label: "Source aware" },
+  ],
+  "ai-video-generation": [
+    { value: "Daily", label: "Trend sourcing" },
+    { value: "Auto", label: "Captions" },
+    { value: "Brand", label: "Templated" },
+    { value: "10x", label: "More output" },
+  ],
+  "custom-software-development": [
+    { value: "Full-stack", label: "Web & SaaS" },
+    { value: "Prod", label: "Shipped live" },
+    { value: "CI/CD", label: "Automated deploy" },
+    { value: "Live", label: "Dashboards" },
+  ],
+  "endpoint-device-management": [
+    { value: "All OS", label: "iOS·Android·Win·mac" },
+    { value: "Remote", label: "Lock & wipe" },
+    { value: "Auto", label: "Patching" },
+    { value: "1", label: "Fleet dashboard" },
+  ],
+  "forex-trading-automation": [
+    { value: "MT4/5", label: "Integration" },
+    { value: "24/5", label: "Bot uptime" },
+    { value: "Tested", label: "Backtested strategies" },
+    { value: "Live", label: "Portfolio view" },
+  ],
 };
 
 function PickScene({ slug }: { slug: string }) {
@@ -55,6 +97,18 @@ function PickScene({ slug }: { slug: string }) {
       return <DocSecurityHeroScene />;
     case "workforce-operations-tracking":
       return <WorkforceHeroScene />;
+    case "ai-voice-agents":
+      return <AiVoiceAgentsHeroScene />;
+    case "ai-document-generation":
+      return <AiDocumentHeroScene />;
+    case "ai-video-generation":
+      return <AiVideoHeroScene />;
+    case "custom-software-development":
+      return <CustomSoftwareHeroScene />;
+    case "endpoint-device-management":
+      return <EndpointHeroScene />;
+    case "forex-trading-automation":
+      return <ForexHeroScene />;
     default:
       return null;
   }

@@ -224,6 +224,35 @@ export default function AboutPage() {
             </div>
           </section>
 
+          {/* LIFE AT SUMMIT */}
+          <section className="section-shell py-16">
+            <div className="max-w-2xl">
+              <p className="eyebrow">Inside the studio</p>
+              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                Life at Summit.
+              </h2>
+              <p className="mt-4 text-base leading-7 text-slate-400">
+                A small, senior team designing, building, and shipping in one room.
+              </p>
+            </div>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {["life-9305", "life-9290", "life-9303"].map((img) => (
+                <div
+                  className="group aspect-[3/2] overflow-hidden rounded-[1.5rem] border border-white/10"
+                  key={img}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    alt="Summit Automates team at work"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    src={`/about/${img}.jpg`}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* TEAM */}
           <section className="section-shell py-20" id="team">
             <div className="max-w-2xl">
