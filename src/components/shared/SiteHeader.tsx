@@ -5,6 +5,8 @@ import {
   Briefcase,
   ChevronDown,
   ChevronRight,
+  Clapperboard,
+  Code2,
   FileText,
   Headphones,
   Heart,
@@ -14,6 +16,7 @@ import {
   MapPinned,
   Menu,
   MessageCircle,
+  PhoneCall,
   ShieldCheck,
   Sparkles,
   TrendingUp,
@@ -116,6 +119,35 @@ const SERVICES_MENU: MegaSection[] = [
       },
     ],
   },
+  {
+    heading: "AI & custom builds",
+    items: [
+      {
+        href: "/services/ai-voice-agents",
+        label: "AI Voice Agents",
+        icon: <PhoneCall className={ICON_CLASS} />,
+        description: "Inbound & outbound AI calls.",
+      },
+      {
+        href: "/services/ai-document-generation",
+        label: "AI Document Generation",
+        icon: <FileText className={ICON_CLASS} />,
+        description: "Plans, proposals & reports.",
+      },
+      {
+        href: "/services/ai-video-generation",
+        label: "AI Video & Media",
+        icon: <Clapperboard className={ICON_CLASS} />,
+        description: "Short-form video at scale.",
+      },
+      {
+        href: "/services/custom-software-development",
+        label: "Custom Software & SaaS",
+        icon: <Code2 className={ICON_CLASS} />,
+        description: "Web apps, SaaS, portals.",
+      },
+    ],
+  },
 ];
 
 const INDUSTRIES_MENU: MegaSection[] = [
@@ -174,7 +206,7 @@ const MENU: MenuConfig[] = [
     featured: {
       title: "Automation Command Center",
       description:
-        "Five connected services orbiting one AI core — see how Summit wires customer ops, hiring, sales, documents, and the field team into one workflow.",
+        "Eleven connected services orbiting one AI core — see how Summit wires customer ops, hiring, sales, documents, devices, voice, video, and custom builds into one workflow.",
       href: "/services",
       cta: "Explore all services",
     },

@@ -263,6 +263,30 @@ button {
 	--glow-from: rgba(99, 102, 241, 0.65);
 	--glow-to: rgba(56, 189, 248, 0.35);
 }
+.glass-card[data-accent="sky"] {
+	--glow-from: rgba(96, 165, 250, 0.6);
+	--glow-to: rgba(129, 140, 248, 0.3);
+}
+.glass-card[data-accent="rose"] {
+	--glow-from: rgba(251, 113, 133, 0.6);
+	--glow-to: rgba(244, 63, 94, 0.3);
+}
+.glass-card[data-accent="emerald"] {
+	--glow-from: rgba(52, 211, 153, 0.6);
+	--glow-to: rgba(16, 185, 129, 0.3);
+}
+.glass-card[data-accent="amber"] {
+	--glow-from: rgba(251, 191, 36, 0.6);
+	--glow-to: rgba(245, 158, 11, 0.3);
+}
+.glass-card[data-accent="fuchsia"] {
+	--glow-from: rgba(232, 121, 249, 0.6);
+	--glow-to: rgba(217, 70, 239, 0.3);
+}
+.glass-card[data-accent="blue"] {
+	--glow-from: rgba(59, 130, 246, 0.65);
+	--glow-to: rgba(37, 99, 235, 0.35);
+}
 
 .beam-pulse {
 	animation: beam-pulse 2.6s ease-in-out infinite;

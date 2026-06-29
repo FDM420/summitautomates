@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const QUICK_LINKS = [
-  { href: "/services", label: "Services", description: "Five connected automation services." },
+  { href: "/services", label: "Services", description: "Eleven connected automation services." },
   { href: "/industries", label: "Industries", description: "Vertical playbooks." },
   { href: "/insights", label: "Insights", description: "Field notes from production builds." },
   { href: "/contact", label: "Contact", description: "Book a discovery call." },

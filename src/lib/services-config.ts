@@ -1,15 +1,30 @@
 import {
+  Clapperboard,
+  Code2,
+  FileText,
   Laptop,
   LineChart,
   MapPinned,
   MessageSquareText,
+  PhoneCall,
   ShieldCheck,
   TrendingUp,
   UsersRound,
   type LucideIcon,
 } from "lucide-react";
 
-export type ServiceAccent = "teal" | "violet" | "cyan" | "gold" | "sky" | "indigo" | "rose";
+export type ServiceAccent =
+  | "teal"
+  | "violet"
+  | "cyan"
+  | "gold"
+  | "sky"
+  | "indigo"
+  | "rose"
+  | "emerald"
+  | "amber"
+  | "fuchsia"
+  | "blue";
 
 export type ServiceModule = {
   slug: string;
@@ -56,7 +71,7 @@ export type ServiceModule = {
 };
 
 const TAU = Math.PI * 2;
-const ORBIT_COUNT = 7;
+const ORBIT_COUNT = 11;
 const orbit = (i: number) => Math.PI / 2 - (i * TAU) / ORBIT_COUNT;
 
 export const SERVICE_MODULES: ServiceModule[] = [
@@ -172,6 +187,66 @@ export const SERVICE_MODULES: ServiceModule[] = [
     orbitAngle: orbit(6),
     orbitRadius: 3.4,
     capabilities: ["Custom MT5 EAs", "AI trading bots", "Strategy backtesting"],
+  },
+  {
+    slug: "ai-voice-agents",
+    shortName: "AI Voice Agents",
+    fullName: "AI Voice Agents & Call Automation",
+    tagline: "Answer and make calls, around the clock.",
+    blurb:
+      "Human-sounding AI agents that handle inbound and outbound calls — answering FAQs, qualifying leads, booking appointments, and following up — with live-agent handoff, recording, transcription, and QA scoring.",
+    accent: "emerald",
+    hex: "#34d399",
+    hexSecondary: "#10b981",
+    Icon: PhoneCall,
+    orbitAngle: orbit(7),
+    orbitRadius: 3.4,
+    capabilities: ["Inbound + outbound calls", "Lead qualification + booking", "Recording + QA scoring"],
+  },
+  {
+    slug: "ai-document-generation",
+    shortName: "AI Document Gen",
+    fullName: "AI Document & Content Generation",
+    tagline: "Plans, proposals, reports — drafted fast.",
+    blurb:
+      "Generate polished business plans, proposals, reports, and compliance packs from a short brief — structured, on-brand, citation-aware, and export-ready as PDF, with a human review-and-edit loop.",
+    accent: "amber",
+    hex: "#fbbf24",
+    hexSecondary: "#f59e0b",
+    Icon: FileText,
+    orbitAngle: orbit(8),
+    orbitRadius: 3.4,
+    capabilities: ["Plans + proposals + reports", "Branded PDF export", "Human review loop"],
+  },
+  {
+    slug: "ai-video-generation",
+    shortName: "AI Video & Media",
+    fullName: "AI Video & Media Generation",
+    tagline: "Short-form video, sourced and produced.",
+    blurb:
+      "AI-assisted short-form and marketing video — trend sourcing, script-to-video, captions, and brand templates — so social and ad creative ships at scale without a full production team.",
+    accent: "fuchsia",
+    hex: "#e879f9",
+    hexSecondary: "#d946ef",
+    Icon: Clapperboard,
+    orbitAngle: orbit(9),
+    orbitRadius: 3.4,
+    capabilities: ["Trend sourcing", "Script-to-video", "Captions + brand kit"],
+  },
+  {
+    slug: "custom-software-development",
+    shortName: "Custom Software",
+    fullName: "Custom Software, SaaS & Web Development",
+    tagline: "Full products: web apps, SaaS, portals.",
+    blurb:
+      "End-to-end product builds — multi-tenant SaaS, marketplaces, internal tools, dashboards, and websites — designed, built, and shipped to production with the same reliability focus as our automation modules.",
+    accent: "blue",
+    hex: "#3b82f6",
+    hexSecondary: "#2563eb",
+    Icon: Code2,
+    orbitAngle: orbit(10),
+    orbitRadius: 3.4,
+    capabilities: ["Web & SaaS apps", "Dashboards + portals", "Production-grade delivery"],
   },
 ];
 

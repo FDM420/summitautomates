@@ -64,7 +64,7 @@ export function ServiceDirectorySection() {
             Service Directory.
           </h2>
           <p className="text-base leading-7 text-slate-300 sm:text-lg">
-            Five connected systems on a shared automation core. Each card opens its full
+            Eleven connected systems on a shared automation core. Each card opens its full
             discovery path with live workflow views and case-style proof.
           </p>
         </div>

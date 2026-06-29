@@ -1582,6 +1582,778 @@ export const servicePages: ServicePageConfig[] = [
       },
     ],
   },
+{
+    "slug": "ai-voice-agents",
+    "navTitle": "AI Voice Agents",
+    "cardTitle": "AI Voice Agents for Sales, Support & Call Centers",
+    "seoTitle": "AI Voice Agent Services for Inbound and Outbound Calls, Lead Qualification, and Call Center Automation",
+    "metaDescription": "Summit builds AI voice agents that answer and make phone calls with a human-sounding voice, handle FAQs, qualify leads, book appointments, run reminders, and hand off to a live agent when needed. Every call is recorded, transcribed, and QA-scored.",
+    "keywords": [
+      "AI voice agents",
+      "AI voice calling agent",
+      "inbound call automation",
+      "outbound calling bot",
+      "call center automation",
+      "lead qualification voice agent",
+      "appointment booking voice AI",
+      "SIP Asterisk VICIdial integration"
+    ],
+    "heroTitle": "AI voice agents that answer and make calls so your team never misses one.",
+    "heroDescription": "If calls go unanswered after hours, leads wait on hold, or your agents repeat the same script all day, we can build an AI voice agent that handles inbound and outbound calls with a natural voice, qualifies leads, books appointments, and hands the call to a person when it needs one.",
+    "heroTags": [
+      "Inbound and outbound calls",
+      "Human-sounding voice",
+      "Lead qualification and booking",
+      "Live-agent handoff"
+    ],
+    "heroStats": [
+      { "label": "Call coverage", "value": "24/7" },
+      { "label": "Every call", "value": "Recorded" },
+      { "label": "QA scoring", "value": "Auto" }
+    ],
+    "problemCards": [
+      {
+        "title": "Calls go unanswered after hours",
+        "description": "An AI voice agent can pick up every inbound call around the clock, answer common questions, and capture the details so no caller is left waiting or lost."
+      },
+      {
+        "title": "Agents repeat the same calls all day",
+        "description": "Routine FAQ calls, reminders, and follow-ups can be handled by the voice agent, so your human agents spend their time on high-value conversations that actually need them."
+      },
+      {
+        "title": "Leads are not qualified consistently",
+        "description": "The voice agent asks the same qualifying questions every time and routes serious leads forward, so quality does not depend on which agent happened to answer."
+      },
+      {
+        "title": "Managers cannot review call quality",
+        "description": "Every call is recorded, transcribed, and QA-scored, so supervisors can check script adherence and outcomes instead of spot-listening to a handful of calls."
+      }
+    ],
+    "explainerCards": [
+      {
+        "type": "inputs",
+        "title": "What usually comes into this workflow",
+        "description": "This service starts with the calls and contact lists your team is already handling on the phone every day.",
+        "bullets": [
+          "Inbound calls to your support, sales, or booking line, plus outbound call lists for follow-up.",
+          "Your scripts, FAQs, qualifying questions, and the rules for when to transfer to a person.",
+          "Your phone system or SIP setup (for example Asterisk or VICIdial) and your CRM records."
+        ]
+      },
+      {
+        "type": "process",
+        "title": "How the system handles each call",
+        "description": "The voice agent answers or places the call, talks with the caller in a natural voice, and decides whether to resolve, qualify, or transfer.",
+        "bullets": [
+          "It answers FAQs, confirms or books appointments, and runs reminders and follow-ups from your script.",
+          "It qualifies leads by asking set questions and routes serious ones to the right team or CRM stage.",
+          "It hands the call to a live agent when the caller asks or the conversation needs a human."
+        ]
+      },
+      {
+        "type": "outputs",
+        "title": "What your team gets back",
+        "description": "Instead of missed calls and untracked conversations, your team gets handled calls with a clear record of each one.",
+        "bullets": [
+          "Qualified leads, booked appointments, and completed reminders pushed into your CRM.",
+          "A recording and full transcript of every call, ready to review or search.",
+          "QA scores on script adherence and outcomes, plus alerts when a call needs human attention."
+        ]
+      },
+      {
+        "type": "benefits",
+        "title": "Why buyers usually want it",
+        "description": "The value is more calls handled well, with less load on your agents and clearer oversight for managers.",
+        "bullets": [
+          "You keep 24/7 coverage without staffing every shift, so callers are not left waiting.",
+          "Your agents are freed from repetitive calls to focus on the conversations that close.",
+          "Every call is consistent, recorded, and scored, which makes quality and compliance easier to prove."
+        ]
+      }
+    ],
+    "workflowSteps": [
+      {
+        "title": "Connect the phone line",
+        "description": "The voice agent connects to your phone system or SIP setup so it can answer inbound calls and place outbound ones from your numbers."
+      },
+      {
+        "title": "Talk with the caller",
+        "description": "Using a human-sounding voice, the agent follows your script to answer questions, qualify the lead, or confirm a booking."
+      },
+      {
+        "title": "Resolve or hand off",
+        "description": "Simple calls are handled end to end, while calls that need a person are transferred to a live agent with the context attached."
+      },
+      {
+        "title": "Record and review",
+        "description": "Each call is recorded, transcribed, and QA-scored, and the outcome is logged to your CRM for the team to act on."
+      }
+    ],
+    "deliverables": [
+      "Inbound and outbound AI voice agent setup",
+      "Phone system and SIP integration (Asterisk, VICIdial)",
+      "Lead qualification and appointment booking flows",
+      "Reminder and follow-up call campaigns",
+      "Live-agent handoff and call routing",
+      "Call recording, transcription, and QA scoring"
+    ],
+    "industries": ["Call centers", "BPO", "Sales teams", "Support teams", "Clinics", "Service businesses"],
+    "faqs": [
+      {
+        "question": "Does the AI voice agent replace my human agents?",
+        "answer": "No. It handles routine inbound and outbound calls and hands the conversation to a live agent whenever the caller asks or the call needs a person, so your team focuses on high-value calls."
+      },
+      {
+        "question": "Can it handle both inbound and outbound calls?",
+        "answer": "Yes. The same agent can answer incoming calls and place outbound calls for reminders, follow-ups, and lead qualification."
+      },
+      {
+        "question": "Will it work with my current phone system?",
+        "answer": "In most cases, yes. We integrate with standard phone systems and SIP setups such as Asterisk and VICIdial, and connect calls to your CRM."
+      }
+    ],
+    "contactFocus": "AI voice agents for calls and call centers",
+    "relatedSlugs": ["crm-ai-marketing-automation", "whatsapp-automation", "recruitment-hr-automation"],
+    "liveModes": [
+      {
+        "label": "Inbound",
+        "summary": "See incoming calls answered around the clock, with FAQs handled and the right calls sent to a live agent.",
+        "pipeline": ["Incoming Call", "AI Voice Agent", "Qualify", "Live Handoff", "Call Log"],
+        "activePipelineIndex": 1,
+        "metrics": [
+          { "label": "Calls today", "value": "138" },
+          { "label": "AI handled", "value": "74%" },
+          { "label": "Transferred", "value": "21" }
+        ],
+        "bars": [
+          { "label": "Calls answered", "value": 99 },
+          { "label": "Resolved by AI", "value": 71 },
+          { "label": "Handoff success", "value": 88 }
+        ],
+        "activity": [
+          "After-hours caller answered and booking question resolved automatically",
+          "Pricing enquiry qualified and routed to the sales queue",
+          "Billing dispute transferred to a live agent with call context attached"
+        ]
+      },
+      {
+        "label": "Outbound",
+        "summary": "Run reminder and follow-up call campaigns, confirm appointments, and qualify leads from a contact list.",
+        "pipeline": ["Call List", "AI Voice Agent", "Confirm or Qualify", "CRM Update", "QA Report"],
+        "activePipelineIndex": 2,
+        "metrics": [
+          { "label": "Calls placed", "value": "212" },
+          { "label": "Confirmed", "value": "96" },
+          { "label": "Avg QA score", "value": "92" }
+        ],
+        "bars": [
+          { "label": "Connect rate", "value": 64 },
+          { "label": "Appointments confirmed", "value": 78 },
+          { "label": "Script adherence", "value": 95 }
+        ],
+        "activity": [
+          "Appointment reminder call placed and confirmed for tomorrow morning",
+          "Follow-up lead qualified and pushed into the CRM pipeline",
+          "Call recorded, transcribed, and QA-scored for supervisor review"
+        ]
+      }
+    ]
+  },
+{
+    slug: "ai-document-generation",
+    navTitle: "AI Document Generation",
+    cardTitle: "AI Document & Content Generation",
+    seoTitle: "AI Document & Content Generation Services for Business Plans, Proposals, Reports, and Compliance Packs",
+    metaDescription:
+      "Summit builds AI document generation systems that turn a short brief into polished business plans, proposals, reports, and compliance document packs, with a human review step and rule checks before export to PDF.",
+    keywords: [
+      "AI document generation services",
+      "business plan generator",
+      "AI proposal generation",
+      "automated report writing",
+      "immigration document automation",
+      "AI content generation for documents",
+    ],
+    heroTitle: "AI document generation that turns a short brief into a polished, ready-to-send document.",
+    heroDescription:
+      "If your team rewrites the same business plans, proposals, and reports from scratch every time, we can build a system that drafts a complete, on-brand document from a short brief, checks it against your rules, and lets a person review before it goes out.",
+    heroTags: [
+      "Business plans and proposals",
+      "Reports and document packs",
+      "Human review and edit step",
+      "Polished PDF export",
+    ],
+    heroStats: [
+      { label: "First draft", value: "Minutes" },
+      { label: "Review step", value: "Built-in" },
+      { label: "Export", value: "PDF" },
+    ],
+    problemCards: [
+      {
+        title: "Long documents take days to write",
+        description:
+          "The system can produce a complete first draft from a short brief, so your team starts from a structured document instead of a blank page.",
+      },
+      {
+        title: "Every document looks different",
+        description:
+          "Plans, proposals, and reports can follow the same structure, tone, and branding each time instead of depending on who wrote them.",
+      },
+      {
+        title: "Drafts miss required details",
+        description:
+          "Rule and eligibility checks can flag missing sections, weak claims, or requirements that have not been met before a document is sent.",
+      },
+      {
+        title: "Formatting and exports eat time",
+        description:
+          "Instead of manually styling and re-formatting, the system produces a clean, branded PDF that is ready to share or submit.",
+      },
+    ],
+    explainerCards: [
+      {
+        type: "inputs",
+        title: "What usually goes into this workflow",
+        description:
+          "This service starts with the short brief and source material your team already has when a document is requested.",
+        bullets: [
+          "A short brief or intake form describing the client, the goal, and the type of document needed.",
+          "Supporting material such as notes, figures, prior documents, or applicant and case details.",
+          "Your structure, tone, branding, and any rules the document must follow before it can be sent.",
+        ],
+      },
+      {
+        type: "process",
+        title: "How the system generates the document",
+        description:
+          "The workflow expands the brief into a full structured draft, checks it against your rules, and keeps a person in control.",
+        bullets: [
+          "AI drafts each section in order, following a consistent structure and your preferred tone of voice.",
+          "Rule and eligibility checks flag missing sections, unmet requirements, or claims that need a source.",
+          "A human review-and-edit step lets your team adjust wording and approve the document before export.",
+        ],
+      },
+      {
+        type: "outputs",
+        title: "What your team gets back",
+        description:
+          "Instead of a blank page and manual formatting, your team gets a near-final document that is ready to review and send.",
+        bullets: [
+          "A complete, on-brand draft with consistent structure across plans, proposals, and reports.",
+          "A polished PDF export that is formatted, branded, and ready to share or submit.",
+          "A clear list of flagged gaps and citations so reviewers know exactly what to check.",
+        ],
+      },
+      {
+        type: "benefits",
+        title: "Why buyers usually want it",
+        description:
+          "The value is faster turnaround on long documents without losing accuracy, consistency, or control.",
+        bullets: [
+          "Teams produce more documents in less time because the first draft is already written.",
+          "Output stays consistent and on-brand instead of varying with each author.",
+          "The review step and rule checks keep drafts accurate and submittable, not just fast.",
+        ],
+      },
+    ],
+    workflowSteps: [
+      {
+        title: "Capture the brief",
+        description: "Your team enters a short brief or intake form describing the document, the goal, and any source material.",
+      },
+      {
+        title: "Generate the draft",
+        description:
+          "The system writes a full structured document section by section, following your preferred format, tone, and branding.",
+      },
+      {
+        title: "Check and review",
+        description:
+          "Rule and eligibility checks flag gaps, and a person reviews and edits the draft before it is approved.",
+      },
+      {
+        title: "Export the final document",
+        description:
+          "The approved document is exported as a polished, branded PDF that is ready to send or submit.",
+      },
+    ],
+    deliverables: [
+      "Business plan and proposal generation",
+      "Report and document pack drafting",
+      "Compliance and immigration document packs",
+      "On-brand structure, tone, and templates",
+      "Rule and eligibility validation checks",
+      "Human review step and polished PDF export",
+    ],
+    industries: ["Immigration", "Consultancy", "Professional services", "Finance", "Startups", "Agencies"],
+    faqs: [
+      {
+        question: "Does AI send the document without anyone checking it?",
+        answer:
+          "No. The system prepares a complete draft and flags issues, but a person reviews, edits, and approves before the document is finalized.",
+      },
+      {
+        question: "Is this the same as your document verification service?",
+        answer:
+          "No. This service creates new documents from a brief. Document verification reads and checks documents you already have. The two can work together.",
+      },
+      {
+        question: "Can the documents follow our format and rules?",
+        answer:
+          "Yes. The system can match your structure, tone, and branding, and check each draft against the rules or eligibility criteria you set.",
+      },
+    ],
+    contactFocus: "AI document and content generation",
+    relatedSlugs: [
+      "document-verification-security-automation",
+      "crm-ai-marketing-automation",
+      "recruitment-hr-automation",
+    ],
+    liveModes: [
+      {
+        label: "Drafting",
+        summary: "A short brief is expanded into a complete, structured document section by section.",
+        pipeline: ["Brief Intake", "AI Drafting", "Section Build", "Format Pass", "Draft Ready"],
+        activePipelineIndex: 1,
+        metrics: [
+          { label: "Briefs today", value: "23" },
+          { label: "Drafts built", value: "19" },
+          { label: "Avg sections", value: "14" },
+        ],
+        bars: [
+          { label: "Section coverage", value: 91 },
+          { label: "On-brand structure", value: 84 },
+          { label: "Draft readiness", value: 67 },
+        ],
+        activity: [
+          "Business plan draft generated from a one-page intake brief",
+          "Market and financial sections built using supplied figures",
+          "Document formatted to brand template and queued for review",
+        ],
+      },
+      {
+        label: "Review & Export",
+        summary: "Rule checks flag gaps, a person edits, and the approved document exports as a polished PDF.",
+        pipeline: ["Draft", "Rule Check", "Human Edit", "Approval", "PDF Export"],
+        activePipelineIndex: 2,
+        metrics: [
+          { label: "In review", value: "08" },
+          { label: "Flags raised", value: "12" },
+          { label: "Exported", value: "31" },
+        ],
+        bars: [
+          { label: "Rule pass rate", value: 88 },
+          { label: "Citation coverage", value: 76 },
+          { label: "Export readiness", value: 82 },
+        ],
+        activity: [
+          "Missing eligibility section flagged before approval",
+          "Reviewer edited summary wording and approved the document",
+          "Final proposal exported as branded PDF and sent to client",
+        ],
+      },
+    ],
+  },
+{
+    slug: "ai-video-generation",
+    navTitle: "AI Video & Media",
+    cardTitle: "AI Video & Media Generation",
+    seoTitle: "AI Video & Media Generation Services for Short-Form, Social, and Ad Creative at Scale",
+    metaDescription:
+      "Summit builds AI video and media generation systems that find trending topics, turn scripts into video, add captions and brand templates, and output ready-to-post social and ad creative without a full production crew.",
+    keywords: [
+      "AI video generation services",
+      "short-form video automation",
+      "script to video",
+      "social media content automation",
+      "automated captions and subtitles",
+      "ad creative generation",
+    ],
+    heroTitle: "AI video and media generation that helps your team ship more content without a full production crew.",
+    heroDescription:
+      "If you need a steady stream of short-form videos, social clips, and ad creative but can not produce enough by hand, we can build a system that finds trending topics, turns scripts into video, adds captions and brand templates, and hands you ready-to-post files.",
+    heroTags: [
+      "Trending topic and clip sourcing",
+      "Script to video",
+      "Auto captions and subtitles",
+      "Brand templates and ad creative",
+    ],
+    heroStats: [
+      { label: "Output", value: "Ready-to-post" },
+      { label: "Captions", value: "Auto" },
+      { label: "Brand style", value: "Consistent" },
+    ],
+    problemCards: [
+      {
+        title: "Not enough content to stay consistent",
+        description:
+          "The system can turn scripts and ideas into finished videos at volume, so your channels stay active without waiting on a full production crew.",
+      },
+      {
+        title: "Hard to keep up with trends",
+        description:
+          "It can source trending topics and clips across short-form platforms so your team starts from what is already working instead of a blank page.",
+      },
+      {
+        title: "Captions and editing eat up hours",
+        description:
+          "Captions, subtitles, and brand templates can be added automatically, so editors spend less time on repetitive finishing work.",
+      },
+      {
+        title: "Posts look different every time",
+        description:
+          "Brand templates keep fonts, colours, intros, and layouts consistent across every clip, ad variant, and platform.",
+      },
+    ],
+    explainerCards: [
+      {
+        type: "inputs",
+        title: "What usually comes into this workflow",
+        description:
+          "This service starts with the ideas, scripts, and brand assets your team already works with for content and ads.",
+        bullets: [
+          "Scripts, talking points, product details, captions, and content ideas your team wants to publish.",
+          "Brand assets such as logos, fonts, colours, intro and outro styles, and approved templates.",
+          "Trending topics and reference clips sourced from short-form platforms like YouTube, TikTok, and Reels.",
+        ],
+      },
+      {
+        type: "process",
+        title: "How the system turns those inputs into video",
+        description:
+          "The workflow takes a script or topic, builds the video, finishes it with captions and branding, and exports it for each platform.",
+        bullets: [
+          "Trending topics and clips are sourced and grouped so your team can choose what to build from.",
+          "Scripts are turned into video, and captions and subtitles are added automatically for sound-off viewing.",
+          "Brand templates are applied and the file is formatted for each platform and ad placement.",
+        ],
+      },
+      {
+        type: "outputs",
+        title: "What your team gets back",
+        description:
+          "Instead of raw footage and a long edit list, your team gets finished creative that is ready to schedule and post.",
+        bullets: [
+          "Ready-to-post short-form videos and social clips with captions already burned in.",
+          "Multiple ad creative variants sized for the platforms and placements you run.",
+          "A consistent on-brand look across every video without manual finishing each time.",
+        ],
+      },
+      {
+        type: "benefits",
+        title: "Why buyers usually want it",
+        description:
+          "The value is more content, produced faster, that still looks consistent and on-brand.",
+        bullets: [
+          "Teams publish more often without hiring a full video production crew.",
+          "Marketers test more ad and content variants because each one is cheaper and faster to make.",
+          "Every clip stays on-brand, so output looks professional even at high volume.",
+        ],
+      },
+    ],
+    workflowSteps: [
+      {
+        title: "Find the topic or take the script",
+        description:
+          "The system sources trending topics and clips, or starts from a script and content ideas your team provides.",
+      },
+      {
+        title: "Generate the video",
+        description:
+          "Scripts and ideas are turned into video, with visuals, pacing, and structure assembled automatically.",
+      },
+      {
+        title: "Caption and brand it",
+        description:
+          "Captions, subtitles, and brand templates are added so each clip is finished, readable, and on-brand.",
+      },
+      {
+        title: "Export ready to post",
+        description:
+          "Files are formatted for each platform and ad placement, so your team can schedule and publish without re-editing.",
+      },
+    ],
+    deliverables: [
+      "Trending topic and clip sourcing across YouTube, TikTok, and Reels",
+      "Script to video generation",
+      "Automatic captions and subtitles",
+      "Brand templates for intros, fonts, and layouts",
+      "Social and ad creative variants per platform",
+      "Content output queue and download library",
+    ],
+    industries: ["Marketing teams", "Agencies", "E-commerce", "Creators", "Education", "Service businesses"],
+    faqs: [
+      {
+        question: "Does AI replace my editors and content team?",
+        answer:
+          "No. It handles the repetitive production and finishing work so your team can focus on ideas, review, and approving what goes out.",
+      },
+      {
+        question: "Can the videos stay on-brand?",
+        answer:
+          "Yes. Brand templates keep fonts, colours, intros, and layouts consistent across every clip and ad variant.",
+      },
+      {
+        question: "Can it make different versions for each platform?",
+        answer:
+          "Yes. The same content can be exported as short-form clips and ad creative sized for the platforms and placements you run.",
+      },
+    ],
+    contactFocus: "AI video and media generation",
+    relatedSlugs: ["crm-ai-marketing-automation", "ai-document-generation", "whatsapp-automation"],
+    liveModes: [
+      {
+        label: "Production",
+        summary: "See trending topics turn into scripted, captioned videos ready for review in one content view.",
+        pipeline: ["Trend Sourced", "Script Ready", "Video Generated", "Captions Added", "Ready to Post"],
+        activePipelineIndex: 2,
+        metrics: [
+          { label: "Videos today", value: "28" },
+          { label: "Captioned", value: "82%" },
+          { label: "Awaiting review", value: "07" },
+        ],
+        bars: [
+          { label: "Script to video", value: 86 },
+          { label: "Caption accuracy", value: 79 },
+          { label: "Brand template match", value: 91 },
+        ],
+        activity: [
+          "Trending topic sourced from short-form feed and queued for scripting",
+          "Script turned into a 30-second vertical video with auto captions",
+          "Finished clip sent to marketing team for approval",
+        ],
+      },
+      {
+        label: "Ad Variants",
+        summary: "Turn one approved concept into multiple branded ad versions sized for each platform and placement.",
+        pipeline: ["Base Concept", "Variant Build", "Brand Template", "Platform Export", "Ad Library"],
+        activePipelineIndex: 3,
+        metrics: [
+          { label: "Variants built", value: "19" },
+          { label: "Platforms covered", value: "04" },
+          { label: "Approved", value: "12" },
+        ],
+        bars: [
+          { label: "Variant generation", value: 88 },
+          { label: "Brand consistency", value: 94 },
+          { label: "Export readiness", value: 73 },
+        ],
+        activity: [
+          "Six ad variants generated from one approved video concept",
+          "Brand template applied with consistent logo, fonts, and colours",
+          "Vertical and square exports prepared for social ad placements",
+        ],
+      },
+    ],
+  },
+{
+    slug: "custom-software-development",
+    navTitle: "Custom Software & SaaS",
+    cardTitle: "Custom Software, SaaS & Web Development",
+    seoTitle: "Custom Software, SaaS Platform, and Web Development Services for Businesses and Startups",
+    metaDescription:
+      "Summit designs and builds custom software end to end — multi-tenant SaaS platforms, marketplaces, internal tools, admin dashboards, and websites — shipped to production on a modern Next.js, FastAPI, and Postgres stack.",
+    keywords: [
+      "custom software development",
+      "SaaS development services",
+      "multi-tenant SaaS platform",
+      "marketplace development",
+      "internal tools and admin dashboards",
+      "web application development",
+      "Next.js and FastAPI development",
+    ],
+    heroTitle:
+      "Custom software, SaaS platforms, and websites — designed, built, and shipped to production.",
+    heroDescription:
+      "When off-the-shelf tools don't fit how your business actually works, we build the product you need — a multi-tenant SaaS platform, a marketplace, an internal tool, an admin dashboard, or a website — and run it to production with the same reliability and monitoring focus as our automation work.",
+    heroTags: [
+      "Multi-tenant SaaS platforms",
+      "Marketplaces and portals",
+      "Internal tools and dashboards",
+      "Websites and web apps",
+      "Production deploy and monitoring",
+    ],
+    heroStats: [
+      { label: "Stack", value: "Modern" },
+      { label: "Delivery", value: "To production" },
+      { label: "Monitoring", value: "Built-in" },
+    ],
+    problemCards: [
+      {
+        title: "Off-the-shelf tools don't fit",
+        description:
+          "Your team bends its process around generic software, pays for features you never use, and still works around the gaps in spreadsheets. A custom build fits the way you already work.",
+      },
+      {
+        title: "Ideas get stuck before launch",
+        description:
+          "You have a SaaS idea, a marketplace, or an internal tool in mind, but no clear path from concept to a working product that real users can log into.",
+      },
+      {
+        title: "Internal work lives in spreadsheets",
+        description:
+          "Operations run on shared sheets, manual data entry, and copy-paste between tools. There's no single dashboard your team can trust as the source of truth.",
+      },
+      {
+        title: "Builds that never reach production",
+        description:
+          "Prototypes that look good in a demo but break under real users, with no hosting, no monitoring, and no plan for what happens after launch.",
+      },
+    ],
+    explainerCards: [
+      {
+        type: "inputs",
+        title: "What goes into a build",
+        description:
+          "We start from your idea, your users, and the way your business actually operates today.",
+        bullets: [
+          "Your concept and goals — a SaaS product, a marketplace, an internal tool, a portal, or a website.",
+          "Real workflows, user roles, and the data your team already handles across existing tools and spreadsheets.",
+          "Any systems it needs to connect to — payments, messaging, your CRM, or third-party APIs.",
+        ],
+      },
+      {
+        type: "process",
+        title: "How we design and build it",
+        description:
+          "We move from a clear plan to working software in iterations you can see and use along the way.",
+        bullets: [
+          "Design the data model, user roles, and screens — front-ends in Next.js and React, back-ends in FastAPI or Node.",
+          "Build on Postgres or Supabase for data, with multi-tenant separation when the product serves many customers.",
+          "Ship to production on Railway, Docker, or a VPS, with monitoring so issues surface before users report them.",
+        ],
+      },
+      {
+        type: "outputs",
+        title: "What you get back",
+        description:
+          "A real product running in production that your team or your customers can use every day — not just a prototype.",
+        bullets: [
+          "A live web app, SaaS platform, marketplace, dashboard, or website with logins, roles, and real data.",
+          "Admin and reporting views so you can manage users, content, and activity without touching the code.",
+          "Hosting, deployment, and monitoring set up so the product stays online and observable after launch.",
+        ],
+      },
+      {
+        type: "benefits",
+        title: "Why businesses choose a custom build",
+        description:
+          "The value is software shaped around your business, not your business reshaped around someone else's software.",
+        bullets: [
+          "The product matches your exact workflow, so your team stops working around tool limitations.",
+          "You own the platform — its data, its roadmap, and its ability to grow as your business does.",
+          "It ships to production with the same reliability and monitoring focus as the rest of our work.",
+        ],
+      },
+    ],
+    workflowSteps: [
+      {
+        title: "Scope and plan the product",
+        description:
+          "We define the users, screens, data, and core workflows, then agree on a clear build plan and milestones.",
+      },
+      {
+        title: "Design the system and screens",
+        description:
+          "We shape the data model, user roles, and interface — front-end, back-end, and database — before writing the heavy code.",
+      },
+      {
+        title: "Build in working iterations",
+        description:
+          "Features are built and shown in stages on a Next.js, FastAPI, and Postgres stack, so you can use and steer the product as it grows.",
+      },
+      {
+        title: "Ship to production and monitor",
+        description:
+          "We deploy on Railway, Docker, or a VPS, set up monitoring, and keep the live product stable after launch.",
+      },
+    ],
+    deliverables: [
+      "Multi-tenant SaaS platform development",
+      "Marketplace and two-sided platform builds",
+      "Internal tools, admin dashboards, and portals",
+      "Websites and web applications",
+      "API and third-party integration work",
+      "Production hosting, deployment, and monitoring setup",
+    ],
+    industries: [
+      "Startups",
+      "SaaS founders",
+      "Marketplaces",
+      "Operations teams",
+      "Agencies",
+      "Service businesses",
+    ],
+    faqs: [
+      {
+        question: "Can you build a complete SaaS product, not just a website?",
+        answer:
+          "Yes. We build full multi-tenant SaaS platforms with logins, user roles, billing, and admin dashboards. We've shipped products like a multi-tenant WhatsApp CRM and a microtask marketplace end to end.",
+      },
+      {
+        question: "What technology do you build with?",
+        answer:
+          "Next.js and React on the front-end, FastAPI or Node on the back-end, Postgres or Supabase for data, and cloud deployment on Railway, Docker, or a VPS. We pick the right fit for your product, not a one-size template.",
+      },
+      {
+        question: "Do you handle hosting and what happens after launch?",
+        answer:
+          "Yes. We ship to production, set up hosting and monitoring, and can keep supporting and improving the product after it goes live.",
+      },
+    ],
+    contactFocus: "custom software, SaaS, and web development",
+    relatedSlugs: [
+      "crm-ai-marketing-automation",
+      "endpoint-device-management",
+      "document-verification-security-automation",
+    ],
+    liveModes: [
+      {
+        label: "Build",
+        summary:
+          "Watch a product move from plan to working features — front-end, back-end, and database coming together in stages.",
+        pipeline: ["Scope", "Design", "Build", "Test", "Deploy"],
+        activePipelineIndex: 2,
+        metrics: [
+          { label: "Features shipped", value: "23" },
+          { label: "In review", value: "04" },
+          { label: "Sprint", value: "3 of 5" },
+        ],
+        bars: [
+          { label: "Core features", value: 78 },
+          { label: "Admin dashboard", value: 64 },
+          { label: "Integrations", value: 52 },
+        ],
+        activity: [
+          "User login and role-based access wired across the dashboard",
+          "Multi-tenant data separation added for new customer accounts",
+          "Payment integration connected and tested in sandbox",
+        ],
+      },
+      {
+        label: "Live product",
+        summary:
+          "The deployed platform running in production — uptime, real users, and monitoring all in one operational view.",
+        pipeline: ["User Request", "App Server", "Database", "Response", "Monitoring"],
+        activePipelineIndex: 4,
+        metrics: [
+          { label: "Uptime", value: "99.9%" },
+          { label: "Active users", value: "412" },
+          { label: "Avg response", value: "180ms" },
+        ],
+        bars: [
+          { label: "Service health", value: 99 },
+          { label: "Error rate", value: 2 },
+          { label: "Deploy success", value: 96 },
+        ],
+        activity: [
+          "New release deployed to production with zero downtime",
+          "Slow database query detected by monitoring and optimized",
+          "New customer workspace provisioned automatically on signup",
+        ],
+      },
+    ],
+  },
 ];
 
 export const servicePageMap = Object.fromEntries(servicePages.map((service) => [service.slug, service])) as Record<

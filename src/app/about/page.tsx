@@ -198,7 +198,7 @@ export default function AboutPage() {
                   studio that came out of that.
                 </p>
                 <p>
-                  Today we build production automation systems across five connected services —{" "}
+                  Today we build production automation systems across a connected suite of services —{" "}
                   <Link className="text-gold-200 underline-offset-4 hover:underline" href="/services/whatsapp-automation">
                     WhatsApp automation
                   </Link>

@@ -39,6 +39,26 @@ const servicePresentation: Record<string, ServicePresentation> = {
     accent: "from-gold-300/16 via-gold-300/10 to-white/0",
     icon: "operations",
   },
+  "ai-voice-agents": {
+    eyebrow: "Voice and calls",
+    accent: "from-emerald-300/18 via-gold-300/10 to-white/0",
+    icon: "chat",
+  },
+  "ai-document-generation": {
+    eyebrow: "Documents and content",
+    accent: "from-amber-300/18 via-gold-300/10 to-white/0",
+    icon: "security",
+  },
+  "ai-video-generation": {
+    eyebrow: "Content and creative",
+    accent: "from-fuchsia-300/18 via-gold-300/10 to-white/0",
+    icon: "growth",
+  },
+  "custom-software-development": {
+    eyebrow: "Product builds and platforms",
+    accent: "from-sky-300/18 via-gold-300/10 to-white/0",
+    icon: "operations",
+  },
 };
 
 function ServiceDirectoryIcon({ icon }: { icon: ServiceIconName }) {
@@ -87,13 +107,13 @@ function ServiceDirectoryIcon({ icon }: { icon: ServiceIconName }) {
 export const metadata: Metadata = {
   title: "Services | Summit AI Automation",
   description:
-    "Explore Summit's five connected automation services — WhatsApp automation, recruitment & HR, CRM & AI marketing, document & security, and workforce & operations tracking.",
+    "Explore Summit's eleven connected automation and AI services — from WhatsApp, CRM, and recruitment to voice agents, document and video generation, and custom software.",
   alternates: {
     canonical: "/services",
   },
   openGraph: {
     title: "Services | Summit AI Automation",
-    description: "Five connected automation services for operations-heavy businesses.",
+    description: "Eleven connected automation and AI services for operations-heavy businesses.",
     url: `${siteUrl}/services`,
     type: "website",
   },
@@ -114,7 +134,7 @@ const STRUCTURED_DATA = {
       "@type": "CollectionPage",
       url: `${siteUrl}/services`,
       name: "Summit Automation Services",
-      description: "Five connected automation services for operations-heavy businesses.",
+      description: "Eleven connected automation and AI services for operations-heavy businesses.",
     },
     {
       "@type": "BreadcrumbList",
@@ -149,7 +169,7 @@ export default function ServicesDirectoryPage() {
             <div className="max-w-3xl space-y-6">
               <span className="eyebrow">Service Directory</span>
               <h1 className="text-balance text-5xl font-semibold tracking-[-0.06em] text-white sm:text-6xl lg:text-[4.8rem] lg:leading-[0.95]">
-                Five dedicated services explained clearly for clients and search.
+                Eleven dedicated services explained clearly for clients and search.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
                 These services explain Summit&apos;s main automation offers in plain language and give search engines clear,

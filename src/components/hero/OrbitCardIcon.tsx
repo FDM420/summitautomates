@@ -1,8 +1,11 @@
 "use client";
 
+import { SERVICE_MODULES_BY_SLUG } from "@/lib/services-config";
+
 /**
  * Tiny built-in animated SVGs (~50 lines each) for each service.
  * Pure SMIL + CSS keyframes inside the SVG — no JS animation library.
+ * Services without a bespoke SVG fall back to their lucide icon (see default).
  */
 export function OrbitCardIcon({ slug }: { slug: string }) {
   switch (slug) {
@@ -20,8 +23,16 @@ export function OrbitCardIcon({ slug }: { slug: string }) {
       return <EndpointIcon />;
     case "forex-trading-automation":
       return <ForexIcon />;
-    default:
-      return null;
+    default: {
+      const mod = SERVICE_MODULES_BY_SLUG[slug];
+      if (!mod) return null;
+      const Icon = mod.Icon;
+      return (
+        <div className="flex h-full w-full items-center justify-center" style={{ color: mod.hex }}>
+          <Icon className="h-8 w-8" />
+        </div>
+      );
+    }
   }
 }
 
