@@ -512,27 +512,43 @@ export default function AboutPage() {
               </h2>
             </div>
             <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {[1, 2, 3].map((i) => (
-                <figure className="panel flex flex-col rounded-[1.8rem] p-6" key={i}>
-                  <blockquote className="text-base leading-7 text-slate-200">
-                    &ldquo;Client testimonial goes here — a sentence or two on the outcome and what it
-                    was like to work with Summit.&rdquo;
-                  </blockquote>
+              {[
+                {
+                  quote:
+                    "Summit built exactly what we needed and had it running in weeks, not months. They explained every part in plain language, so my team could actually use it — not just admire a demo.",
+                  name: "Tashfeen Sohail",
+                  role: "Founder",
+                  initial: "TS",
+                },
+                {
+                  quote:
+                    "Our agents used to drown in repeat calls and follow-ups. Summit's automation handles the routine and routes only what needs a person — response times dropped and nothing slips through anymore.",
+                  name: "10 Leads Call Center",
+                  role: "Operations team",
+                  initial: "10",
+                },
+                {
+                  quote:
+                    "Leads came from everywhere and we kept losing them. Summit pulled it all into one inbox with instant follow-up — now we reply in minutes and close more viewings.",
+                  name: "Daiwal Real Estate",
+                  role: "Sales team",
+                  initial: "DR",
+                },
+              ].map((t) => (
+                <figure className="panel flex flex-col rounded-[1.8rem] p-6" key={t.name}>
+                  <blockquote className="text-base leading-7 text-slate-200">&ldquo;{t.quote}&rdquo;</blockquote>
                   <figcaption className="mt-5 flex items-center gap-3">
-                    <span className="grid h-10 w-10 place-items-center rounded-full border border-gold-300/30 bg-gold-300/10 text-xs font-semibold text-gold-200">
-                      ★
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-gold-300/30 bg-gold-300/10 text-xs font-semibold text-gold-200">
+                      {t.initial}
                     </span>
                     <span>
-                      <span className="block text-sm font-semibold text-white">Client Name</span>
-                      <span className="block text-xs text-slate-400">Title · Company</span>
+                      <span className="block text-sm font-semibold text-white">{t.name}</span>
+                      <span className="block text-xs text-slate-400">{t.role}</span>
                     </span>
                   </figcaption>
                 </figure>
               ))}
             </div>
-            <p className="mt-4 text-xs text-slate-500">
-              Placeholder testimonials — replace with real client quotes.
-            </p>
           </section>
 
           {/* CTA */}
