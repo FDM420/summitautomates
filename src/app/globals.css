@@ -638,34 +638,42 @@ button {
 /* Surfaces that STAY dark in light mode (e.g. the service hero cards, marked
    data-surface="dark") must keep their text/overlays light, or the light-mode
    ink overrides above turn them dark-on-dark. Higher specificity wins. */
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-white {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-white {
 	color: #ffffff !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) [class*="text-white/"] {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) [class*="text-white/"] {
 	color: rgba(255, 255, 255, 0.8) !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-slate-100 {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-slate-100 {
 	color: #f1f5f9 !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-slate-200 {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-slate-200 {
 	color: #e2e8f0 !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-slate-300,
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) [class*="text-slate-300/"] {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-slate-300,
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) [class*="text-slate-300/"] {
 	color: #cbd5e1 !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-slate-400 {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-slate-400 {
 	color: #94a3b8 !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-gold-100,
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-gold-200,
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) .text-gold-300,
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) [class*="text-gold-200/"] {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-gold-100,
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-gold-200,
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) .text-gold-300,
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) [class*="text-gold-200/"] {
 	color: #f0dca0 !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) [class*="bg-white/"] {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) [class*="bg-white/"] {
 	background-color: rgba(255, 255, 255, 0.08) !important;
 }
-[data-theme="light"] :is([data-surface="dark"], [class*="bg-[#0"]) [class*="border-white/"] {
+[data-theme="light"] [class*="bg-[#0"]:not([data-surface="dark"]) [class*="border-white/"] {
 	border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Service Directory card BODIES go light in light mode (the inner illustration
+   panels stay dark with light text via the rules above — "excluding the
+   animation"). Targets only the marked card root that also has a dark bg. */
+[data-theme="light"] [data-surface="dark"][class*="bg-[#0"] {
+	background-color: rgba(252, 250, 244, 0.94) !important;
+	border-color: rgba(58, 46, 22, 0.16) !important;
 }

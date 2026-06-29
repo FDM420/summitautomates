@@ -155,7 +155,7 @@ export function OrbitalCards({ center }: { radius?: number; center?: ReactNode }
                 WebkitBackfaceVisibility: "hidden",
               }}
             >
-              <OrbitCard active={isCenter} badge={`0${i + 1}`} module={module} onHoverChange={setHovered} />
+              <OrbitCard active={isCenter} module={module} onHoverChange={setHovered} />
             </div>
           );
         })}
@@ -166,12 +166,10 @@ export function OrbitalCards({ center }: { radius?: number; center?: ReactNode }
 
 function OrbitCard({
   module,
-  badge,
   active,
   onHoverChange,
 }: {
   module: ServiceModule;
-  badge: string;
   active: boolean;
   onHoverChange?: (hovered: boolean) => void;
 }) {
@@ -186,18 +184,6 @@ function OrbitCard({
       style={{ borderRadius: "0.95rem" }}
       tabIndex={active ? undefined : -1}
     >
-      {/* Number badge */}
-      <span
-        className="absolute -top-2.5 left-3 flex h-5 w-7 items-center justify-center rounded border text-[0.6rem] font-bold tracking-wider"
-        style={{
-          backgroundColor: "#070d20",
-          borderColor: hexWithAlpha(module.hex, 0.45),
-          color: module.hex,
-        }}
-      >
-        {badge}
-      </span>
-
       {/* Small animated SVG illustration (SMIL + CSS, all built-in) */}
       <div
         className="aspect-[16/8] w-full overflow-hidden rounded-md"
