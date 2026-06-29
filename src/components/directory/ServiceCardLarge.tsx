@@ -42,6 +42,7 @@ export function ServiceCardLarge({
   status = "Open",
   metrics,
   bullets,
+  illustration,
   index,
 }: ServiceCardLargeProps) {
   return (
@@ -88,6 +89,18 @@ export function ServiceCardLarge({
       />
 
       <div className="flex h-full flex-col">
+        {/* TOP: animated illustration banner */}
+        <div className="relative h-[180px] shrink-0 overflow-hidden border-b border-white/5">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-0"
+            style={{
+              background: `radial-gradient(circle at 50% 60%, ${hexWithAlpha(module.hex, 0.18)} 0%, transparent 55%), radial-gradient(circle at 80% 20%, ${hexWithAlpha(module.hexSecondary, 0.15)} 0%, transparent 50%)`,
+            }}
+          />
+          <div className="relative h-full w-full">{illustration}</div>
+        </div>
+
         {/* copy + CTA */}
         <div className="flex flex-1 flex-col gap-4 p-6 sm:p-7">
           <div className="flex items-center gap-3">

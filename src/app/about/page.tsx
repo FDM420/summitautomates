@@ -304,7 +304,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {["life-9305", "life-9290", "life-9303"].map((img) => (
+              {["life-9305", "life-9290", "life-9303", "life-dinner1", "life-dinner2", "life-dinner3"].map((img) => (
                 <div
                   className="group aspect-[3/2] overflow-hidden rounded-[1.5rem] border border-white/10"
                   key={img}
