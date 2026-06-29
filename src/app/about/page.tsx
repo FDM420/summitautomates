@@ -194,6 +194,15 @@ export default function AboutPage() {
                 <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
                   Built from the operations side, not the demo side.
                 </h2>
+                <div className="mt-8 hidden aspect-[3/2] overflow-hidden rounded-[1.5rem] border border-white/10 lg:block">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    alt="A team collaborating around laptops"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                    src="/about/story.jpg"
+                  />
+                </div>
               </div>
               <div className="space-y-5 text-base leading-7 text-slate-300 lg:text-lg lg:leading-8">
                 <p>
