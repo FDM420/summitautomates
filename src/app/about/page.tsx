@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ClipboardCheck, MessageSquareText, Rocket, UserCheck } from "lucide-react";
+import { BookOpen, ClipboardCheck, KeyRound, MessageSquareText, Rocket, ShieldCheck, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { SiteFooter } from "@/components/shared/SiteFooter";
 import { SiteHeader } from "@/components/shared/SiteHeader";
@@ -139,17 +139,51 @@ export default function AboutPage() {
           <section className="section-shell py-16">
             <div className="panel-strong relative overflow-hidden rounded-[2.5rem] p-8 sm:p-12">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(233,200,120,0.16),transparent_60%)]" />
-              <div className="relative max-w-3xl">
-                <p className="eyebrow">Our vision</p>
-                <h2 className="mt-5 text-balance text-3xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-4xl lg:text-[2.7rem]">
-                  A world where every operations team — not just the big tech companies — runs on AI
-                  automation they understand, own, and trust.
-                </h2>
-                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
-                  <span className="font-semibold text-gold-200">Our mission:</span> turn the slow,
-                  manual, error-prone parts of a business into production-grade AI systems that ship
-                  in weeks and keep running for years — in plain language the whole team can own.
-                </p>
+              <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-center">
+                <div>
+                  <p className="eyebrow">Our vision</p>
+                  <h2 className="mt-5 text-balance text-3xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-4xl lg:text-[2.5rem]">
+                    A world where every operations team — not just the big tech companies — runs on AI
+                    automation they understand, own, and trust.
+                  </h2>
+                  <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+                    <span className="font-semibold text-gold-200">Our mission:</span> turn the slow,
+                    manual, error-prone parts of a business into production-grade AI systems that ship
+                    in weeks and keep running for years — in plain language the whole team can own.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {[
+                    {
+                      Icon: BookOpen,
+                      label: "Understand",
+                      text: "Plain-language systems your whole team can follow — not just engineers.",
+                    },
+                    {
+                      Icon: KeyRound,
+                      label: "Own",
+                      text: "You hold the keys: no black boxes, no lock-in, full visibility.",
+                    },
+                    {
+                      Icon: ShieldCheck,
+                      label: "Trust",
+                      text: "Logged, auditable, and proven reliable in production for years.",
+                    },
+                  ].map((v) => (
+                    <div
+                      className="flex items-start gap-4 rounded-2xl border border-gold-300/15 bg-gold-300/[0.06] p-4"
+                      key={v.label}
+                    >
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-gold-300/25 bg-gold-300/10 text-gold-200">
+                        <v.Icon className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <p className="text-sm font-semibold text-white">{v.label}</p>
+                        <p className="mt-1 text-sm leading-6 text-slate-300">{v.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
