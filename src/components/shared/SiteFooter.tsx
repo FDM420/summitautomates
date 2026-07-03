@@ -125,7 +125,7 @@ export function SiteFooter() {
       <div className="border-t border-white/8">
         <div className="section-shell flex flex-col items-start justify-between gap-3 py-6 text-xs text-slate-400 sm:flex-row sm:items-center">
           <p>
-            © {new Date().getFullYear()} Summit AI Automation Services. All rights reserved.
+            © {new Date().getFullYear()} Summit Automates — a brand of Summit Systems (Pvt) Ltd.
           </p>
           <p className="mono uppercase tracking-[0.2em]">Built with care · v2026.05</p>
         </div>

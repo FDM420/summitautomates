@@ -79,6 +79,7 @@ export default async function InsightPage({
         publisher: {
           "@type": "Organization",
           name: "Summit AI Automation Services",
+          legalName: "Summit Systems (Pvt) Ltd",
           url: siteUrl,
           logo: { "@type": "ImageObject", url: `${siteUrl}/illustrations/ai-brain.svg` },
         },

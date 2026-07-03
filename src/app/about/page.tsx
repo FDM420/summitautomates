@@ -74,6 +74,7 @@ const STRUCTURED_DATA = {
     {
       "@type": "Organization",
       name: "Summit AI Automation Services",
+      legalName: "Summit Systems (Pvt) Ltd",
       url: siteUrl,
       logo: `${siteUrl}/illustrations/ai-brain.svg`,
       description:
@@ -287,6 +288,38 @@ export default function AboutPage() {
                     workforce &amp; operations
                   </Link>{" "}
                   — for teams across recruitment agencies, real estate, healthcare, and call centers.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* OUR OFFICE */}
+          <section className="section-shell py-12 sm:py-16 lg:py-20">
+            <div className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
+              <div className="relative">
+                <div className="aspect-[5/4] overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    alt="The Summit team working inside the studio, behind the branded storefront and services board"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                    src="/about/office.jpg"
+                  />
+                </div>
+                <div className="pointer-events-none absolute -inset-3 -z-10 rounded-[2.5rem] bg-[radial-gradient(circle_at_70%_25%,rgba(233,200,120,0.16),transparent_70%)]" />
+              </div>
+              <div>
+                <p className="eyebrow">Our office</p>
+                <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+                  Where the work actually happens.
+                </h2>
+                <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+                  Summit isn&apos;t a scattered Slack channel — it&apos;s a real studio with a
+                  senior team designing, building, and shipping automation systems in one room.
+                  Everything we deploy is built here, in-house, from the same desk.
+                </p>
+                <p className="mono mt-6 text-xs uppercase tracking-[0.28em] text-gold-200/80">
+                  Innovate &middot; Automate &middot; Elevate
                 </p>
               </div>
             </div>

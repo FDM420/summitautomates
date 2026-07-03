@@ -62,6 +62,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         provider: {
           "@type": "Organization",
           name: "Summit AI Automation Services",
+          legalName: "Summit Systems (Pvt) Ltd",
           url: siteUrl,
           email: contactEmail,
         },
