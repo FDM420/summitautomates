@@ -583,6 +583,17 @@ export default function AboutPage() {
                 </figure>
               ))}
             </div>
+            <div className="mt-8 flex justify-center">
+              <a
+                className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/6 px-6 py-3 text-sm font-semibold text-white transition hover:border-gold-300/30 hover:bg-white/10"
+                href="https://g.page/r/CfmJa-ULXmD4EBM/review"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span aria-hidden="true" className="text-gold-300">★</span>
+                Leave us a Google review
+              </a>
+            </div>
           </section>
 
           {/* CTA */}
