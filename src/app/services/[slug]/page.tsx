@@ -61,6 +61,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         description: service.metaDescription,
         provider: {
           "@type": "Organization",
+          "@id": `${siteUrl}/#organization`,
           name: "Summit AI Automation Services",
           legalName: "Summit Systems (Pvt) Ltd",
           url: siteUrl,
@@ -79,6 +80,19 @@ export default async function ServicePage({ params }: ServicePageProps) {
             text: item.answer,
           },
         })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+          { "@type": "ListItem", position: 2, name: "Services", item: `${siteUrl}/services` },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: service.cardTitle,
+            item: `${siteUrl}/services/${service.slug}`,
+          },
+        ],
       },
     ],
   };
