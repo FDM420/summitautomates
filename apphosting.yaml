@@ -1,0 +1,12 @@
+# Firebase App Hosting configuration
+# https://firebase.google.com/docs/app-hosting/configure
+#
+# Build/runtime environment variables for the Next.js app.
+# NEXT_PUBLIC_* vars are inlined into the client bundle at BUILD time.
+
+env:
+  - variable: NEXT_PUBLIC_CALENDAR_URL
+    value: https://calendly.com/admin-fdm-summit-systems/30min
+    availability:
+      - BUILD
+      - RUNTIME
