@@ -13,6 +13,10 @@ export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://summitautoma
 
 export const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "admin@summitautomates.com";
 
+// WhatsApp contact number in international format (country code, digits only —
+// no "+", spaces, or dashes) as required by wa.me links.
+export const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "923069555536";
+
 export const siteKeywords = [
   "AI automation services",
   "business automation services",
