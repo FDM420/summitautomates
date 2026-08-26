@@ -73,10 +73,11 @@ const STRUCTURED_DATA = {
     },
     {
       "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
       name: "Summit AI Automation Services",
       legalName: "Summit Systems (Pvt) Ltd",
       url: siteUrl,
-      logo: `${siteUrl}/illustrations/ai-brain.svg`,
+      logo: `${siteUrl}/summit-logo-gold.png`,
       description:
         "Summit builds practical, business-ready AI automation systems for customer handling, recruitment, lead management, document workflows, and operations tracking.",
     },

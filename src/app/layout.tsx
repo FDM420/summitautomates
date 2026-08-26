@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
-import { siteKeywords, siteUrl } from "@/lib/site-content";
+import { contactEmail, siteKeywords, siteUrl, whatsappNumber } from "@/lib/site-content";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
 import "./globals.css";
 
@@ -53,6 +53,49 @@ export const metadata: Metadata = {
   },
 };
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${siteUrl}/#organization`,
+  name: "Summit Automates",
+  legalName: "Summit Systems (Private) Limited",
+  alternateName: "Summit AI Automation Services",
+  url: siteUrl,
+  logo: `${siteUrl}/summit-logo-gold.png`,
+  image: `${siteUrl}/about/office.jpg`,
+  description:
+    "Summit Automates builds practical AI automation systems for customer communication (WhatsApp), recruitment and HR, CRM and marketing, document verification and security, workforce and operations, AI voice agents, and custom software.",
+  email: contactEmail,
+  telephone: `+${whatsappNumber}`,
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress:
+      "Office #3, First Floor, Mughal Market, Al-Rehman Arcade, Sector G-13/2",
+    addressLocality: "Islamabad",
+    postalCode: "44000",
+    addressCountry: "PK",
+  },
+  areaServed: { "@type": "Country", name: "Pakistan" },
+  knowsAbout: [
+    "AI automation",
+    "WhatsApp automation",
+    "CRM and lead management",
+    "Recruitment and HR automation",
+    "Document verification and security",
+    "Workforce and operations tracking",
+    "AI voice agents",
+    "Custom software development",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: `+${whatsappNumber}`,
+    email: contactEmail,
+    contactType: "customer service",
+    availableLanguage: ["en", "ur"],
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -68,6 +111,10 @@ export default function RootLayout({
             __html:
               "(function(){try{var t=localStorage.getItem('summit.theme');if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
           }}
+        />
+        <script
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          type="application/ld+json"
         />
       </head>
       <body
