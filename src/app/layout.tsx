@@ -70,13 +70,20 @@ const structuredData = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
-    streetAddress:
-      "Office #3, First Floor, Mughal Market, Al-Rehman Arcade, Sector G-13/2",
+    streetAddress: "Building 65, CBT Tower, Executive Block, Gulberg Greens",
     addressLocality: "Islamabad",
-    postalCode: "44000",
+    addressRegion: "Islamabad Capital Territory",
     addressCountry: "PK",
   },
-  areaServed: { "@type": "Country", name: "Pakistan" },
+  areaServed: [
+    { "@type": "Country", name: "Pakistan" },
+    { "@type": "Country", name: "United States" },
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Country", name: "United Arab Emirates" },
+    { "@type": "Country", name: "Saudi Arabia" },
+    { "@type": "Country", name: "Canada" },
+    { "@type": "Country", name: "Australia" },
+  ],
   knowsAbout: [
     "AI automation",
     "WhatsApp automation",
