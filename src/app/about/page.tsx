@@ -123,12 +123,12 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="relative hidden lg:block">
-                <div className="aspect-[4/5] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
+                <div className="aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.18)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    alt="A modern operations workspace"
+                    alt="The Summit Automates team at work in the studio"
                     className="h-full w-full object-cover"
-                    src="/about/hero.jpg"
+                    src="/about/life-9307.jpg"
                   />
                 </div>
                 <div className="pointer-events-none absolute -inset-3 -z-10 rounded-[3rem] bg-[radial-gradient(circle_at_70%_25%,rgba(233,200,120,0.16),transparent_70%)]" />
@@ -247,10 +247,10 @@ export default function AboutPage() {
                 <div className="mt-8 hidden aspect-[3/2] overflow-hidden rounded-[1.5rem] border border-white/10 lg:block">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    alt="A team collaborating around laptops"
+                    alt="The Summit Automates team collaborating in the studio"
                     className="h-full w-full object-cover"
                     loading="lazy"
-                    src="/about/story.jpg"
+                    src="/about/life-9318.jpg"
                   />
                 </div>
               </div>
