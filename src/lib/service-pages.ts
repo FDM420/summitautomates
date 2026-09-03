@@ -483,11 +483,13 @@ export const servicePages: ServicePageConfig[] = [
     slug: "crm-ai-marketing-automation",
     navTitle: "CRM & AI Marketing",
     cardTitle: "CRM, Lead Management & AI Marketing Automation",
-    seoTitle: "CRM Automation, Lead Management, and AI Marketing Automation Services",
+    seoTitle: "CRM & ERP Automation, Lead Management, and AI Marketing Automation Services",
     metaDescription:
-      "Summit builds CRM automation systems that capture leads, assign follow-ups, send reminders, automate campaign tasks, and support AI marketing and social media workflows.",
+      "Summit builds CRM and ERP automation systems that capture leads, assign follow-ups, send reminders, connect sales and operations records, automate campaign tasks, and support AI marketing workflows.",
     keywords: [
       "CRM automation services",
+      "ERP automation services",
+      "CRM ERP integration",
       "lead management automation",
       "sales follow-up automation",
       "AI marketing automation",
@@ -2350,6 +2352,826 @@ export const servicePages: ServicePageConfig[] = [
           "New release deployed to production with zero downtime",
           "Slow database query detected by monitoring and optimized",
           "New customer workspace provisioned automatically on signup",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "ai-automation",
+    navTitle: "AI Automation",
+    cardTitle: "AI Automation Services",
+    seoTitle: "AI Automation Services for Business Operations, Customer Handling, and Reporting",
+    metaDescription:
+      "Summit builds end-to-end AI automation systems that answer customers, sort leads, screen documents, generate reports, and remove repeated manual work across your business.",
+    keywords: [
+      "AI automation services",
+      "AI automation company",
+      "business process automation with AI",
+      "AI operations automation",
+      "intelligent automation services",
+      "AI automation for small business",
+    ],
+    heroTitle: "AI automation services that remove repeated manual work from your business.",
+    heroDescription:
+      "If your team spends hours on replies, sorting, data entry, or reporting, we can design one connected AI system that handles the routine steps and hands the important ones to your people.",
+    heroTags: [
+      "AI replies and routing",
+      "Automated data entry",
+      "Document and lead screening",
+      "Auto-generated reporting",
+    ],
+    heroStats: [
+      { label: "Coverage", value: "24/7" },
+      { label: "Manual steps", value: "Reduced" },
+      { label: "Visibility", value: "Live" },
+    ],
+    problemCards: [
+      {
+        title: "Staff time goes into repeated tasks",
+        description:
+          "Replies, copying data between tools, and formatting reports can be handled by AI so your team focuses on judgment calls.",
+      },
+      {
+        title: "Work depends on memory",
+        description:
+          "Follow-ups, checks, and handoffs live in people's heads. Automation makes each step tracked and owned.",
+      },
+      {
+        title: "Tools do not talk to each other",
+        description:
+          "WhatsApp, spreadsheets, CRM, and email stay disconnected. One automation layer moves information between them automatically.",
+      },
+      {
+        title: "Managers see problems late",
+        description:
+          "Dashboards and exception alerts surface stuck work while it can still be fixed, not at the end of the month.",
+      },
+    ],
+    explainerCards: [
+      {
+        type: "inputs",
+        title: "What usually comes into this workflow",
+        description: "AI automation starts from the messages, records, and documents your business already produces.",
+        bullets: [
+          "Customer messages, emails, forms, calls, and inquiries from every channel.",
+          "Spreadsheets, CRM records, documents, and operational data.",
+          "The manual routines your staff currently repeat every day.",
+        ],
+      },
+      {
+        type: "process",
+        title: "How the system processes the work",
+        description: "AI reads, classifies, and acts on each item using rules your business approves.",
+        bullets: [
+          "Incoming items are understood and categorized automatically.",
+          "Routine steps — replies, data entry, checks, reminders — run without a person.",
+          "Anything unusual is escalated to the right staff member with context.",
+        ],
+      },
+      {
+        type: "outputs",
+        title: "What your team gets back",
+        description: "Instead of scattered manual work, your team gets organized queues and clear reporting.",
+        bullets: [
+          "Handled conversations, updated records, and completed routine tasks.",
+          "Exception queues that show only what genuinely needs a human.",
+          "Dashboards and reports generated from real activity, not manual compilation.",
+        ],
+      },
+      {
+        type: "benefits",
+        title: "Why buyers usually want it",
+        description: "The value is time back, fewer misses, and an operation that scales without hiring for admin.",
+        bullets: [
+          "Faster customer handling without adding headcount.",
+          "Fewer forgotten follow-ups, missed documents, and reporting gaps.",
+          "A business that runs on tracked workflows instead of memory.",
+        ],
+      },
+    ],
+    workflowSteps: [
+      {
+        title: "Map the manual work",
+        description: "We list the repeated tasks, where they come from, and what decision each one needs.",
+      },
+      {
+        title: "Design the automation",
+        description: "Each task gets a rule: automate fully, automate with review, or route to a person.",
+      },
+      {
+        title: "Build and connect",
+        description: "We build the AI flows and connect your existing tools so data moves without copying.",
+      },
+      {
+        title: "Monitor and improve",
+        description: "Dashboards show what is automated and what needs attention, and the system improves over time.",
+      },
+    ],
+    deliverables: [
+      "End-to-end AI workflow design",
+      "AI replies, classification, and routing",
+      "Automated data entry and record updates",
+      "Document and lead screening flows",
+      "Exception queues and escalation alerts",
+      "Auto-generated dashboards and reports",
+    ],
+    industries: ["Service businesses", "Recruitment", "Real estate", "Healthcare", "Logistics", "Enterprise operations"],
+    faqs: [
+      {
+        question: "What is the difference between AI automation and a chatbot?",
+        answer:
+          "A chatbot only answers messages. AI automation covers the whole workflow — replies, sorting, data entry, document checks, follow-up, and reporting — connected across your tools.",
+      },
+      {
+        question: "Do we need to replace our current tools?",
+        answer:
+          "Usually no. Summit connects the tools you already use — WhatsApp, spreadsheets, CRM, email — and adds the automation layer between them.",
+      },
+      {
+        question: "How do we know what to automate first?",
+        answer:
+          "We start with a workflow audit: mapping your repeated tasks and picking the ones where automation saves the most time with the least risk.",
+      },
+    ],
+    contactFocus: "AI automation for business operations",
+    relatedSlugs: ["workflow-automation", "whatsapp-automation", "crm-ai-marketing-automation"],
+    liveModes: [
+      {
+        label: "Intake",
+        summary: "Every message, form, and document lands in one automated intake that classifies and routes it.",
+        pipeline: ["Incoming Item", "AI Classification", "Auto Action", "Human Queue", "Report"],
+        activePipelineIndex: 1,
+        metrics: [
+          { label: "Items today", value: "128" },
+          { label: "Auto-handled", value: "76%" },
+          { label: "Escalated", value: "14" },
+        ],
+        bars: [
+          { label: "Classification", value: 91 },
+          { label: "Auto actions", value: 76 },
+          { label: "Escalations", value: 24 },
+        ],
+        activity: [
+          "Customer inquiry classified as sales lead and routed to CRM",
+          "Invoice data extracted and entered into the accounts sheet",
+          "Unusual refund request escalated to a manager with full context",
+        ],
+      },
+      {
+        label: "Operations",
+        summary: "Routine steps run automatically while staff work from a clean exception queue.",
+        pipeline: ["Task Created", "Auto Steps", "Review Check", "Completion", "Dashboard"],
+        activePipelineIndex: 2,
+        metrics: [
+          { label: "Tasks automated", value: "84" },
+          { label: "Needs review", value: "07" },
+          { label: "Hours saved", value: "6.1" },
+        ],
+        bars: [
+          { label: "Automation rate", value: 82 },
+          { label: "Review queue", value: 18 },
+          { label: "On-time completion", value: 93 },
+        ],
+        activity: [
+          "Daily follow-up reminders generated for the sales team",
+          "Document expiry check flagged two records for renewal",
+          "Weekly operations report compiled and sent automatically",
+        ],
+      },
+      {
+        label: "Reporting",
+        summary: "Managers see automation coverage, exceptions, and outcomes in one live view.",
+        pipeline: ["Activity Log", "Metrics", "Exceptions", "Dashboard", "Management Report"],
+        activePipelineIndex: 3,
+        metrics: [
+          { label: "Coverage", value: "78%" },
+          { label: "Open exceptions", value: "09" },
+          { label: "Trend", value: "Up" },
+        ],
+        bars: [
+          { label: "Coverage growth", value: 78 },
+          { label: "Exception resolution", value: 85 },
+          { label: "Report accuracy", value: 96 },
+        ],
+        activity: [
+          "Automation coverage increased after new reply templates approved",
+          "Exception spike traced to one supplier's document format",
+          "Monthly summary exported for the leadership review",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "workflow-automation",
+    navTitle: "Workflow Automation",
+    cardTitle: "Workflow Automation Services",
+    seoTitle: "Workflow Automation Services for Approvals, Handoffs, and Business Processes",
+    metaDescription:
+      "Summit builds workflow automation systems that move approvals, handoffs, follow-ups, and internal processes automatically — with clear owners, deadlines, and tracking.",
+    keywords: [
+      "workflow automation services",
+      "business process automation",
+      "approval workflow automation",
+      "process automation company",
+      "task automation for teams",
+      "internal workflow software",
+    ],
+    heroTitle: "Workflow automation that moves your processes forward without chasing people.",
+    heroDescription:
+      "If approvals sit in inboxes, handoffs get dropped, or nobody knows a task's status, we can build workflows where every step has an owner, a deadline, and an automatic next action.",
+    heroTags: [
+      "Approval flows",
+      "Automatic handoffs",
+      "Deadline tracking",
+      "Status visibility",
+    ],
+    heroStats: [
+      { label: "Steps tracked", value: "All" },
+      { label: "Handoffs", value: "Auto" },
+      { label: "Status", value: "Live" },
+    ],
+    problemCards: [
+      {
+        title: "Approvals sit and wait",
+        description:
+          "Requests stall in email threads and chat messages. Automated flows route each approval to the right person with reminders and escalation.",
+      },
+      {
+        title: "Handoffs get dropped",
+        description:
+          "Work passed between teams disappears. Automation creates the next task automatically with full context attached.",
+      },
+      {
+        title: "Nobody knows the status",
+        description:
+          "Staff spend time asking 'where is this?'. A live board shows every process, its stage, and its owner.",
+      },
+      {
+        title: "Processes run differently every time",
+        description:
+          "Automated workflows make each process run the same tracked way, so quality does not depend on who handled it.",
+      },
+    ],
+    explainerCards: [
+      {
+        type: "inputs",
+        title: "What usually comes into this workflow",
+        description: "Workflow automation starts from the requests and processes your teams already run manually.",
+        bullets: [
+          "Approval requests, internal forms, and cross-team handoffs.",
+          "Recurring processes like onboarding, procurement, and reporting cycles.",
+          "The informal steps currently living in email, chat, and memory.",
+        ],
+      },
+      {
+        type: "process",
+        title: "How the system processes the work",
+        description: "Each process becomes a defined flow with owners, deadlines, and automatic next steps.",
+        bullets: [
+          "Requests are captured through forms instead of scattered messages.",
+          "Each step routes to its owner with reminders and escalation timers.",
+          "Completed steps trigger the next task automatically with context attached.",
+        ],
+      },
+      {
+        type: "outputs",
+        title: "What your team gets back",
+        description: "Processes that complete on time, with a record of every step.",
+        bullets: [
+          "Approvals and handoffs that move without manual chasing.",
+          "A live status board for every running process.",
+          "An audit trail showing who did what and when.",
+        ],
+      },
+      {
+        type: "benefits",
+        title: "Why buyers usually want it",
+        description: "Faster cycles, fewer dropped tasks, and processes that scale beyond the founding team.",
+        bullets: [
+          "Approval cycles shrink from days to hours.",
+          "Nothing depends on one person remembering to follow up.",
+          "New staff follow the workflow instead of learning tribal knowledge.",
+        ],
+      },
+    ],
+    workflowSteps: [
+      {
+        title: "Map the process",
+        description: "We document how the process actually runs today — including the informal steps and workarounds.",
+      },
+      {
+        title: "Define owners and rules",
+        description: "Every step gets an owner, a deadline, and an escalation rule for when it stalls.",
+      },
+      {
+        title: "Build the flow",
+        description: "We build the forms, routing, reminders, and integrations that run the process automatically.",
+      },
+      {
+        title: "Track and refine",
+        description: "Cycle-time and bottleneck reporting shows where the process can improve next.",
+      },
+    ],
+    deliverables: [
+      "Process mapping and workflow design",
+      "Approval and request flows with escalation",
+      "Automatic task handoffs between teams",
+      "Deadline reminders and stall alerts",
+      "Live process status boards",
+      "Cycle-time and bottleneck reporting",
+    ],
+    industries: ["Enterprise operations", "HR teams", "Finance teams", "Procurement", "Agencies", "Service businesses"],
+    faqs: [
+      {
+        question: "How is workflow automation different from a project management tool?",
+        answer:
+          "Project tools track work people enter manually. Workflow automation runs the process itself — creating tasks, routing approvals, sending reminders, and escalating stalls automatically.",
+      },
+      {
+        question: "Can it work with approvals that need multiple people?",
+        answer:
+          "Yes. Flows can require sequential or parallel approvals, with different rules by amount, department, or request type.",
+      },
+      {
+        question: "What if a process changes later?",
+        answer:
+          "Workflows are configurable. Steps, owners, and rules can be updated without rebuilding the system.",
+      },
+    ],
+    contactFocus: "workflow and process automation",
+    relatedSlugs: ["ai-automation", "crm-ai-marketing-automation", "document-verification-security-automation"],
+    liveModes: [
+      {
+        label: "Approvals",
+        summary: "Requests route to the right approver with reminders, escalation, and a full audit trail.",
+        pipeline: ["Request", "Routing", "Approval", "Next Step", "Record"],
+        activePipelineIndex: 2,
+        metrics: [
+          { label: "Pending", value: "08" },
+          { label: "Avg cycle", value: "3.2h" },
+          { label: "Escalated", value: "02" },
+        ],
+        bars: [
+          { label: "On-time approvals", value: 89 },
+          { label: "Auto-routed", value: 97 },
+          { label: "Stalled", value: 6 },
+        ],
+        activity: [
+          "Purchase request over budget threshold routed to director",
+          "Leave request approved and calendar updated automatically",
+          "Stalled approval escalated after 24-hour reminder window",
+        ],
+      },
+      {
+        label: "Handoffs",
+        summary: "Completed steps create the next team's task automatically with context attached.",
+        pipeline: ["Step Done", "Context Package", "Next Task", "Owner Notified", "Tracking"],
+        activePipelineIndex: 1,
+        metrics: [
+          { label: "Handoffs today", value: "31" },
+          { label: "Dropped", value: "0" },
+          { label: "Avg delay", value: "4m" },
+        ],
+        bars: [
+          { label: "Clean handoffs", value: 96 },
+          { label: "Context completeness", value: 91 },
+          { label: "Follow-through", value: 94 },
+        ],
+        activity: [
+          "Signed contract triggered onboarding checklist for operations",
+          "Completed design step handed to development with files attached",
+          "Client approval triggered invoice creation in accounts",
+        ],
+      },
+      {
+        label: "Visibility",
+        summary: "Every running process shows its stage, owner, and deadline on one live board.",
+        pipeline: ["Processes", "Stages", "Owners", "Board", "Reports"],
+        activePipelineIndex: 3,
+        metrics: [
+          { label: "Active flows", value: "23" },
+          { label: "On track", value: "87%" },
+          { label: "Bottlenecks", value: "01" },
+        ],
+        bars: [
+          { label: "On-time completion", value: 87 },
+          { label: "Owner clarity", value: 100 },
+          { label: "Cycle-time trend", value: 72 },
+        ],
+        activity: [
+          "Procurement flow flagged as bottleneck at vendor review stage",
+          "Weekly cycle-time report sent to operations lead",
+          "Two processes completed ahead of deadline today",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "digital-transformation",
+    navTitle: "Digital Transformation",
+    cardTitle: "Digital Transformation Services",
+    seoTitle: "Digital Transformation Services for Operations-Heavy Businesses",
+    metaDescription:
+      "Summit helps businesses move from spreadsheets, paperwork, and manual coordination to connected digital systems — step by step, without disrupting daily operations.",
+    keywords: [
+      "digital transformation services",
+      "digital transformation company",
+      "business digitization services",
+      "paperless office systems",
+      "legacy process modernization",
+      "smart business systems",
+    ],
+    heroTitle: "Digital transformation that upgrades how your business runs — without stopping it.",
+    heroDescription:
+      "If your operation still runs on paperwork, spreadsheets, and phone calls, we can move it to connected digital systems in planned stages, so your team keeps working while the upgrade happens.",
+    heroTags: [
+      "Paper to digital",
+      "Connected systems",
+      "Staged rollout",
+      "Team adoption support",
+    ],
+    heroStats: [
+      { label: "Rollout", value: "Staged" },
+      { label: "Downtime", value: "None" },
+      { label: "Records", value: "Digital" },
+    ],
+    problemCards: [
+      {
+        title: "Information lives on paper and in heads",
+        description:
+          "Customer records, approvals, and history become searchable digital records with access control instead of filing cabinets and memory.",
+      },
+      {
+        title: "Every department has its own spreadsheet",
+        description:
+          "Disconnected sheets become one source of truth, so numbers match and nobody re-enters the same data twice.",
+      },
+      {
+        title: "Growth adds chaos instead of capacity",
+        description:
+          "Digital workflows scale with volume — more customers and staff without proportionally more admin overhead.",
+      },
+      {
+        title: "Big-bang IT projects have failed before",
+        description:
+          "We roll out in stages, starting with the highest-pain process, so value shows up in weeks and adoption builds naturally.",
+      },
+    ],
+    explainerCards: [
+      {
+        type: "inputs",
+        title: "What usually comes into this engagement",
+        description: "Transformation starts from how your business actually runs today, not an idealized diagram.",
+        bullets: [
+          "Paper records, registers, files, and manual logbooks.",
+          "Spreadsheets, WhatsApp coordination, and email-based processes.",
+          "The daily routines and workarounds your staff have built over years.",
+        ],
+      },
+      {
+        type: "process",
+        title: "How the transformation runs",
+        description: "We digitize in planned stages, each one delivering a working system before the next begins.",
+        bullets: [
+          "Audit and map the current processes, data, and pain points.",
+          "Digitize the highest-impact process first and prove it in daily use.",
+          "Connect each new system to the last, building one operating platform.",
+        ],
+      },
+      {
+        type: "outputs",
+        title: "What your business gets back",
+        description: "A connected digital operation with records, workflows, and reporting in one place.",
+        bullets: [
+          "Digital records with search, history, and role-based access.",
+          "Connected workflows replacing paper handoffs and duplicate data entry.",
+          "Live dashboards replacing end-of-month manual reporting.",
+        ],
+      },
+      {
+        type: "benefits",
+        title: "Why buyers usually want it",
+        description: "The business becomes faster, auditable, and ready for automation and AI.",
+        bullets: [
+          "Decisions made on live data instead of last month's compiled numbers.",
+          "Compliance and audits handled from records, not archive hunts.",
+          "A digital foundation that AI automation can be layered onto next.",
+        ],
+      },
+    ],
+    workflowSteps: [
+      {
+        title: "Audit the operation",
+        description: "We map processes, data, tools, and pain points to find where digitization pays back fastest.",
+      },
+      {
+        title: "Plan the stages",
+        description: "A staged roadmap: each phase delivers a working system your team actually uses before the next starts.",
+      },
+      {
+        title: "Build and migrate",
+        description: "We build the systems, migrate existing records, and run old and new in parallel until trust is earned.",
+      },
+      {
+        title: "Train and hand over",
+        description: "Staff training, admin handover, and monitoring so the new way of working sticks.",
+      },
+    ],
+    deliverables: [
+      "Digital operations audit and roadmap",
+      "Process digitization and data migration",
+      "Connected records with role-based access",
+      "Workflow and approval digitization",
+      "Live operational dashboards",
+      "Staff training and adoption support",
+    ],
+    industries: ["Manufacturing", "Trading firms", "Healthcare", "Education", "Government contractors", "Family businesses"],
+    faqs: [
+      {
+        question: "Will our operations stop during the transformation?",
+        answer:
+          "No. We roll out in stages and run old and new processes in parallel during each transition, so daily work continues throughout.",
+      },
+      {
+        question: "What happens to our existing records?",
+        answer:
+          "Existing records are migrated into the new system — digitized, structured, and searchable — so history is preserved, not lost.",
+      },
+      {
+        question: "Our staff are not technical. Will they adopt it?",
+        answer:
+          "Systems are designed around how your staff already work, and every rollout includes training and a support window until the team is confident.",
+      },
+    ],
+    contactFocus: "digital transformation planning",
+    relatedSlugs: ["custom-software-development", "ai-automation", "workflow-automation"],
+    liveModes: [
+      {
+        label: "Records",
+        summary: "Paper files and spreadsheets become structured, searchable digital records with access control.",
+        pipeline: ["Paper/Sheet", "Digitization", "Structured Record", "Access Rules", "Search"],
+        activePipelineIndex: 2,
+        metrics: [
+          { label: "Records digitized", value: "12.4k" },
+          { label: "Search time", value: "3s" },
+          { label: "Access roles", value: "06" },
+        ],
+        bars: [
+          { label: "Migration progress", value: 88 },
+          { label: "Data accuracy", value: 97 },
+          { label: "Adoption", value: 81 },
+        ],
+        activity: [
+          "Customer file archive migrated with duplicate detection",
+          "Old contract located by search in seconds during a dispute",
+          "Access roles applied so staff see only their department's records",
+        ],
+      },
+      {
+        label: "Operations",
+        summary: "Daily coordination moves from calls and paper slips to tracked digital workflows.",
+        pipeline: ["Request", "Digital Form", "Workflow", "Completion", "Dashboard"],
+        activePipelineIndex: 3,
+        metrics: [
+          { label: "Digital flows", value: "14" },
+          { label: "Paper steps left", value: "02" },
+          { label: "Cycle time", value: "-41%" },
+        ],
+        bars: [
+          { label: "Process coverage", value: 85 },
+          { label: "On-time completion", value: 90 },
+          { label: "Duplicate entry", value: 5 },
+        ],
+        activity: [
+          "Dispatch slips replaced by digital job cards with GPS check-in",
+          "Approval that took two days now completes in three hours",
+          "Monthly stock report generated from live data automatically",
+        ],
+      },
+      {
+        label: "Insight",
+        summary: "Leadership sees the whole operation live instead of waiting for compiled month-end reports.",
+        pipeline: ["Live Data", "Metrics", "Alerts", "Dashboard", "Decisions"],
+        activePipelineIndex: 3,
+        metrics: [
+          { label: "Dashboards", value: "05" },
+          { label: "Data lag", value: "0d" },
+          { label: "Alerts set", value: "12" },
+        ],
+        bars: [
+          { label: "Data freshness", value: 100 },
+          { label: "Report automation", value: 92 },
+          { label: "Alert accuracy", value: 88 },
+        ],
+        activity: [
+          "Sales dip alert triggered review two weeks before month-end",
+          "Branch comparison dashboard used in weekly leadership meeting",
+          "Audit request answered same-day from digital records",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "real-estate-automation",
+    navTitle: "Real Estate Automation",
+    cardTitle: "Real Estate Automation Services",
+    seoTitle: "Real Estate Automation Services for Leads, Listings, and Client Follow-Up",
+    metaDescription:
+      "Summit builds real estate automation systems that capture property leads from every channel, follow up automatically, organize listings, and keep agents focused on closing.",
+    keywords: [
+      "real estate automation",
+      "real estate lead follow-up automation",
+      "property CRM automation",
+      "real estate WhatsApp automation",
+      "listing management automation",
+      "real estate agency software",
+    ],
+    heroTitle: "Real estate automation that captures every lead and follows up before your competitor does.",
+    heroDescription:
+      "If property inquiries come from WhatsApp, portals, and calls but follow-up depends on busy agents, we can build a system that captures every lead, qualifies it, and keeps follow-up running automatically.",
+    heroTags: [
+      "Multi-channel lead capture",
+      "Automatic follow-up",
+      "Listing organization",
+      "Agent performance visibility",
+    ],
+    heroStats: [
+      { label: "Lead capture", value: "All channels" },
+      { label: "Follow-up", value: "Auto" },
+      { label: "Response time", value: "Instant" },
+    ],
+    problemCards: [
+      {
+        title: "Leads arrive everywhere and get lost",
+        description:
+          "WhatsApp, portal, and call inquiries land in one pipeline with source tracking, so no inquiry disappears in a busy agent's phone.",
+      },
+      {
+        title: "Follow-up stops after the first call",
+        description:
+          "Automated sequences keep nurturing interested buyers with relevant listings until they are ready — for weeks, not days.",
+      },
+      {
+        title: "Listing details live in agents' phones",
+        description:
+          "A central listing base with photos, status, and pricing means anyone can answer accurately and nothing is sold twice.",
+      },
+      {
+        title: "Owners cannot see agent performance",
+        description:
+          "Dashboards show response times, follow-up rates, and conversion by agent — based on real activity, not self-reporting.",
+      },
+    ],
+    explainerCards: [
+      {
+        type: "inputs",
+        title: "What usually comes into this workflow",
+        description: "The system starts from the inquiries and listings your agency already handles daily.",
+        bullets: [
+          "Property inquiries from WhatsApp, portals, social media, and calls.",
+          "Listing details, photos, pricing, and availability status.",
+          "Buyer requirements — budget, location, property type, urgency.",
+        ],
+      },
+      {
+        type: "process",
+        title: "How the system processes them",
+        description: "Every inquiry is captured, qualified, matched, and scheduled for follow-up automatically.",
+        bullets: [
+          "Leads are captured with source tagging and answered instantly.",
+          "AI qualification collects budget, location, and timeline before an agent joins.",
+          "Matching listings are suggested and follow-up sequences scheduled automatically.",
+        ],
+      },
+      {
+        type: "outputs",
+        title: "What your agency gets back",
+        description: "A pipeline where every lead has a status, an owner, and a next action.",
+        bullets: [
+          "Qualified leads routed to the right agent with full context.",
+          "Automatic follow-up that keeps buyers warm without agent effort.",
+          "Dashboards showing pipeline value, agent activity, and conversion.",
+        ],
+      },
+      {
+        type: "benefits",
+        title: "Why agencies usually want it",
+        description: "More deals from the same inquiries, and an agency that does not depend on one star agent's memory.",
+        bullets: [
+          "Instant response wins buyers who message several agencies at once.",
+          "Persistent follow-up converts leads other agencies gave up on.",
+          "Owners see real pipeline and performance data at any moment.",
+        ],
+      },
+    ],
+    workflowSteps: [
+      {
+        title: "Connect every channel",
+        description: "WhatsApp, portals, forms, and calls feed one pipeline with automatic source tracking.",
+      },
+      {
+        title: "Qualify automatically",
+        description: "AI collects budget, location, and timeline from each inquiry before agent time is spent.",
+      },
+      {
+        title: "Match and follow up",
+        description: "Matching listings go out automatically and follow-up sequences keep the buyer engaged.",
+      },
+      {
+        title: "Track the pipeline",
+        description: "Dashboards show deals by stage, agent response times, and where leads drop off.",
+      },
+    ],
+    deliverables: [
+      "Multi-channel lead capture with source tracking",
+      "AI lead qualification and routing",
+      "Automated follow-up sequences",
+      "Central listing management",
+      "Viewing scheduling and reminders",
+      "Agent performance and pipeline dashboards",
+    ],
+    industries: ["Real estate agencies", "Property developers", "Overseas property sales", "Rental management", "Commercial brokers"],
+    faqs: [
+      {
+        question: "Can it handle leads from property portals and WhatsApp together?",
+        answer:
+          "Yes. Inquiries from portals, WhatsApp, social media, website forms, and calls all land in one pipeline with the source recorded on each lead.",
+      },
+      {
+        question: "Will buyers talk to a bot instead of an agent?",
+        answer:
+          "The system answers instantly and collects requirements, then hands serious buyers to an agent. Buyers get speed; agents get qualified conversations.",
+      },
+      {
+        question: "Does it work for overseas property buyers?",
+        answer:
+          "Yes. Automated responses work across time zones, so inquiries from overseas buyers get answered immediately even outside office hours.",
+      },
+    ],
+    contactFocus: "real estate automation",
+    relatedSlugs: ["whatsapp-automation", "crm-ai-marketing-automation", "ai-voice-agents"],
+    liveModes: [
+      {
+        label: "Leads",
+        summary: "Every inquiry from every channel lands in one pipeline, qualified and routed in minutes.",
+        pipeline: ["Inquiry", "Instant Reply", "AI Qualification", "Agent Routing", "Pipeline"],
+        activePipelineIndex: 2,
+        metrics: [
+          { label: "Leads today", value: "26" },
+          { label: "Qualified", value: "68%" },
+          { label: "Avg response", value: "45s" },
+        ],
+        bars: [
+          { label: "Capture rate", value: 98 },
+          { label: "Qualification", value: 68 },
+          { label: "Routing accuracy", value: 92 },
+        ],
+        activity: [
+          "Portal inquiry answered and budget captured within a minute",
+          "WhatsApp lead matched to three listings in preferred sector",
+          "High-budget buyer routed directly to senior agent",
+        ],
+      },
+      {
+        label: "Follow-up",
+        summary: "Sequences keep interested buyers warm with relevant listings until they are ready to view.",
+        pipeline: ["Qualified Lead", "Sequence", "New Match Alert", "Viewing Booked", "Deal Stage"],
+        activePipelineIndex: 1,
+        metrics: [
+          { label: "In sequence", value: "114" },
+          { label: "Viewings booked", value: "09" },
+          { label: "Re-engaged", value: "17" },
+        ],
+        bars: [
+          { label: "Sequence coverage", value: 95 },
+          { label: "Reply rate", value: 41 },
+          { label: "Viewing conversion", value: 22 },
+        ],
+        activity: [
+          "Buyer from last month re-engaged by new matching listing alert",
+          "Viewing reminder sent with location pin and agent contact",
+          "Price-drop notification sent to twelve matched buyers",
+        ],
+      },
+      {
+        label: "Pipeline",
+        summary: "Owners see deals by stage, agent activity, and conversion in one live dashboard.",
+        pipeline: ["Deals", "Stages", "Agent Activity", "Dashboard", "Owner Report"],
+        activePipelineIndex: 3,
+        metrics: [
+          { label: "Active deals", value: "48" },
+          { label: "This month", value: "07" },
+          { label: "Drop-off stage", value: "Visit" },
+        ],
+        bars: [
+          { label: "Pipeline health", value: 84 },
+          { label: "Agent response SLA", value: 89 },
+          { label: "Conversion trend", value: 61 },
+        ],
+        activity: [
+          "Weekly pipeline report sent to agency owner",
+          "Agent response-time alert triggered for two overdue leads",
+          "Conversion by source shows portal leads closing fastest",
         ],
       },
     ],

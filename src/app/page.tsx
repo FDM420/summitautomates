@@ -19,6 +19,10 @@ const structuredData = {
         "recruitment automation",
         "AI voice agents",
         "business workflow automation",
+        "digital transformation",
+        "custom software development",
+        "CRM and ERP automation",
+        "smart business systems",
       ],
     },
     {

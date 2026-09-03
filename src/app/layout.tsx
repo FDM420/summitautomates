@@ -33,12 +33,21 @@ export const metadata: Metadata = {
       "Clear, business-focused AI automation for customer handling, lead management, recruitment, operations, dashboards, and workflow systems.",
     siteName: "Summit AI Automation Services",
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Summit AI Automation — AI Automation, Workflow Automation, Digital Transformation, Custom Software & Smart Systems",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Summit AI Automation Services",
     description:
       "AI automation services for customer support, recruitment, lead management, operations, and business workflows.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -86,6 +95,10 @@ const structuredData = {
   ],
   knowsAbout: [
     "AI automation",
+    "Workflow automation",
+    "Digital transformation",
+    "Smart business systems",
+    "CRM and ERP automation",
     "WhatsApp automation",
     "CRM and lead management",
     "Recruitment and HR automation",
@@ -101,6 +114,19 @@ const structuredData = {
     contactType: "customer service",
     availableLanguage: ["en", "ur"],
   },
+};
+
+const websiteStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  name: "Summit AI Automation Services",
+  alternateName: "Summit Automates",
+  url: siteUrl,
+  description:
+    "AI automation, workflow automation, digital transformation, custom software, and smart systems for business operations.",
+  publisher: { "@id": `${siteUrl}/#organization` },
+  inLanguage: "en",
 };
 
 export default function RootLayout({
@@ -121,6 +147,10 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          type="application/ld+json"
+        />
+        <script
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
           type="application/ld+json"
         />
       </head>

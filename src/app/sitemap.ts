@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/industries`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/insights`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${siteUrl}/free-automation-audit`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${siteUrl}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
 
