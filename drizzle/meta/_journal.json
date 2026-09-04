@@ -15,6 +15,13 @@
       "when": 1788551668956,
       "tag": "0001_optimal_hammerhead",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788552737313,
+      "tag": "0002_last_slipstream",
+      "breakpoints": true
     }
   ]
 }

@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { ingestInboundEvent, logOutbound } from "@/lib/crm/intake";
 import { normalizePhone } from "@/lib/crm/phone";
+import { recordWebhookHit, summarizeMetaBody } from "@/lib/crm/webhook-debug";
 
 // WhatsApp Cloud API webhook.
 //   GET  → Meta's subscription verification handshake.
@@ -40,8 +41,20 @@ export async function GET(request: Request) {
 /** Incoming events. Always 200 fast so Meta does not retry-storm us. */
 export async function POST(request: Request) {
   const raw = await request.text();
+  const sigHeader = request.headers.get("x-hub-signature-256");
+  const sigValid = isValidSignature(raw, sigHeader);
 
-  if (!isValidSignature(raw, request.headers.get("x-hub-signature-256"))) {
+  // Diagnostic: record every hit BEFORE we act on it (best-effort).
+  await recordWebhookHit({
+    source: "whatsapp",
+    method: "POST",
+    sigPresent: Boolean(sigHeader),
+    sigValid,
+    summary: summarizeMetaBody(raw),
+    bodyPreview: raw,
+  });
+
+  if (!sigValid) {
     return new Response("Invalid signature", { status: 401 });
   }
 

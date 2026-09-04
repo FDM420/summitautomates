@@ -199,3 +199,21 @@ export const intakeEvents = pgTable("intake_events", {
   channel: text("channel").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+/**
+ * Debug ledger: records every raw hit to an inbound webhook (before signature
+ * checks and processing) so we can confirm whether Meta is actually calling us.
+ * Temporary diagnostic aid — safe to keep, cheap to ignore.
+ */
+export const webhookDebug = pgTable("webhook_debug", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  source: text("source").notNull(), // whatsapp | facebook
+  method: text("method").notNull(),
+  sigPresent: boolean("sig_present").notNull().default(false),
+  sigValid: boolean("sig_valid"),
+  summary: text("summary"),
+  bodyPreview: text("body_preview"),
+  receivedAt: timestamp("received_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
