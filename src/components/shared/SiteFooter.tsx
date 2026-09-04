@@ -1,4 +1,4 @@
-import { contactEmail } from "@/lib/site-content";
+import { contactEmail, googleReviewUrl } from "@/lib/site-content";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -118,6 +118,14 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                className="text-sm text-gold-200 transition hover:text-gold-100"
+                href="/review"
+              >
+                Leave a Google review ★
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

@@ -17,6 +17,11 @@ export const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "admin@summ
 // no "+", spaces, or dashes) as required by wa.me links.
 export const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "923069555536";
 
+// Direct Google review link for the Summit Automates Business Profile. Clicking
+// it opens Google's "write a review" dialog for our verified profile.
+export const googleReviewUrl =
+  process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL ?? "https://g.page/r/CfmJa-ULXmD4EBM/review";
+
 export const siteKeywords = [
   "AI automation services",
   "business automation services",
