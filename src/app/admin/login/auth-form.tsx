@@ -19,17 +19,10 @@ export function AuthForm({ mode, next }: Props) {
     setPending(true);
 
     const form = new FormData(event.currentTarget);
-    const payload =
-      mode === "setup"
-        ? {
-            name: String(form.get("name") ?? ""),
-            email: String(form.get("email") ?? ""),
-            password: String(form.get("password") ?? ""),
-          }
-        : {
-            email: String(form.get("email") ?? ""),
-            password: String(form.get("password") ?? ""),
-          };
+    const payload = {
+      email: String(form.get("email") ?? ""),
+      password: String(form.get("password") ?? ""),
+    };
 
     try {
       const res = await fetch(`/api/auth/${mode}`, {
@@ -56,22 +49,6 @@ export function AuthForm({ mode, next }: Props) {
 
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
-      {mode === "setup" ? (
-        <div>
-          <label className="mb-1.5 block text-xs text-slate-400" htmlFor="name">
-            Your name
-          </label>
-          <input
-            autoComplete="name"
-            className={inputClass}
-            id="name"
-            name="name"
-            required
-            type="text"
-          />
-        </div>
-      ) : null}
-
       <div>
         <label className="mb-1.5 block text-xs text-slate-400" htmlFor="email">
           Email

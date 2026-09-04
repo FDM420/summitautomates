@@ -14,10 +14,21 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const schema = z.object({
-  name: z.string().min(1).max(120),
   email: z.string().email(),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
+
+/** Human-ish display name from an email local part: "admin.ali" → "Admin Ali". */
+function nameFromEmail(email: string): string {
+  const local = email.split("@")[0] ?? email;
+  const words = local
+    .replace(/[._-]+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1));
+  return words.join(" ") || "Admin";
+}
 
 /**
  * Bootstrap the first admin. Only works while the users table is empty — after
@@ -45,7 +56,7 @@ export async function POST(request: Request) {
     if (count > 0) return null;
     const [created] = await tx
       .insert(users)
-      .values({ email, passwordHash, name: parsed.data.name, role: "admin" })
+      .values({ email, passwordHash, name: nameFromEmail(email), role: "admin" })
       .returning({ id: users.id });
     return created;
   });
