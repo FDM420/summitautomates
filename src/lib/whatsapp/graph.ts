@@ -87,18 +87,25 @@ export async function sendText(
   };
   if (opts?.replyToProviderId) payload.context = { message_id: opts.replyToProviderId };
 
-  return withTimeout(30_000, async (signal) => {
-    const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/messages`, {
-      method: "POST",
-      headers: { ...authHeaders(), "content-type": "application/json" },
-      body: JSON.stringify(payload),
-      signal,
+  // Total function: timeouts and network failures come back as { error } so
+  // the caller always records an outbound row (never an unhandled rejection).
+  try {
+    return await withTimeout(30_000, async (signal) => {
+      const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/messages`, {
+        method: "POST",
+        headers: { ...authHeaders(), "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        signal,
+      });
+      if (!res.ok) return { error: await readGraphError(res) };
+      const j = (await res.json()) as { messages?: { id: string }[] };
+      const id = j.messages?.[0]?.id;
+      return id ? { id } : { error: { message: "No message id in response" } };
     });
-    if (!res.ok) return { error: await readGraphError(res) };
-    const j = (await res.json()) as { messages?: { id: string }[] };
-    const id = j.messages?.[0]?.id;
-    return id ? { id } : { error: { message: "No message id in response" } };
-  });
+  } catch (error) {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    return { error: { message: aborted ? "Graph timeout (30s)" : String(error) } };
+  }
 }
 
 /** Mark the newest inbound message as read (blue ticks on the customer side). */

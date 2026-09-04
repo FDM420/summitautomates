@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -290,7 +291,14 @@ export const leads = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => [index("leads_status_created_idx").on(t.status, t.createdAt)],
+  (t) => [
+    index("leads_status_created_idx").on(t.status, t.createdAt),
+    // At most ONE open lead per contact — makes "open a lead if none" a
+    // race-free INSERT ... ON CONFLICT DO NOTHING.
+    uniqueIndex("leads_open_contact_unique")
+      .on(t.contactId)
+      .where(sql`status in ('new','qualified')`),
+  ],
 );
 
 /**

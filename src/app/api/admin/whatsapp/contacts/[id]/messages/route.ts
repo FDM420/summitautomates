@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { db } from "@/lib/db";
@@ -7,11 +7,16 @@ import { whatsappMessages } from "@/lib/db/schema";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /**
- * Messages for one contact, always returned ASCENDING by occurred_at.
- *   default          → newest `limit` messages
- *   ?before=<iso>    → older page (for scroll-up)
- *   ?after=<iso>     → tail fetch (for polling)
+ * Messages for one contact, always returned ASCENDING.
+ *   default                          → newest `limit` messages
+ *   ?before=<iso>&beforeCreated=<iso> → older page (keyset on the pair)
+ *   ?after=<iso>&afterCreated=<iso>   → tail fetch
+ * Meta timestamps are whole seconds, so `occurred_at` alone can't order or
+ * page reliably; `created_at` (webhook insert order) is the deterministic
+ * tiebreak, with `id` as a final stable key.
  */
 export async function GET(
   request: Request,
@@ -21,14 +26,30 @@ export async function GET(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
+  if (!UUID.test(id)) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
   const url = new URL(request.url);
-  const limit = Math.min(Number(url.searchParams.get("limit") ?? 50) || 50, 200);
+  const limit = Math.max(1, Math.min(Math.trunc(Number(url.searchParams.get("limit"))) || 50, 200));
   const before = parseIso(url.searchParams.get("before"));
+  const beforeCreated = parseIso(url.searchParams.get("beforeCreated"));
   const after = parseIso(url.searchParams.get("after"));
+  const afterCreated = parseIso(url.searchParams.get("afterCreated"));
 
   const conds = [eq(whatsappMessages.contactId, id)];
-  if (before) conds.push(lt(whatsappMessages.occurredAt, before));
-  if (after) conds.push(gt(whatsappMessages.occurredAt, after));
+  if (before) {
+    conds.push(
+      beforeCreated
+        ? sql`(${whatsappMessages.occurredAt}, ${whatsappMessages.createdAt}) < (${before}::timestamptz, ${beforeCreated}::timestamptz)`
+        : sql`${whatsappMessages.occurredAt} < ${before}::timestamptz`,
+    );
+  }
+  if (after) {
+    conds.push(
+      afterCreated
+        ? sql`(${whatsappMessages.occurredAt}, ${whatsappMessages.createdAt}) > (${after}::timestamptz, ${afterCreated}::timestamptz)`
+        : sql`${whatsappMessages.occurredAt} > ${after}::timestamptz`,
+    );
+  }
 
   const fields = {
     id: whatsappMessages.id,
@@ -50,16 +71,17 @@ export async function GET(
     deliveredAt: whatsappMessages.deliveredAt,
     readAt: whatsappMessages.readAt,
     occurredAt: whatsappMessages.occurredAt,
+    createdAt: whatsappMessages.createdAt,
   };
 
-  // `after` pages forward (ascending); everything else pages backward from the
-  // newest and is reversed so the client always gets ascending order.
   const rows = after
     ? await db.select(fields).from(whatsappMessages).where(and(...conds))
-        .orderBy(asc(whatsappMessages.occurredAt), asc(whatsappMessages.id)).limit(limit)
+        .orderBy(asc(whatsappMessages.occurredAt), asc(whatsappMessages.createdAt), asc(whatsappMessages.id))
+        .limit(limit)
     : (
         await db.select(fields).from(whatsappMessages).where(and(...conds))
-          .orderBy(desc(whatsappMessages.occurredAt), desc(whatsappMessages.id)).limit(limit)
+          .orderBy(desc(whatsappMessages.occurredAt), desc(whatsappMessages.createdAt), desc(whatsappMessages.id))
+          .limit(limit)
       ).reverse();
 
   return NextResponse.json({ messages: rows, hasMore: !after && rows.length === limit });

@@ -19,7 +19,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const filter = url.searchParams.get("filter") ?? "all";
   const search = (url.searchParams.get("search") ?? "").trim();
-  const limit = Math.min(Number(url.searchParams.get("limit") ?? 50) || 50, 200);
+  const limit = Math.max(1, Math.min(Math.trunc(Number(url.searchParams.get("limit"))) || 50, 200));
 
   const conds = [isNotNull(contacts.waId), isNull(contacts.archivedAt)];
   if (filter === "unread") conds.push(gt(contacts.waUnreadCount, 0));

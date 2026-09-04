@@ -24,6 +24,7 @@ export type WaMessage = {
   deliveredAt: string | null;
   readAt: string | null;
   occurredAt: string;
+  createdAt: string;
 };
 
 export type WaThread = {

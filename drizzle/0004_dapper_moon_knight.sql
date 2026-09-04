@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "leads_open_contact_unique" ON "leads" USING btree ("contact_id") WHERE status in ('new','qualified');

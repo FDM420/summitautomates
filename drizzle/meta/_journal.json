@@ -29,6 +29,13 @@
       "when": 1788557082854,
       "tag": "0003_sloppy_exodus",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1788559893573,
+      "tag": "0004_dapper_moon_knight",
+      "breakpoints": true
     }
   ]
 }

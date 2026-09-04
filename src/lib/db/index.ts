@@ -29,20 +29,16 @@ function initDb(): Db {
       "DATABASE_URL is not set. Set it locally (shell/.env) for migrations, and as an App Hosting secret for runtime.",
     );
   }
-  const sql =
-    globalForDb.__summitSql ??
-    postgres(connectionString, {
-      max: 3, // small per-instance pool; raise only behind a pooler
-      idle_timeout: 20,
-      connect_timeout: 10,
-      prepare: false, // safe when a pooler may sit in front
-    });
-  const instance = drizzle(sql, { schema });
-  if (process.env.NODE_ENV !== "production") {
-    globalForDb.__summitSql = sql;
-    globalForDb.__summitDb = instance;
-  }
-  return instance;
+  // Cache UNCONDITIONALLY on globalThis: warm Cloud Run instances must reuse
+  // one pool across requests (a dev-only guard here meant production opened a
+  // brand-new pool on every `db.` access and exhausted Postgres connections).
+  const sql = (globalForDb.__summitSql ??= postgres(connectionString, {
+    max: 3, // small per-instance pool; raise only behind a pooler
+    idle_timeout: 20,
+    connect_timeout: 10,
+    prepare: false, // safe when a pooler may sit in front
+  }));
+  return (globalForDb.__summitDb ??= drizzle(sql, { schema }));
 }
 
 /**
@@ -50,9 +46,12 @@ function initDb(): Db {
  * Drizzle instance. Use it exactly like a normal Drizzle db.
  */
 export const db: Db = new Proxy({} as Db, {
-  get(_target, prop, receiver) {
+  get(_target, prop) {
     const instance = globalForDb.__summitDb ?? initDb();
-    return Reflect.get(instance, prop, receiver);
+    const value = Reflect.get(instance, prop, instance);
+    // Bind methods to the real instance so `this` (and Drizzle's private fields)
+    // resolve correctly — never the proxy.
+    return typeof value === "function" ? value.bind(instance) : value;
   },
 });
 
