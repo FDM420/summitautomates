@@ -127,11 +127,11 @@ async function handleEvents(payload: WhatsAppWebhookBody) {
  */
 async function generateReply(userText: string, type: string): Promise<string> {
   if (type !== "text" || !userText) {
-    return "Thanks for messaging Summit! We received your message and a team member will get back to you shortly. Feel free to tell us your company name and the workflow you'd like to automate.";
+    return "Thanks for reaching out to Summit Systems 👋 — building smarter systems for modern businesses. We've received your message and a team member will get back to you shortly. Tell us a bit about your business and what you'd like to automate or build.";
   }
 
   if (!OPENAI_API_KEY) {
-    return `Thanks for reaching out to Summit AI Automation! 👋\n\nWe build AI automation for WhatsApp, CRM/ERP, recruitment, documents, and operations. A team member will reply shortly.\n\nTo speed things up, tell us:\n1) Your company\n2) The workflow you want to automate\n\nOr book a free audit: ${siteUrlSafe()}/free-automation-audit`;
+    return `Thanks for reaching out to Summit Systems! 👋\n\nWe're a technology and automation company helping businesses transform the way they work — intelligent software, AI-powered solutions, business automation, CRM & ERP systems, websites, mobile apps, and custom digital platforms.\n\nBuilding smarter systems for modern businesses.\n\nTo point you in the right direction, tell us:\n1) Your business\n2) What you'd like to automate or build\n\nOr book a free audit: ${siteUrlSafe()}/free-automation-audit`;
   }
 
   try {
@@ -165,21 +165,23 @@ async function generateReply(userText: string, type: string): Promise<string> {
   }
 }
 
-const SUMMIT_SYSTEM_PROMPT = `You are the WhatsApp assistant for Summit AI Automation Services (legal name: Summit Systems Pvt Ltd), based in Islamabad, Pakistan (summitautomates.com).
+const SUMMIT_SYSTEM_PROMPT = `You are the WhatsApp assistant for Summit Systems (Summit Systems Pvt Ltd), a technology and automation company based in Islamabad, Pakistan — summitautomates.com.
+Motto: "Building smarter systems for modern businesses."
 
-Summit builds practical AI automation and custom software: WhatsApp automation, CRM/ERP automation, recruitment & HR automation, document verification & security, workforce & operations tracking, AI voice agents, workflow automation, digital transformation, and custom software development.
+Summit Systems helps businesses transform the way they work. We design intelligent software, AI-powered solutions, business automation, CRM & ERP systems, websites, mobile applications, integrations, and customized digital platforms built around real business needs. Specific offerings include WhatsApp automation, AI voice agents, recruitment & HR automation, document verification & security, workforce & operations tracking, workflow automation, digital transformation, and custom software development.
 
 Your job:
-- Reply warmly, briefly, and in plain business language (2-5 short sentences).
-- Answer the customer's question about what Summit can build.
-- Qualify gently: ask for their company, the workflow they want to automate, and rough scale/urgency.
-- For pricing: explain it depends on their tools and volume, and offer a free automation audit or a discovery call rather than quoting a number.
+- Open warmly and carry the motto's spirit: practical, modern, business-first. On a first message, briefly introduce Summit Systems and what we do.
+- Reply briefly in plain business language (2-5 short sentences). No jargon.
+- Answer what Summit can build for the customer's situation.
+- Qualify gently: ask about their business, what they'd like to automate or build, and rough scale/urgency.
+- For pricing: explain it depends on their needs and scale, and offer a free automation audit or a discovery call rather than quoting a number.
 - If they want to talk to a person, reassure them a team member will follow up.
 - Never invent specific prices, timelines, or guarantees. Keep it honest.
 - Match the customer's language (English or Urdu) if obvious.`;
 
 const AI_FALLBACK =
-  "Thanks for your message! We build AI automation for WhatsApp, CRM, recruitment, documents, and operations. Could you share your company and the workflow you'd like to automate? A team member will follow up shortly.";
+  "Thanks for your message! Summit Systems builds smarter systems for modern businesses — AI automation, CRM & ERP, custom software, websites, and mobile apps. Could you share a bit about your business and what you'd like to automate or build? A team member will follow up shortly.";
 
 function siteUrlSafe() {
   return process.env.NEXT_PUBLIC_SITE_URL ?? "https://summitautomates.com";
