@@ -19,10 +19,16 @@ env:
     availability:
       - RUNTIME
 
+  # Phone Number ID is an identifier, not a secret (harmless without the access
+  # token), so it is kept inline. From WhatsApp Manager for +92 343 1111003.
+  - variable: WHATSAPP_PHONE_NUMBER_ID
+    value: "1317996351390422"
+    availability:
+      - RUNTIME
+
   # Sensitive values live in Cloud Secret Manager. Create each secret FIRST:
   #   firebase apphosting:secrets:set whatsapp-app-secret
   #   firebase apphosting:secrets:set whatsapp-access-token
-  #   firebase apphosting:secrets:set whatsapp-phone-number-id
   #   firebase apphosting:secrets:set openai-api-key   # add later for AI replies
   # THEN uncomment the matching blocks below and redeploy. (Referencing a secret
   # that does not exist yet fails the App Hosting build, so keep these commented
@@ -34,10 +40,6 @@ env:
   #     - RUNTIME
   # - variable: WHATSAPP_ACCESS_TOKEN
   #   secret: whatsapp-access-token
-  #   availability:
-  #     - RUNTIME
-  # - variable: WHATSAPP_PHONE_NUMBER_ID
-  #   secret: whatsapp-phone-number-id
   #   availability:
   #     - RUNTIME
   # - variable: OPENAI_API_KEY
