@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Composer } from "./Composer";
 import { dayLabel } from "./format";
 import { MessageBubble } from "./MessageBubble";
 import type { WaMessage } from "./types";
@@ -30,15 +31,19 @@ function mergeById(prev: WaMessage[], incoming: WaMessage[]): WaMessage[] {
  */
 export function ChatThread({
   contactId,
+  windowOpen,
   onRead,
 }: {
   contactId: string;
+  /** Is the 24h free-form reply window open for this contact? */
+  windowOpen: boolean;
   /** Called when a new inbound message arrives while the thread is visible (we re-mark it read). */
   onRead?: () => void;
 }) {
   const [messages, setMessages] = useState<WaMessage[]>([]);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [replyTo, setReplyTo] = useState<WaMessage | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const loadingOlder = useRef(false);
   const stickToBottom = useRef(true);
@@ -143,6 +148,70 @@ export function ChatThread({
     if (el.scrollTop < 80) void loadOlder();
   };
 
+  /** Optimistic send: temp bubble now, replaced by the server row (or failed). */
+  const sendMessage = useCallback(
+    async (text: string) => {
+      const key = crypto.randomUUID();
+      const nowIso = new Date().toISOString();
+      const quoted = replyTo;
+      setReplyTo(null);
+      const temp: WaMessage = {
+        id: `temp-${key}`,
+        direction: "outbound",
+        type: "text",
+        status: "queued",
+        body: text,
+        payload: null,
+        mediaKey: null,
+        mediaMime: null,
+        mediaFilename: null,
+        mediaSizeBytes: null,
+        replyToProviderId: quoted?.providerMessageId ?? null,
+        reactionToProviderId: null,
+        isForwarded: false,
+        providerMessageId: null,
+        errorTitle: null,
+        sentAt: null,
+        deliveredAt: null,
+        readAt: null,
+        occurredAt: nowIso,
+        createdAt: nowIso,
+      };
+      stickToBottom.current = true;
+      setMessages((prev) => [...prev, temp]);
+
+      try {
+        const res = await fetch(`${base}/text`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            body: text,
+            idempotencyKey: key,
+            ...(quoted?.providerMessageId ? { replyToProviderId: quoted.providerMessageId } : {}),
+          }),
+        });
+        const j = (await res.json().catch(() => ({}))) as { message?: WaMessage; error?: string };
+        if (res.ok && j.message) {
+          knownIds.current.add(j.message.id);
+          setMessages((prev) => mergeById(prev.filter((m) => m.id !== temp.id), [j.message!]));
+        } else {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === temp.id ? { ...m, status: "failed", errorTitle: j.error ?? "Send failed" } : m,
+            ),
+          );
+        }
+      } catch {
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === temp.id ? { ...m, status: "failed", errorTitle: "Network error" } : m,
+          ),
+        );
+      }
+    },
+    [base, replyTo],
+  );
+
   // Derived: quoted lookup, reactions (last-wins per target+sender, empty =
   // removed), visible list without reaction rows.
   const { byProvider, reactionsFor, visible } = useMemo(() => {
@@ -166,41 +235,59 @@ export function ChatThread({
     return { byProvider, reactionsFor, visible };
   }, [messages]);
 
-  if (loading) return <div className="p-6 text-sm text-slate-500">Loading conversation…</div>;
-  if (visible.length === 0) return <div className="p-6 text-sm text-slate-500">No messages yet.</div>;
-
   let lastDay = "";
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4" onScroll={onScroll} ref={scrollRef}>
-      {hasMore ? <p className="mb-3 text-center text-[11px] text-slate-500">Scroll up for older messages</p> : null}
-      <div className="space-y-3">
-        {visible.map((m) => {
-          const day = dayLabel(m.occurredAt);
-          const sep = day !== lastDay;
-          lastDay = day;
-          return (
-            <Fragment key={m.id}>
-              {sep ? (
-                <div className="my-2 flex justify-center">
-                  <span className="rounded-full bg-white/[0.06] px-3 py-0.5 text-[11px] text-slate-400">{day}</span>
-                </div>
-              ) : null}
-              {m.type === "system" ? (
-                <div className="flex justify-center">
-                  <span className="rounded-full bg-white/[0.06] px-3 py-0.5 text-[11px] text-slate-400">{m.body}</span>
-                </div>
-              ) : (
-                <MessageBubble
-                  m={m}
-                  mine={m.direction === "outbound"}
-                  quoted={m.replyToProviderId ? byProvider.get(m.replyToProviderId) ?? null : null}
-                  reactions={m.providerMessageId ? reactionsFor.get(m.providerMessageId) : undefined}
-                />
-              )}
-            </Fragment>
-          );
-        })}
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4" onScroll={onScroll} ref={scrollRef}>
+        {loading ? (
+          <p className="p-2 text-sm text-slate-500">Loading conversation…</p>
+        ) : visible.length === 0 ? (
+          <p className="p-2 text-sm text-slate-500">No messages yet.</p>
+        ) : (
+          <>
+            {hasMore ? (
+              <p className="mb-3 text-center text-[11px] text-slate-500">Scroll up for older messages</p>
+            ) : null}
+            <div className="space-y-3">
+              {visible.map((m) => {
+                const day = dayLabel(m.occurredAt);
+                const sep = day !== lastDay;
+                lastDay = day;
+                return (
+                  <Fragment key={m.id}>
+                    {sep ? (
+                      <div className="my-2 flex justify-center">
+                        <span className="rounded-full bg-white/[0.06] px-3 py-0.5 text-[11px] text-slate-400">{day}</span>
+                      </div>
+                    ) : null}
+                    {m.type === "system" ? (
+                      <div className="flex justify-center">
+                        <span className="rounded-full bg-white/[0.06] px-3 py-0.5 text-[11px] text-slate-400">{m.body}</span>
+                      </div>
+                    ) : (
+                      <MessageBubble
+                        m={m}
+                        mine={m.direction === "outbound"}
+                        onReply={
+                          windowOpen && m.providerMessageId ? () => setReplyTo(m) : undefined
+                        }
+                        quoted={m.replyToProviderId ? byProvider.get(m.replyToProviderId) ?? null : null}
+                        reactions={m.providerMessageId ? reactionsFor.get(m.providerMessageId) : undefined}
+                      />
+                    )}
+                  </Fragment>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
+      <Composer
+        onCancelReply={() => setReplyTo(null)}
+        onSend={sendMessage}
+        replyTo={replyTo}
+        windowOpen={windowOpen}
+      />
     </div>
   );
 }

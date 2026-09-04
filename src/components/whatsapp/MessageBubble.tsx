@@ -10,12 +10,15 @@ type Props = {
   mine: boolean;
   quoted?: WaMessage | null;
   reactions?: string[];
+  /** When provided, a hover "reply" affordance appears on the bubble. */
+  onReply?: () => void;
 };
 
-export function MessageBubble({ m, mine, quoted, reactions }: Props) {
+export function MessageBubble({ m, mine, quoted, reactions, onReply }: Props) {
   const mediaSrc = `/api/admin/whatsapp/media/${m.id}`;
   return (
-    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+    <div className={`group flex items-center gap-1.5 ${mine ? "justify-end" : "justify-start"}`}>
+      {mine && onReply ? <ReplyButton onReply={onReply} /> : null}
       <div
         className={`relative max-w-[78%] rounded-2xl px-3 py-2 text-[14px] leading-6 shadow-sm ${
           mine
@@ -42,7 +45,22 @@ export function MessageBubble({ m, mine, quoted, reactions }: Props) {
           </div>
         ) : null}
       </div>
+      {!mine && onReply ? <ReplyButton onReply={onReply} /> : null}
     </div>
+  );
+}
+
+function ReplyButton({ onReply }: { onReply: () => void }) {
+  return (
+    <button
+      aria-label="Reply to this message"
+      className="shrink-0 rounded-full bg-white/5 px-2 py-1 text-[12px] text-slate-400 opacity-0 transition hover:text-white group-hover:opacity-100"
+      onClick={onReply}
+      title="Reply"
+      type="button"
+    >
+      ↩
+    </button>
   );
 }
 

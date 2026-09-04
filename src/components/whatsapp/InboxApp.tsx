@@ -89,13 +89,9 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
                 onRead={() =>
                   setThreads((prev) => prev.map((t) => (t.id === activeId ? { ...t, waUnreadCount: 0 } : t)))
                 }
+                windowOpen={windowOpen}
               />
             </div>
-            <footer className="border-t border-white/8 px-4 py-3">
-              <div className="rounded-xl border border-dashed border-white/10 px-3 py-2 text-[12px] text-slate-500">
-                Replying from the CRM arrives in the next phase — for now the AI assistant answers automatically.
-              </div>
-            </footer>
           </>
         ) : (
           <div className="grid flex-1 place-items-center p-8 text-center text-sm text-slate-500">
