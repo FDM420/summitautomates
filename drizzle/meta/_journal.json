@@ -22,6 +22,13 @@
       "when": 1788552737313,
       "tag": "0002_last_slipstream",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788557082854,
+      "tag": "0003_sloppy_exodus",
+      "breakpoints": true
     }
   ]
 }

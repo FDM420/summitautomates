@@ -1,6 +1,7 @@
 import {
   boolean,
   index,
+  integer,
   jsonb,
   pgEnum,
   pgTable,
@@ -61,6 +62,39 @@ export const leadChannel = pgEnum("lead_channel", [
   "facebook",
 ]);
 
+// --- WhatsApp chat enums ---------------------------------------------------
+export const waMessageType = pgEnum("wa_message_type", [
+  "text",
+  "image",
+  "video",
+  "audio",
+  "document",
+  "sticker",
+  "location",
+  "contacts",
+  "interactive",
+  "template",
+  "reaction",
+  "system",
+  "unsupported",
+]);
+
+export const waMessageDirection = pgEnum("wa_message_direction", [
+  "inbound",
+  "outbound",
+]);
+
+/** Outbound lifecycle; inbound rows are `received` forever. */
+export const waMessageStatus = pgEnum("wa_message_status", [
+  "queued",
+  "sending",
+  "sent",
+  "delivered",
+  "read",
+  "failed",
+  "received",
+]);
+
 // --- Auth ----------------------------------------------------------------
 export const users = pgTable(
   "users",
@@ -119,6 +153,18 @@ export const contacts = pgTable(
     lastActivityAt: timestamp("last_activity_at", { withTimezone: true }),
     lastInboundAt: timestamp("last_inbound_at", { withTimezone: true }),
     archivedAt: timestamp("archived_at", { withTimezone: true }),
+
+    // --- WhatsApp thread denormalization (one WhatsApp number per contact) ---
+    waId: text("wa_id"), // Meta wa_id digits (no "+"); webhook thread key
+    waProfileName: text("wa_profile_name"),
+    waLastMessageAt: timestamp("wa_last_message_at", { withTimezone: true }),
+    waLastMessagePreview: text("wa_last_message_preview"),
+    waUnreadCount: integer("wa_unread_count").notNull().default(0),
+    waLastOutboundAt: timestamp("wa_last_outbound_at", { withTimezone: true }),
+    waAwaitingReply: boolean("wa_awaiting_reply").notNull().default(false),
+    waWindowExpiresAt: timestamp("wa_window_expires_at", { withTimezone: true }),
+    waBlockedAt: timestamp("wa_blocked_at", { withTimezone: true }),
+
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -126,6 +172,8 @@ export const contacts = pgTable(
     index("contacts_owner_idx").on(t.ownerId),
     index("contacts_company_idx").on(t.companyId),
     index("contacts_last_activity_idx").on(t.lastActivityAt),
+    uniqueIndex("contacts_wa_id_unique").on(t.waId),
+    index("contacts_wa_inbox_idx").on(t.waAwaitingReply, t.waLastMessageAt),
   ],
 );
 
@@ -169,6 +217,62 @@ export const activities = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [index("activities_contact_occurred_idx").on(t.contactId, t.occurredAt)],
+);
+
+// --- WhatsApp messages (the chat) -----------------------------------------
+/**
+ * One row per WhatsApp message in either direction. `payload` keeps Meta's
+ * per-type object verbatim; media bytes are re-hosted to Cloud Storage and
+ * only the object key is stored in `media_key` (never a Meta/signed URL —
+ * those expire). Inbound rows are `received`; outbound rows walk the status
+ * enum via Meta status webhooks.
+ */
+export const whatsappMessages = pgTable(
+  "whatsapp_messages",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    contactId: uuid("contact_id")
+      .notNull()
+      .references(() => contacts.id, { onDelete: "cascade" }),
+    direction: waMessageDirection("direction").notNull(),
+    type: waMessageType("type").notNull(),
+    status: waMessageStatus("status").notNull().default("queued"),
+    /** Text body, media caption, reaction emoji, template text, or transcript. */
+    body: text("body"),
+    /** Meta's per-type object verbatim (+ outbound flags like isVoiceNote). */
+    payload: jsonb("payload"),
+    /** GCS object key, or `meta:<mediaId>` until re-hosted. */
+    mediaKey: text("media_key"),
+    mediaMime: text("media_mime"), // bare mime, no "; codecs=opus"
+    mediaSizeBytes: integer("media_size_bytes"),
+    mediaSha256: text("media_sha256"),
+    mediaFilename: text("media_filename"),
+    replyToProviderId: text("reply_to_provider_id"), // quoted wamid
+    reactionToProviderId: text("reaction_to_provider_id"), // reaction target
+    isForwarded: boolean("is_forwarded").notNull().default(false),
+    providerMessageId: text("provider_message_id"), // wamid
+    idempotencyKey: text("idempotency_key"),
+    sentByUserId: uuid("sent_by_user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    errorCode: text("error_code"),
+    errorTitle: text("error_title"),
+    errorDetails: jsonb("error_details"),
+    sentAt: timestamp("sent_at", { withTimezone: true }),
+    deliveredAt: timestamp("delivered_at", { withTimezone: true }),
+    readAt: timestamp("read_at", { withTimezone: true }),
+    failedAt: timestamp("failed_at", { withTimezone: true }),
+    /** Meta's timestamp for inbound, send time for outbound — the ordering key. */
+    occurredAt: timestamp("occurred_at", { withTimezone: true }).notNull().defaultNow(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("wa_messages_contact_occurred_idx").on(t.contactId, t.occurredAt),
+    index("wa_messages_direction_status_idx").on(t.direction, t.status),
+    uniqueIndex("wa_messages_provider_id_unique").on(t.providerMessageId),
+    uniqueIndex("wa_messages_idempotency_unique").on(t.idempotencyKey),
+  ],
 );
 
 // --- Intake lead queue ---------------------------------------------------

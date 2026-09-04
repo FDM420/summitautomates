@@ -49,6 +49,13 @@ env:
     availability:
       - RUNTIME
 
+  # Cloud Storage bucket for WhatsApp media (photos, voice notes, video, docs).
+  # The App Hosting service account needs roles/storage.objectAdmin on it.
+  - variable: GCS_BUCKET
+    value: summit-automates.firebasestorage.app
+    availability:
+      - RUNTIME
+
   # --- Facebook Lead Ads webhook ---
   # Verify token Meta echoes back when subscribing the Page's `leadgen` webhook.
   - variable: FACEBOOK_VERIFY_TOKEN
