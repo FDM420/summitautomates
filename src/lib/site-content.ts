@@ -17,6 +17,12 @@ export const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "admin@summ
 // no "+", spaces, or dashes) as required by wa.me links.
 export const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "923069555536";
 
+// Dedicated WhatsApp Cloud API number — the automated "live agent". Messages
+// sent here are answered by the webhook (src/app/api/whatsapp/webhook) once the
+// number is registered in Meta. Override with NEXT_PUBLIC_LIVE_AGENT_NUMBER.
+export const liveAgentNumber =
+  process.env.NEXT_PUBLIC_LIVE_AGENT_NUMBER ?? "923431111003";
+
 // Direct Google review link for the Summit Systems Pvt Ltd Business Profile
 // (the active listing — 6+ reviews, I-8 Markaz). Clicking it opens Google's
 // "write a review" dialog for this profile. The placeid is the verified feature

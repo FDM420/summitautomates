@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import { contactEmail, siteKeywords, siteUrl, whatsappNumber } from "@/lib/site-content";
+import { LiveAgentButton } from "@/components/shared/LiveAgentButton";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
 import "./globals.css";
 
@@ -158,6 +159,7 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} font-[family:var(--font-display)] antialiased`}
       >
         {children}
+        <LiveAgentButton />
         <WhatsAppButton />
       </body>
     </html>
