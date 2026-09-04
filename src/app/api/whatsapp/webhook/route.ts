@@ -1,10 +1,13 @@
 import crypto from "node:crypto";
 import { NextResponse } from "next/server";
+import { ingestInboundEvent, logOutbound } from "@/lib/crm/intake";
+import { normalizePhone } from "@/lib/crm/phone";
 
 // WhatsApp Cloud API webhook.
 //   GET  → Meta's subscription verification handshake.
 //   POST → incoming messages + status callbacks.
-// Runs on the Node runtime (needs `crypto`) and must never be statically cached.
+// Every inbound message is persisted to the CRM FIRST (contact + lead + timeline)
+// and only then answered, so a reply/AI failure never loses the lead.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -17,10 +20,6 @@ const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
-
-// Best-effort in-process dedupe. WhatsApp retries deliveries, and each instance
-// keeps its own set — good enough to stop double-replies within one instance.
-const seenMessageIds = new Set<string>();
 
 /** Meta verification handshake: echo hub.challenge when the token matches. */
 export async function GET(request: Request) {
@@ -50,11 +49,9 @@ export async function POST(request: Request) {
   try {
     payload = JSON.parse(raw);
   } catch {
-    return NextResponse.json({ ok: true }); // ack malformed bodies, do not retry
+    return NextResponse.json({ ok: true });
   }
 
-  // Handle work before responding (Cloud Run keeps the instance alive during the
-  // request). Never throw — always ack so Meta stops resending the event.
   try {
     await handleEvents(payload);
   } catch (error) {
@@ -66,36 +63,56 @@ export async function POST(request: Request) {
 async function handleEvents(payload: WhatsAppWebhookBody) {
   for (const entry of payload.entry ?? []) {
     for (const change of entry.changes ?? []) {
-      const messages = change.value?.messages;
-      if (!messages) continue; // status callbacks (delivered/read) have none
+      const value = change.value;
+      const messages = value?.messages;
+      if (!messages) continue; // status callbacks have no messages
+
+      // wa_id → profile name, for nicer contact names.
+      const nameByWaId = new Map<string, string>();
+      for (const c of value.contacts ?? []) {
+        if (c.wa_id && c.profile?.name) nameByWaId.set(c.wa_id, c.profile.name);
+      }
 
       for (const message of messages) {
-        if (seenMessageIds.has(message.id)) continue;
-        seenMessageIds.add(message.id);
+        if (!message.from || !message.id) continue;
 
-        const from = message.from;
-        if (!from) continue;
-
+        const phone = normalizePhone(message.from) ?? `+${message.from}`;
+        const name = nameByWaId.get(message.from) ?? phone;
         const userText =
-          message.type === "text"
-            ? message.text?.body?.trim() ?? ""
-            : "";
+          message.type === "text" ? (message.text?.body?.trim() ?? "") : "";
+        const bodyForTimeline = userText || `[${message.type} message]`;
 
+        // 1. Persist FIRST (contact + lead + inbound activity), idempotently.
+        const result = await ingestInboundEvent({
+          eventId: `wa:${message.id}`,
+          channel: "whatsapp",
+          identityChannel: "whatsapp",
+          identityValue: phone,
+          displayName: name,
+          message: bodyForTimeline,
+          rawPayload: message,
+          activityType: "whatsapp_inbound",
+        });
+
+        // Already processed on a previous delivery → don't reply again.
+        if (result.deduped || !result.contactId) continue;
+
+        // 2. Generate + send the reply, then log it to the timeline.
         const reply = await generateReply(userText, message.type);
-        await sendWhatsAppText(from, reply);
+        await sendWhatsAppText(message.from, reply);
+        await logOutbound(result.contactId, "whatsapp", reply);
       }
     }
   }
 }
 
 /**
- * Reply generation. Uses OpenAI when OPENAI_API_KEY is configured; otherwise
- * falls back to a fixed acknowledgement so the system works before the key is
- * added. Any AI failure also falls back to the template.
+ * Reply generation. Uses OpenAI when OPENAI_API_KEY is set; otherwise a fixed
+ * acknowledgement. Any AI failure falls back to the template.
  */
 async function generateReply(userText: string, type: string): Promise<string> {
   if (type !== "text" || !userText) {
-    return "Thanks for messaging Summit! We received your message. A team member will get back to you shortly. You can also tell us your company name and the workflow you'd like to automate.";
+    return "Thanks for messaging Summit! We received your message and a team member will get back to you shortly. Feel free to tell us your company name and the workflow you'd like to automate.";
   }
 
   if (!OPENAI_API_KEY) {
@@ -119,7 +136,6 @@ async function generateReply(userText: string, type: string): Promise<string> {
         ],
       }),
     });
-
     if (!res.ok) {
       console.error("[whatsapp] OpenAI error:", res.status, await res.text());
       return AI_FALLBACK;
@@ -182,9 +198,7 @@ async function sendWhatsAppText(to: string, body: string) {
 
 /** Verify Meta's X-Hub-Signature-256 (HMAC-SHA256 of the raw body, app secret). */
 function isValidSignature(raw: string, header: string | null): boolean {
-  // If no app secret is configured yet, allow through so verification/testing
-  // works during setup. Set WHATSAPP_APP_SECRET in production to enforce this.
-  if (!APP_SECRET) return true;
+  if (!APP_SECRET) return true; // allow during setup; enforced once secret is set
   if (!header?.startsWith("sha256=")) return false;
 
   const expected = crypto
@@ -203,6 +217,7 @@ type WhatsAppWebhookBody = {
   entry?: {
     changes?: {
       value?: {
+        contacts?: { wa_id?: string; profile?: { name?: string } }[];
         messages?: {
           id: string;
           from?: string;
