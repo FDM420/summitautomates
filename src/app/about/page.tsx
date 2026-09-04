@@ -3,7 +3,7 @@ import { BookOpen, ClipboardCheck, KeyRound, MessageSquareText, Rocket, ShieldCh
 import Link from "next/link";
 import { SiteFooter } from "@/components/shared/SiteFooter";
 import { SiteHeader } from "@/components/shared/SiteHeader";
-import { siteUrl } from "@/lib/site-content";
+import { googleReviewUrl, siteUrl } from "@/lib/site-content";
 import { founders, team } from "@/lib/team";
 
 export const metadata: Metadata = {
@@ -586,7 +586,7 @@ export default function AboutPage() {
             <div className="mt-8 flex justify-center">
               <a
                 className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/6 px-6 py-3 text-sm font-semibold text-white transition hover:border-gold-300/30 hover:bg-white/10"
-                href="https://g.page/r/CfmJa-ULXmD4EBM/review"
+                href={googleReviewUrl}
                 rel="noopener noreferrer"
                 target="_blank"
               >

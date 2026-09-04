@@ -17,10 +17,13 @@ export const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "admin@summ
 // no "+", spaces, or dashes) as required by wa.me links.
 export const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "923069555536";
 
-// Direct Google review link for the Summit Automates Business Profile. Clicking
-// it opens Google's "write a review" dialog for our verified profile.
+// Direct Google review link for the Summit Systems Pvt Ltd Business Profile
+// (the active listing — 6+ reviews, I-8 Markaz). Clicking it opens Google's
+// "write a review" dialog for this profile. The placeid is the verified feature
+// id / CID (6128989183907516648) for the listing.
 export const googleReviewUrl =
-  process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL ?? "https://g.page/r/CfmJa-ULXmD4EBM/review";
+  process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL ??
+  "https://search.google.com/local/writereview?placeid=0x38df95cc71a35f85:0x550e8b30a304d0e8";
 
 export const siteKeywords = [
   "AI automation services",
