@@ -1,4 +1,8 @@
+import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
+
+// Load DATABASE_URL from .env.local (gitignored) for local migrations.
+config({ path: ".env.local" });
 
 /**
  * Drizzle Kit config — used only locally to generate/apply migrations
