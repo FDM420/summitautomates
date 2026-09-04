@@ -26,22 +26,19 @@ env:
     availability:
       - RUNTIME
 
-  # Sensitive values live in Cloud Secret Manager. Create each secret FIRST:
-  #   firebase apphosting:secrets:set whatsapp-app-secret
-  #   firebase apphosting:secrets:set whatsapp-access-token
-  #   firebase apphosting:secrets:set openai-api-key   # add later for AI replies
-  # THEN uncomment the matching blocks below and redeploy. (Referencing a secret
-  # that does not exist yet fails the App Hosting build, so keep these commented
-  # until the secret is created.)
-  #
-  # - variable: WHATSAPP_APP_SECRET
-  #   secret: whatsapp-app-secret
-  #   availability:
-  #     - RUNTIME
-  # - variable: WHATSAPP_ACCESS_TOKEN
-  #   secret: whatsapp-access-token
-  #   availability:
-  #     - RUNTIME
+  # Sensitive values — stored in Cloud Secret Manager, referenced by name.
+  - variable: WHATSAPP_APP_SECRET
+    secret: whatsapp-app-secret
+    availability:
+      - RUNTIME
+  - variable: WHATSAPP_ACCESS_TOKEN
+    secret: whatsapp-access-token
+    availability:
+      - RUNTIME
+
+  # AI replies turn on automatically once this key exists. Create the secret
+  # (firebase apphosting:secrets:set openai-api-key) THEN uncomment — referencing
+  # a secret that does not exist yet fails the App Hosting build.
   # - variable: OPENAI_API_KEY
   #   secret: openai-api-key
   #   availability:
