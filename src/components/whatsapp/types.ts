@@ -25,6 +25,8 @@ export type WaMessage = {
   readAt: string | null;
   occurredAt: string;
   createdAt: string;
+  /** Client-only: blob URL for optimistic rendering before the server row exists. */
+  localUrl?: string | null;
 };
 
 export type WaThread = {

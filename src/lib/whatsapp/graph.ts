@@ -108,6 +108,86 @@ export async function sendText(
   }
 }
 
+export type MediaKind = "image" | "video" | "audio" | "document";
+
+/**
+ * Upload bytes to Meta's /media endpoint → media id. Always send by id, never
+ * by link (Meta's link fetches get rate-limited). Bare mime only.
+ */
+export async function uploadMedia(
+  bytes: Buffer,
+  mime: string,
+  filename: string,
+): Promise<{ id: string } | { error: GraphError }> {
+  if (!graphConfigured()) return { error: { message: "WhatsApp not configured" } };
+  try {
+    return await withTimeout(60_000, async (signal) => {
+      const form = new FormData();
+      form.append("messaging_product", "whatsapp");
+      form.append("type", mime);
+      form.append("file", new Blob([new Uint8Array(bytes)], { type: mime }), filename);
+      const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/media`, {
+        method: "POST",
+        headers: authHeaders(),
+        body: form,
+        signal,
+      });
+      if (!res.ok) return { error: await readGraphError(res) };
+      const j = (await res.json()) as { id?: string };
+      return j.id ? { id: j.id } : { error: { message: "No media id in response" } };
+    });
+  } catch (error) {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    return { error: { message: aborted ? "Upload timeout (60s)" : String(error) } };
+  }
+}
+
+/** Send a media message by Meta media id. Returns the wamid on success. */
+export async function sendMedia(
+  to: string,
+  kind: MediaKind,
+  mediaId: string,
+  opts?: {
+    caption?: string;
+    filename?: string;
+    voice?: boolean;
+    replyToProviderId?: string;
+  },
+): Promise<{ id: string } | { error: GraphError }> {
+  if (!graphConfigured()) return { error: { message: "WhatsApp not configured" } };
+  const media: Record<string, unknown> = { id: mediaId };
+  if (opts?.caption && kind !== "audio") media.caption = opts.caption;
+  if (opts?.filename && kind === "document") media.filename = opts.filename;
+  if (opts?.voice && kind === "audio") media.voice = true;
+
+  const payload: Record<string, unknown> = {
+    messaging_product: "whatsapp",
+    recipient_type: "individual",
+    to,
+    type: kind,
+    [kind]: media,
+  };
+  if (opts?.replyToProviderId) payload.context = { message_id: opts.replyToProviderId };
+
+  try {
+    return await withTimeout(30_000, async (signal) => {
+      const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/messages`, {
+        method: "POST",
+        headers: { ...authHeaders(), "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        signal,
+      });
+      if (!res.ok) return { error: await readGraphError(res) };
+      const j = (await res.json()) as { messages?: { id: string }[] };
+      const id = j.messages?.[0]?.id;
+      return id ? { id } : { error: { message: "No message id in response" } };
+    });
+  } catch (error) {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    return { error: { message: aborted ? "Graph timeout (30s)" : String(error) } };
+  }
+}
+
 /** Mark the newest inbound message as read (blue ticks on the customer side). */
 export async function markRead(wamid: string): Promise<void> {
   if (!graphConfigured()) return;

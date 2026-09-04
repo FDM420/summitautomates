@@ -212,6 +212,71 @@ export function ChatThread({
     [base, replyTo],
   );
 
+  /** Optimistic media send: local-preview bubble now, replaced by the server row. */
+  const sendMedia = useCallback(
+    async (file: File, caption: string) => {
+      const key = crypto.randomUUID();
+      const nowIso = new Date().toISOString();
+      const kind = file.type.startsWith("image/")
+        ? "image"
+        : file.type.startsWith("video/")
+          ? "video"
+          : file.type.startsWith("audio/")
+            ? "audio"
+            : "document";
+      const localUrl = URL.createObjectURL(file);
+      const temp: WaMessage = {
+        id: `temp-${key}`,
+        direction: "outbound",
+        type: kind as WaMessage["type"],
+        status: "queued",
+        body: caption || null,
+        payload: null,
+        mediaKey: "local",
+        mediaMime: file.type,
+        mediaFilename: kind === "document" ? file.name : null,
+        mediaSizeBytes: file.size,
+        replyToProviderId: null,
+        reactionToProviderId: null,
+        isForwarded: false,
+        providerMessageId: null,
+        errorTitle: null,
+        sentAt: null,
+        deliveredAt: null,
+        readAt: null,
+        occurredAt: nowIso,
+        createdAt: nowIso,
+        localUrl,
+      };
+      stickToBottom.current = true;
+      setMessages((prev) => [...prev, temp]);
+
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("idempotencyKey", key);
+        if (caption) fd.append("caption", caption);
+        const res = await fetch(`${base}/media`, { method: "POST", body: fd });
+        const j = (await res.json().catch(() => ({}))) as { message?: WaMessage; error?: string };
+        URL.revokeObjectURL(localUrl);
+        if (res.ok && j.message) {
+          knownIds.current.add(j.message.id);
+          setMessages((prev) => mergeById(prev.filter((m) => m.id !== temp.id), [j.message!]));
+        } else {
+          setMessages((prev) =>
+            prev.map((m) => (m.id === temp.id ? { ...m, status: "failed", localUrl: null, errorTitle: j.error ?? "Upload failed" } : m)),
+          );
+        }
+      } catch {
+        URL.revokeObjectURL(localUrl);
+        setMessages((prev) =>
+          prev.map((m) => (m.id === temp.id ? { ...m, status: "failed", localUrl: null, errorTitle: "Network error" } : m)),
+        );
+      }
+    },
+    [base],
+  );
+
   // Derived: quoted lookup, reactions (last-wins per target+sender, empty =
   // removed), visible list without reaction rows.
   const { byProvider, reactionsFor, visible } = useMemo(() => {
@@ -285,6 +350,7 @@ export function ChatThread({
       <Composer
         onCancelReply={() => setReplyTo(null)}
         onSend={sendMessage}
+        onSendMedia={sendMedia}
         replyTo={replyTo}
         windowOpen={windowOpen}
       />

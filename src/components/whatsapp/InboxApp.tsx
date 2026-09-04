@@ -51,9 +51,9 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
   const windowOpen = active?.waWindowExpiresAt ? new Date(active.waWindowExpiresAt).getTime() > Date.now() : false;
 
   return (
-    <div className="grid h-[calc(100vh-4rem)] overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02] lg:grid-cols-[320px_1fr]">
+    <div className="grid h-full overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02] lg:grid-cols-[320px_1fr]">
       {/* List */}
-      <aside className={`${mobileShowThread ? "hidden lg:flex" : "flex"} h-full flex-col border-r border-white/8`}>
+      <aside className={`${mobileShowThread ? "hidden lg:flex" : "flex"} h-full min-h-0 flex-col border-r border-white/8`}>
         <ChatInbox
           activeId={activeId}
           filter={filter}

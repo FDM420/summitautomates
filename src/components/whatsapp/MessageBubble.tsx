@@ -15,7 +15,8 @@ type Props = {
 };
 
 export function MessageBubble({ m, mine, quoted, reactions, onReply }: Props) {
-  const mediaSrc = `/api/admin/whatsapp/media/${m.id}`;
+  // Optimistic local preview (blob URL) before the server row exists.
+  const mediaSrc = m.localUrl ?? `/api/admin/whatsapp/media/${m.id}`;
   return (
     <div className={`group flex items-center gap-1.5 ${mine ? "justify-end" : "justify-start"}`}>
       {mine && onReply ? <ReplyButton onReply={onReply} /> : null}
