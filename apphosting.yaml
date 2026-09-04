@@ -48,3 +48,17 @@ env:
     secret: database-url
     availability:
       - RUNTIME
+
+  # --- Facebook Lead Ads webhook ---
+  # Verify token Meta echoes back when subscribing the Page's `leadgen` webhook.
+  - variable: FACEBOOK_VERIFY_TOKEN
+    value: summit_fb_3b82087c08769ddec79c5978c4b6341aa6e2
+    availability:
+      - RUNTIME
+  # Page access token to fetch lead details. Create the secret first:
+  #   firebase apphosting:secrets:set facebook-page-access-token
+  # then uncomment. (Referencing a missing secret fails the build.)
+  # - variable: FACEBOOK_PAGE_ACCESS_TOKEN
+  #   secret: facebook-page-access-token
+  #   availability:
+  #     - RUNTIME

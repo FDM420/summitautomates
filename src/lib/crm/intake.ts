@@ -9,8 +9,12 @@ import {
 } from "@/lib/db/schema";
 
 type IdentityChannel = "whatsapp" | "email" | "phone";
-type LeadChannel = "whatsapp" | "web_form" | "email";
-type ActivityType = "whatsapp_inbound" | "email_inbound" | "form_submission";
+type LeadChannel = "whatsapp" | "web_form" | "email" | "facebook";
+type ActivityType =
+  | "whatsapp_inbound"
+  | "email_inbound"
+  | "form_submission"
+  | "facebook_lead";
 
 export type IntakeInput = {
   /** Idempotency key, e.g. "wa:<wamid>", "form:<uuid>". */

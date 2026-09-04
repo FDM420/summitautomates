@@ -36,6 +36,7 @@ export const activityType = pgEnum("activity_type", [
   "email_outbound",
   "call",
   "form_submission",
+  "facebook_lead",
   "stage_change",
   "system",
 ]);
@@ -57,6 +58,7 @@ export const leadChannel = pgEnum("lead_channel", [
   "whatsapp",
   "web_form",
   "email",
+  "facebook",
 ]);
 
 // --- Auth ----------------------------------------------------------------
