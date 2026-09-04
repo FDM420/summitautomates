@@ -41,3 +41,10 @@ env:
     secret: openai-api-key
     availability:
       - RUNTIME
+
+  # CRM database (Railway Postgres, public proxy). Used by the /admin CRM and the
+  # WhatsApp webhook to persist contacts, leads, and the activity timeline.
+  - variable: DATABASE_URL
+    secret: database-url
+    availability:
+      - RUNTIME
