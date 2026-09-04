@@ -36,10 +36,8 @@ env:
     availability:
       - RUNTIME
 
-  # AI replies turn on automatically once this key exists. Create the secret
-  # (firebase apphosting:secrets:set openai-api-key) THEN uncomment — referencing
-  # a secret that does not exist yet fails the App Hosting build.
-  # - variable: OPENAI_API_KEY
-  #   secret: openai-api-key
-  #   availability:
-  #     - RUNTIME
+  # AI replies use this key (webhook falls back to templated replies without it).
+  - variable: OPENAI_API_KEY
+    secret: openai-api-key
+    availability:
+      - RUNTIME
