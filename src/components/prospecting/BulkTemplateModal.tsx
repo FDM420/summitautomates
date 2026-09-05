@@ -101,7 +101,9 @@ export function BulkTemplateModal({
   const previewText = useMemo(() => {
     let text = body;
     for (const n of slots) {
-      text = text.replaceAll(`{{${n}}}`, values[n] === null ? "Al Noor Clinic" : (values[n] ?? ""));
+      // A null slot is auto-filled per prospect at send time — show a clearly
+      // dynamic placeholder, NOT a fake company name (which reads as hardcoded).
+      text = text.replaceAll(`{{${n}}}`, values[n] === null ? "[their business name]" : (values[n] ?? ""));
     }
     return text;
   }, [body, slots, values]);
@@ -261,7 +263,9 @@ export function BulkTemplateModal({
                   ))}
 
                   <div>
-                    <p className="mb-1 text-xs text-slate-500">Preview (sample business)</p>
+                    <p className="mb-1 text-xs text-slate-500">
+                      Preview — <span className="text-amber-300/80">[their business name]</span> is filled with each prospect&rsquo;s real name on send
+                    </p>
                     <p className="whitespace-pre-wrap rounded-xl border border-white/8 bg-white/[0.02] px-3 py-2 text-sm text-slate-200">
                       {previewText}
                     </p>
