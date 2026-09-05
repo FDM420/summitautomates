@@ -1,4 +1,5 @@
-import { and, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, ne, sql } from "drizzle-orm";
+import type { ChatMessage } from "@/lib/assistant/reply";
 import { normalizePhone } from "@/lib/crm/phone";
 import { db } from "@/lib/db";
 import {
@@ -42,7 +43,7 @@ export async function getOrCreateWaContact(
     /** Contact `source` when this call creates the contact (default whatsapp). */
     source?: string;
   },
-): Promise<{ id: string; blocked: boolean }> {
+): Promise<{ id: string; blocked: boolean; autopilot: boolean }> {
   const phone = normalizePhone(waId) ?? `+${waId}`;
   const inbound = opts?.inbound !== false;
 
@@ -108,13 +109,77 @@ export async function getOrCreateWaContact(
           updatedAt: new Date(),
         })
         .where(eq(contacts.id, contactId))
-        .returning({ blockedAt: contacts.waBlockedAt });
+        .returning({ blockedAt: contacts.waBlockedAt, autopilot: contacts.waAutopilot });
 
-      return { id: contactId, blocked: Boolean(row?.blockedAt) };
+      return {
+        id: contactId,
+        blocked: Boolean(row?.blockedAt),
+        autopilot: row?.autopilot ?? true,
+      };
     });
   } catch (error) {
     throw new RetryableInboundError(error);
   }
+}
+
+/**
+ * The last `limit` conversation turns for a contact as assistant ChatMessages
+ * (inbound → user, outbound → assistant), oldest-first. Only text turns with a
+ * body are included, so the model sees a clean transcript. Powers the bot's
+ * memory.
+ */
+export async function getRecentHistory(
+  contactId: string,
+  limit = 14,
+): Promise<ChatMessage[]> {
+  const rows = await db
+    .select({
+      direction: whatsappMessages.direction,
+      body: whatsappMessages.body,
+      occurredAt: whatsappMessages.occurredAt,
+    })
+    .from(whatsappMessages)
+    .where(
+      and(
+        eq(whatsappMessages.contactId, contactId),
+        inArray(whatsappMessages.type, ["text", "template"]),
+        // A failed send never reached the customer — don't feed it back to the
+        // model as if it were part of the conversation.
+        ne(whatsappMessages.status, "failed"),
+      ),
+    )
+    // occurredAt is second-granular for inbound (Meta) vs ms for outbound;
+    // createdAt (monotonic server insert time) breaks ties so the transcript
+    // keeps true send order and the last turn stays the customer's.
+    .orderBy(desc(whatsappMessages.occurredAt), desc(whatsappMessages.createdAt))
+    .limit(limit);
+
+  return rows
+    .reverse()
+    .filter((r) => r.body?.trim())
+    .map((r) => ({
+      role: r.direction === "inbound" ? ("user" as const) : ("assistant" as const),
+      content: r.body as string,
+    }));
+}
+
+/** Cheap current read of a thread's autopilot flag (re-checked before a send). */
+export async function isAutopilotOn(contactId: string): Promise<boolean> {
+  const [row] = await db
+    .select({ autopilot: contacts.waAutopilot })
+    .from(contacts)
+    .where(eq(contacts.id, contactId))
+    .limit(1);
+  return row?.autopilot ?? false;
+}
+
+/** Turn the AI auto-reply on/off for one thread. Returns the new state. */
+export async function setAutopilot(contactId: string, enabled: boolean): Promise<boolean> {
+  await db
+    .update(contacts)
+    .set({ waAutopilot: enabled, updatedAt: new Date() })
+    .where(eq(contacts.id, contactId));
+  return enabled;
 }
 
 /**

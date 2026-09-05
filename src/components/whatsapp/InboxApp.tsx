@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChatInbox, type InboxFilter } from "./ChatInbox";
 import { ChatThread } from "./ChatThread";
 import type { WaThread } from "./types";
@@ -14,14 +14,18 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
   const [search, setSearch] = useState("");
   const [activeId, setActiveId] = useState<string | null>(initialContactId ?? null);
   const [mobileShowThread, setMobileShowThread] = useState(Boolean(initialContactId));
+  // Bumped on every optimistic local mutation (toggle). A poll that started
+  // before a mutation is dropped so it can't revert the optimistic state.
+  const mutationSeq = useRef(0);
 
   const loadThreads = useCallback(async () => {
     const q = new URLSearchParams({ filter });
     if (search.trim()) q.set("search", search.trim());
+    const seq = mutationSeq.current;
     try {
       const r = await fetch(`/api/admin/whatsapp/threads?${q}`);
       const j = (await r.json()) as { threads: WaThread[] };
-      if (j.threads) setThreads(j.threads);
+      if (j.threads && seq === mutationSeq.current) setThreads(j.threads);
     } catch { /* ignore */ }
   }, [filter, search]);
 
@@ -50,6 +54,26 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
   const active = useMemo(() => threads.find((t) => t.id === activeId) ?? null, [threads, activeId]);
   const windowOpen = active?.waWindowExpiresAt ? new Date(active.waWindowExpiresAt).getTime() > Date.now() : false;
 
+  const toggleAutopilot = useCallback(async () => {
+    if (!activeId || !active) return;
+    const next = !active.waAutopilot;
+    // Optimistic + invalidate any in-flight poll so it can't clobber this.
+    mutationSeq.current += 1;
+    setThreads((prev) => prev.map((t) => (t.id === activeId ? { ...t, waAutopilot: next } : t)));
+    try {
+      await fetch(`/api/admin/whatsapp/contacts/${activeId}/autopilot`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ enabled: next }),
+      });
+      // Server is now authoritative and matches — let polls flow again.
+      void loadThreads();
+    } catch {
+      mutationSeq.current += 1;
+      setThreads((prev) => prev.map((t) => (t.id === activeId ? { ...t, waAutopilot: !next } : t)));
+    }
+  }, [activeId, active, loadThreads]);
+
   return (
     <div className="grid h-full overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02] lg:grid-cols-[320px_1fr]">
       {/* List */}
@@ -75,6 +99,22 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
                 <p className="truncate text-sm font-semibold text-white">{active?.waProfileName || active?.displayName || "Conversation"}</p>
                 <p className="truncate text-[11px] text-slate-500">{active?.phone ?? ""}</p>
               </div>
+              <button
+                className={`rounded-full px-2.5 py-0.5 text-[11px] transition ${
+                  active?.waAutopilot
+                    ? "bg-sky-500/15 text-sky-300 hover:bg-sky-500/25"
+                    : "bg-white/5 text-slate-400 hover:bg-white/10"
+                }`}
+                onClick={toggleAutopilot}
+                title={
+                  active?.waAutopilot
+                    ? "AI is auto-replying to this contact. Click to take over manually."
+                    : "AI is paused for this contact. Click to let it auto-reply again."
+                }
+                type="button"
+              >
+                {active?.waAutopilot ? "🤖 Bot on" : "Bot off"}
+              </button>
               <span
                 className={`rounded-full px-2 py-0.5 text-[11px] ${
                   windowOpen ? "bg-emerald-500/15 text-emerald-300" : "bg-white/5 text-slate-500"

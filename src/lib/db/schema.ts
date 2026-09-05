@@ -167,6 +167,12 @@ export const contacts = pgTable(
     waAwaitingReply: boolean("wa_awaiting_reply").notNull().default(false),
     waWindowExpiresAt: timestamp("wa_window_expires_at", { withTimezone: true }),
     waBlockedAt: timestamp("wa_blocked_at", { withTimezone: true }),
+    /**
+     * Whether the AI auto-reply is active for this thread. Defaults ON; flips
+     * OFF automatically the moment a human agent replies from the CRM or the
+     * customer asks for a person, so the bot never talks over a live agent.
+     */
+    waAutopilot: boolean("wa_autopilot").notNull().default(true),
 
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),

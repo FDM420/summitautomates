@@ -140,6 +140,8 @@ export async function sendHumanText(input: {
         waLastMessagePreview: clip(`You: ${input.body}`),
         waLastOutboundAt: now,
         waAwaitingReply: false,
+        // A human typed a reply → pause the AI so it never talks over the agent.
+        waAutopilot: false,
         lastActivityAt: now,
         updatedAt: now,
       })
@@ -292,7 +294,8 @@ export async function sendHumanMedia(input: {
       .set({
         waLastMessageAt: now,
         waLastMessagePreview: clip(`You: ${input.caption || preview}`),
-        waLastOutboundAt: now, waAwaitingReply: false, lastActivityAt: now, updatedAt: now,
+        // A human sent media → pause the AI (see sendHumanText).
+        waLastOutboundAt: now, waAwaitingReply: false, waAutopilot: false, lastActivityAt: now, updatedAt: now,
       })
       .where(eq(contacts.id, input.contactId));
     return { ok: true, message: row };

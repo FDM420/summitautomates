@@ -1,0 +1,1 @@
+ALTER TABLE "contacts" ADD COLUMN "wa_autopilot" boolean DEFAULT true NOT NULL;

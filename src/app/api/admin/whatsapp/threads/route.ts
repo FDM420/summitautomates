@@ -45,6 +45,7 @@ export async function GET(request: Request) {
       waUnreadCount: contacts.waUnreadCount,
       waAwaitingReply: contacts.waAwaitingReply,
       waWindowExpiresAt: contacts.waWindowExpiresAt,
+      waAutopilot: contacts.waAutopilot,
     })
     .from(contacts)
     .where(and(...conds))

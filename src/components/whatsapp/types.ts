@@ -39,4 +39,5 @@ export type WaThread = {
   waUnreadCount: number;
   waAwaitingReply: boolean;
   waWindowExpiresAt: string | null;
+  waAutopilot: boolean;
 };
