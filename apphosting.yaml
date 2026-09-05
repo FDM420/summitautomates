@@ -43,7 +43,8 @@ env:
     availability:
       - RUNTIME
 
-  # AI replies use this key (webhook falls back to templated replies without it).
+  # AI replies (WhatsApp bot + website chat) use this key. Rotated 2026-09-05
+  # → secret version 3; this comment forces a rebuild so the new version binds.
   - variable: OPENAI_API_KEY
     secret: openai-api-key
     availability:
