@@ -24,12 +24,12 @@ export const liveAgentNumber =
   process.env.NEXT_PUBLIC_LIVE_AGENT_NUMBER ?? "923431111003";
 
 // Direct Google review link for the Summit Systems Pvt Ltd Business Profile
-// (the active listing — 6+ reviews, I-8 Markaz). Clicking it opens Google's
-// "write a review" dialog for this profile. The placeid is the verified feature
-// id / CID (6128989183907516648) for the listing.
+// (the active listing — I-8 Markaz, 5★). Opens Google's "write a review"
+// dialog directly. The placeid is the real Place ID (ChIJ…) fetched from the
+// Places API on 2026-09-05 — the hex CID pair used before 404s here.
 export const googleReviewUrl =
   process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL ??
-  "https://search.google.com/local/writereview?placeid=0x38df95cc71a35f85:0x550e8b30a304d0e8";
+  "https://search.google.com/local/writereview?placeid=ChIJhV-jccyV3zgR6NAEozCLDlU";
 
 export const siteKeywords = [
   "AI automation services",
