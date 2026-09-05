@@ -1,11 +1,13 @@
 import { sql } from "drizzle-orm";
 import {
   boolean,
+  doublePrecision,
   index,
   integer,
   jsonb,
   pgEnum,
   pgTable,
+  real,
   text,
   timestamp,
   uniqueIndex,
@@ -329,3 +331,95 @@ export const webhookDebug = pgTable("webhook_debug", {
     .notNull()
     .defaultNow(),
 });
+
+// --- Prospecting (Lead Finder port) ---------------------------------------
+// Swept business leads live SEPARATE from `contacts`: a prospect becomes (or
+// links to) a contact the first time we message them on WhatsApp.
+
+export const prospectStatus = pgEnum("prospect_status", [
+  "pending",
+  "enriched",
+  "failed",
+]);
+
+export const prospectSweepStatus = pgEnum("prospect_sweep_status", [
+  "queued",
+  "running",
+  "done",
+  "failed",
+]);
+
+export const prospects = pgTable(
+  "prospects",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: text("name").notNull(),
+    niche: text("niche").notNull(),
+    countryCode: text("country_code").notNull(), // ISO alpha-2, e.g. "AE"
+    countryName: text("country_name").notNull(),
+    city: text("city"),
+    address: text("address"),
+    rating: real("rating"), // 0..5
+    reviews: integer("reviews"),
+    phone: text("phone"), // international format from Place Details
+    website: text("website"),
+    hours: text("hours"),
+    // Social & outreach channels (populated by the website scraper, later phase)
+    linkedin: text("linkedin"),
+    email: text("email"),
+    whatsapp: text("whatsapp"), // digits only, e.g. "971501234567"
+    facebook: text("facebook"),
+    instagram: text("instagram"),
+    socialsScrapedAt: timestamp("socials_scraped_at", { withTimezone: true }),
+    score: integer("score").notNull().default(0), // 0..100 partner-fit
+    status: prospectStatus("status").notNull().default("pending"),
+    enriched: boolean("enriched").notNull().default(false),
+    placeId: text("place_id"), // provider's stable id
+    lat: doublePrecision("lat"),
+    lng: doublePrecision("lng"),
+    /** placeId when present, else `name|countryCode` — provider-agnostic dedupe. */
+    dedupeKey: text("dedupe_key").notNull(),
+    // --- CRM linkage / outreach tracking ---
+    contactId: uuid("contact_id").references(() => contacts.id, { onDelete: "set null" }),
+    lastTemplateSentAt: timestamp("last_template_sent_at", { withTimezone: true }),
+    templateSendCount: integer("template_send_count").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("prospects_dedupe_unique").on(t.dedupeKey),
+    index("prospects_country_idx").on(t.countryCode),
+    index("prospects_niche_idx").on(t.niche),
+    index("prospects_enriched_idx").on(t.enriched),
+    index("prospects_created_idx").on(t.createdAt),
+  ],
+);
+
+export const prospectSweeps = pgTable(
+  "prospect_sweeps",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    niche: text("niche").notNull(),
+    countryCode: text("country_code").notNull(),
+    countryName: text("country_name").notNull(),
+    city: text("city"), // specific city, when targeted
+    allCities: boolean("all_cities").notNull().default(false),
+    status: prospectSweepStatus("status").notNull().default("queued"),
+    found: integer("found").notNull().default(0),
+    error: text("error"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    finishedAt: timestamp("finished_at", { withTimezone: true }),
+  },
+  (t) => [index("prospect_sweeps_created_idx").on(t.createdAt)],
+);
+
+/** Monthly free-tier usage: one row per (method, "YYYY-MM" UTC period). */
+export const providerQuota = pgTable(
+  "provider_quota",
+  {
+    method: text("method").notNull(), // search | details
+    period: text("period").notNull(), // "2026-09" (UTC month)
+    used: integer("used").notNull().default(0),
+  },
+  (t) => [uniqueIndex("provider_quota_pk").on(t.method, t.period)],
+);

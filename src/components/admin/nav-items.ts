@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   type LucideIcon,
   MessageSquare,
+  Radar,
   Target,
   Users,
 } from "lucide-react";
@@ -23,6 +24,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/admin/contacts", label: "Contacts", icon: Users },
   { href: "/admin/leads", label: "Leads", icon: Target },
   { href: "/admin/templates", label: "Templates", icon: FileText },
+  { href: "/admin/prospects", label: "Prospects", icon: Radar },
   { href: "/admin/deals", label: "Deals", icon: Briefcase, soon: true },
   { href: "/admin/tasks", label: "Tasks", icon: CheckSquare, soon: true },
   { href: "/admin/companies", label: "Companies", icon: Building2, soon: true },

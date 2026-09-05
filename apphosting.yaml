@@ -63,6 +63,24 @@ env:
     availability:
       - RUNTIME
 
+  # --- Prospecting (Lead Finder port) ---
+  # Free-tier caps for the business-data provider (Google Places). The quota
+  # service hard-stops before any metered call once a monthly cap is reached.
+  - variable: SEARCH_MONTHLY_CAP
+    value: "1000"
+    availability:
+      - RUNTIME
+  - variable: DETAILS_MONTHLY_CAP
+    value: "1000"
+    availability:
+      - RUNTIME
+  # Places API key — piped from the Railway lead-finder service env into
+  # Secret Manager (2026-09-05); the value never passed through a terminal.
+  - variable: PROVIDER_API_KEY
+    secret: provider-api-key
+    availability:
+      - RUNTIME
+
   # --- Facebook Lead Ads webhook ---
   # Verify token Meta echoes back when subscribing the Page's `leadgen` webhook.
   - variable: FACEBOOK_VERIFY_TOKEN

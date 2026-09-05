@@ -191,6 +191,55 @@ export async function sendMedia(
   }
 }
 
+/**
+ * Send an approved message template. Templates are the ONLY way to message a
+ * number outside the 24h service window (business-initiated outreach), so this
+ * intentionally has no window logic. `bodyParams` fill {{1}}, {{2}}, … in order.
+ * Returns the wamid on success.
+ */
+export async function sendTemplate(
+  to: string,
+  name: string,
+  language: string,
+  opts?: { bodyParams?: string[] },
+): Promise<{ id: string } | { error: GraphError }> {
+  if (!graphConfigured()) return { error: { message: "WhatsApp not configured" } };
+  const template: Record<string, unknown> = { name, language: { code: language } };
+  if (opts?.bodyParams?.length) {
+    template.components = [
+      {
+        type: "body",
+        parameters: opts.bodyParams.map((text) => ({ type: "text", text })),
+      },
+    ];
+  }
+  const payload = {
+    messaging_product: "whatsapp",
+    recipient_type: "individual",
+    to,
+    type: "template",
+    template,
+  };
+
+  try {
+    return await withTimeout(30_000, async (signal) => {
+      const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/messages`, {
+        method: "POST",
+        headers: { ...authHeaders(), "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        signal,
+      });
+      if (!res.ok) return { error: await readGraphError(res) };
+      const j = (await res.json()) as { messages?: { id: string }[] };
+      const id = j.messages?.[0]?.id;
+      return id ? { id } : { error: { message: "No message id in response" } };
+    });
+  } catch (error) {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    return { error: { message: aborted ? "Graph timeout (30s)" : String(error) } };
+  }
+}
+
 // --- Message templates -----------------------------------------------------
 
 export type TemplateButton = { type: string; text?: string; url?: string; phone_number?: string };

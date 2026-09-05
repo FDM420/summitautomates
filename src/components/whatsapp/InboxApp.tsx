@@ -86,6 +86,7 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
             <div className="flex min-h-0 flex-1 flex-col">
               <ChatThread
                 contactId={activeId}
+                contactName={active?.waProfileName || active?.displayName || undefined}
                 onRead={() =>
                   setThreads((prev) => prev.map((t) => (t.id === activeId ? { ...t, waUnreadCount: 0 } : t)))
                 }

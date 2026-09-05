@@ -3,6 +3,7 @@
 import { Image as ImageIcon, Mic, Paperclip, Send, Video, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { formatBytes } from "./format";
+import { TemplatePicker, type TemplateSelection } from "./TemplatePicker";
 import type { WaMessage } from "./types";
 
 type Props = {
@@ -11,6 +12,10 @@ type Props = {
   onCancelReply: () => void;
   onSend: (text: string) => void | Promise<void>;
   onSendMedia: (file: File, caption: string) => void | Promise<void>;
+  /** Contact's display name — prefills {{1}} in the template picker. */
+  contactName?: string;
+  /** Window-closed escape hatch: send an approved template. Resolves true on success. */
+  onSendTemplate?: (sel: TemplateSelection) => Promise<boolean>;
 };
 
 const ACCEPT: Record<string, string> = {
@@ -22,9 +27,10 @@ const ACCEPT: Record<string, string> = {
 
 /** WhatsApp-style composer: text, attachments (photo/video/audio/document),
  *  drag-drop, and a preview+caption step before sending media. */
-export function Composer({ windowOpen, replyTo, onCancelReply, onSend, onSendMedia }: Props) {
+export function Composer({ windowOpen, replyTo, onCancelReply, onSend, onSendMedia, contactName, onSendTemplate }: Props) {
   const [text, setText] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [pending, setPending] = useState<{ file: File; url: string | null } | null>(null);
   const [caption, setCaption] = useState("");
   const [dragOver, setDragOver] = useState(false);
@@ -83,11 +89,33 @@ export function Composer({ windowOpen, replyTo, onCancelReply, onSend, onSendMed
   if (!windowOpen) {
     return (
       <div className="border-t border-white/8 px-4 py-3">
-        <div className="rounded-xl border border-amber-300/20 bg-amber-300/5 px-3 py-2 text-[12px] text-amber-200/90">
-          ⏳ The 24-hour reply window is closed — WhatsApp only allows free-form
-          replies within 24h of the customer&rsquo;s last message. It reopens the
-          moment they message you again. (Template messages arrive in a later phase.)
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-amber-300/20 bg-amber-300/5 px-3 py-2 text-[12px] text-amber-200/90">
+          <span className="min-w-0 flex-1">
+            ⏳ The 24-hour reply window is closed — WhatsApp only allows free-form
+            replies within 24h of the customer&rsquo;s last message. It reopens the
+            moment they message you again.
+          </span>
+          {onSendTemplate ? (
+            <button
+              className="shrink-0 rounded-full bg-amber-300 px-3 py-1.5 text-[12px] font-semibold text-slate-950 transition hover:bg-amber-200"
+              onClick={() => setPickerOpen(true)}
+              type="button"
+            >
+              Send template
+            </button>
+          ) : null}
         </div>
+        {onSendTemplate ? (
+          <TemplatePicker
+            defaults={{ contactName, businessName: "" }}
+            onClose={() => setPickerOpen(false)}
+            onSend={async (sel) => {
+              const ok = await onSendTemplate(sel);
+              if (ok) setPickerOpen(false);
+            }}
+            open={pickerOpen}
+          />
+        ) : null}
       </div>
     );
   }

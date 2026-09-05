@@ -1,8 +1,9 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { activities, contacts, whatsappMessages } from "@/lib/db/schema";
+import { activities, contacts, prospects, whatsappMessages } from "@/lib/db/schema";
 import { clip } from "./decode";
-import { type MediaKind, sendMedia, sendText, uploadMedia } from "./graph";
+import { type MediaKind, sendMedia, sendTemplate, sendText, uploadMedia } from "./graph";
+import { getOrCreateWaContact } from "./inbound";
 import { bareMime, extForMime, saveOutboundMedia } from "./media";
 
 /**
@@ -307,4 +308,173 @@ export async function sendHumanMedia(input: {
     .where(eq(whatsappMessages.id, row.id))
     .returning(FIELDS);
   return { ok: true, message: ((failed as MessageRow | undefined) ?? row) };
+}
+
+// --- Template send ---------------------------------------------------------
+
+/**
+ * Human (agent) template send: approved templates are the one message Meta
+ * allows OUTSIDE the 24h service window, so there is deliberately no window
+ * check here. Targets either an existing contact or a prospect — the prospect
+ * path finds/creates the CRM contact for its number and links it back.
+ * Idempotency-keyed like text sends.
+ */
+export async function sendHumanTemplate(input: {
+  contactId?: string;
+  prospectId?: string;
+  templateName: string;
+  language: string;
+  bodyParams?: string[];
+  /** The fully substituted body text — stored/previewed, never sent to Meta. */
+  bodyText: string;
+  userId: string;
+  idempotencyKey: string;
+}): Promise<SendOutcome> {
+  if (Boolean(input.contactId) === Boolean(input.prospectId)) {
+    return { ok: false, status: 400, error: "Exactly one of contactId or prospectId is required" };
+  }
+
+  let contactId: string;
+  let waId: string;
+  let prospectId: string | null = null;
+
+  if (input.prospectId) {
+    const [prospect] = await db
+      .select({
+        id: prospects.id,
+        name: prospects.name,
+        phone: prospects.phone,
+        whatsapp: prospects.whatsapp,
+      })
+      .from(prospects)
+      .where(eq(prospects.id, input.prospectId))
+      .limit(1);
+    if (!prospect) return { ok: false, status: 404, error: "Prospect not found" };
+
+    // Prefer the scraped WhatsApp number; fall back to the listing phone.
+    const digits =
+      (prospect.whatsapp ?? "").replace(/\D/g, "") || (prospect.phone ?? "").replace(/\D/g, "");
+    if (digits.length < 8) {
+      return { ok: false, status: 400, error: "Prospect has no usable phone number" };
+    }
+    const contact = await getOrCreateWaContact(digits, prospect.name);
+    if (contact.blocked) return { ok: false, status: 400, error: "Contact is blocked" };
+    contactId = contact.id;
+    waId = digits;
+    prospectId = prospect.id;
+  } else {
+    const [contact] = await db
+      .select({ waId: contacts.waId, blockedAt: contacts.waBlockedAt })
+      .from(contacts)
+      .where(eq(contacts.id, input.contactId!))
+      .limit(1);
+    if (!contact) return { ok: false, status: 404, error: "Contact not found" };
+    if (!contact.waId) return { ok: false, status: 400, error: "Contact has no WhatsApp thread" };
+    if (contact.blockedAt) return { ok: false, status: 400, error: "Contact is blocked" };
+    contactId = input.contactId!;
+    waId = contact.waId;
+  }
+
+  const now = new Date();
+  const inserted = await db
+    .insert(whatsappMessages)
+    .values({
+      contactId,
+      direction: "outbound",
+      type: "template",
+      status: "queued",
+      body: input.bodyText,
+      payload: {
+        template: {
+          name: input.templateName,
+          language: input.language,
+          bodyParams: input.bodyParams ?? [],
+        },
+      },
+      idempotencyKey: input.idempotencyKey,
+      sentByUserId: input.userId,
+      occurredAt: now,
+    })
+    .onConflictDoNothing({ target: whatsappMessages.idempotencyKey })
+    .returning(FIELDS);
+
+  let row = inserted[0] as MessageRow | undefined;
+  if (!row) {
+    // Idempotent replay — hand back whatever the first attempt produced.
+    const [existing] = await db
+      .select(FIELDS)
+      .from(whatsappMessages)
+      .where(eq(whatsappMessages.idempotencyKey, input.idempotencyKey))
+      .limit(1);
+    return existing
+      ? { ok: true, message: existing as MessageRow }
+      : { ok: false, status: 500, error: "Duplicate request" };
+  }
+
+  const sent = await sendTemplate(waId, input.templateName, input.language, {
+    bodyParams: input.bodyParams,
+  });
+
+  if ("id" in sent) {
+    const [updated] = await db
+      .update(whatsappMessages)
+      .set({ status: "sent", providerMessageId: sent.id, sentAt: new Date(), updatedAt: new Date() })
+      .where(eq(whatsappMessages.id, row.id))
+      .returning(FIELDS);
+    row = (updated as MessageRow | undefined) ?? row;
+
+    await db.insert(activities).values({
+      contactId,
+      type: "whatsapp_outbound",
+      direction: "outbound",
+      channel: "whatsapp",
+      body: input.bodyText,
+      actorType: "user",
+      actorId: input.userId,
+      meta: { messageId: row.id },
+      occurredAt: now,
+    });
+
+    // Human send: bump preview, clear awaiting-reply. Never touches unread.
+    await db
+      .update(contacts)
+      .set({
+        waLastMessageAt: now,
+        waLastMessagePreview: clip(`You: ${input.bodyText}`),
+        waLastOutboundAt: now,
+        waAwaitingReply: false,
+        lastActivityAt: now,
+        updatedAt: now,
+      })
+      .where(eq(contacts.id, contactId));
+
+    // Prospect path: link the contact and track outreach volume.
+    if (prospectId) {
+      await db
+        .update(prospects)
+        .set({
+          contactId,
+          lastTemplateSentAt: now,
+          templateSendCount: sql`${prospects.templateSendCount} + 1`,
+          updatedAt: now,
+        })
+        .where(eq(prospects.id, prospectId));
+    }
+
+    return { ok: true, message: row };
+  }
+
+  const [failedTpl] = await db
+    .update(whatsappMessages)
+    .set({
+      status: "failed",
+      failedAt: new Date(),
+      errorCode: sent.error.code != null ? String(sent.error.code) : null,
+      errorTitle: sent.error.title ?? sent.error.message ?? "Send failed",
+      errorDetails: sent.error as object,
+      updatedAt: new Date(),
+    })
+    .where(eq(whatsappMessages.id, row.id))
+    .returning(FIELDS);
+  return { ok: true, message: ((failedTpl as MessageRow | undefined) ?? row) };
 }

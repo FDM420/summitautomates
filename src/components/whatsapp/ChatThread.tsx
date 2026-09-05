@@ -4,6 +4,7 @@ import { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, use
 import { Composer } from "./Composer";
 import { dayLabel } from "./format";
 import { MessageBubble } from "./MessageBubble";
+import type { TemplateSelection } from "./TemplatePicker";
 import type { WaMessage } from "./types";
 
 const TAIL_MS_VISIBLE = 3000;
@@ -33,12 +34,15 @@ export function ChatThread({
   contactId,
   windowOpen,
   onRead,
+  contactName,
 }: {
   contactId: string;
   /** Is the 24h free-form reply window open for this contact? */
   windowOpen: boolean;
   /** Called when a new inbound message arrives while the thread is visible (we re-mark it read). */
   onRead?: () => void;
+  /** Contact's display name — prefills the template picker's {{1}}. */
+  contactName?: string;
 }) {
   const [messages, setMessages] = useState<WaMessage[]>([]);
   const [hasMore, setHasMore] = useState(false);
@@ -277,6 +281,72 @@ export function ChatThread({
     [base],
   );
 
+  /** Optimistic template send (window closed): temp bubble now, server row after. */
+  const sendTemplateMsg = useCallback(
+    async (sel: TemplateSelection): Promise<boolean> => {
+      const key = crypto.randomUUID();
+      const nowIso = new Date().toISOString();
+      const temp: WaMessage = {
+        id: `temp-${key}`,
+        direction: "outbound",
+        type: "template",
+        status: "queued",
+        body: sel.bodyText,
+        payload: null,
+        mediaKey: null,
+        mediaMime: null,
+        mediaFilename: null,
+        mediaSizeBytes: null,
+        replyToProviderId: null,
+        reactionToProviderId: null,
+        isForwarded: false,
+        providerMessageId: null,
+        errorTitle: null,
+        sentAt: null,
+        deliveredAt: null,
+        readAt: null,
+        occurredAt: nowIso,
+        createdAt: nowIso,
+      };
+      stickToBottom.current = true;
+      setMessages((prev) => [...prev, temp]);
+
+      try {
+        const res = await fetch(`${base}/template`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            templateName: sel.templateName,
+            language: sel.language,
+            bodyParams: sel.bodyParams,
+            bodyText: sel.bodyText,
+            idempotencyKey: key,
+          }),
+        });
+        const j = (await res.json().catch(() => ({}))) as { message?: WaMessage; error?: string };
+        if (res.ok && j.message) {
+          knownIds.current.add(j.message.id);
+          setMessages((prev) => mergeById(prev.filter((m) => m.id !== temp.id), [j.message!]));
+          return true;
+        }
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === temp.id ? { ...m, status: "failed", errorTitle: j.error ?? "Send failed" } : m,
+          ),
+        );
+        return false;
+      } catch {
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === temp.id ? { ...m, status: "failed", errorTitle: "Network error" } : m,
+          ),
+        );
+        return false;
+      }
+    },
+    [base],
+  );
+
   // Derived: quoted lookup, reactions (last-wins per target+sender, empty =
   // removed), visible list without reaction rows.
   const { byProvider, reactionsFor, visible } = useMemo(() => {
@@ -348,9 +418,11 @@ export function ChatThread({
         )}
       </div>
       <Composer
+        contactName={contactName}
         onCancelReply={() => setReplyTo(null)}
         onSend={sendMessage}
         onSendMedia={sendMedia}
+        onSendTemplate={sendTemplateMsg}
         replyTo={replyTo}
         windowOpen={windowOpen}
       />
