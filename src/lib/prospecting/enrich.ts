@@ -1,4 +1,4 @@
-import { and, asc, count, eq, gte, ilike, inArray, or, type SQL } from "drizzle-orm";
+import { and, asc, count, eq, gte, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { prospects } from "@/lib/db/schema";
 import { getPlaceDetails } from "./places";
@@ -39,8 +39,11 @@ export type EnrichResult = {
   quotaHit: boolean;
 };
 
+// Preview and run share this cap so the confirmation modal never understates
+// the metered spend; 50 sequential Place Details calls also stay comfortably
+// inside one request's time budget on Cloud Run.
 const DEFAULT_LIMIT = 50;
-const MAX_LIMIT = 100;
+const MAX_LIMIT = 50;
 
 function clampLimit(limit?: number): number {
   return Math.min(Math.max(limit ?? DEFAULT_LIMIT, 1), MAX_LIMIT);
@@ -51,11 +54,14 @@ function clampLimit(limit?: number): number {
  * `sort` is ignored here (ordering is the caller's concern). Returns undefined
  * when no filter applies.
  */
+/** Escape LIKE metacharacters so user input matches literally. */
+const escapeLike = (s: string) => s.replace(/[\\%_]/g, (c) => `\\${c}`);
+
 export function prospectWhere(filters: ProspectFilters): SQL | undefined {
   const conds: (SQL | undefined)[] = [];
 
   if (filters.q?.trim()) {
-    const like = `%${filters.q.trim()}%`;
+    const like = `%${escapeLike(filters.q.trim())}%`;
     conds.push(
       or(
         ilike(prospects.name, like),
@@ -67,9 +73,9 @@ export function prospectWhere(filters: ProspectFilters): SQL | undefined {
   if (filters.countryCode?.trim()) {
     conds.push(eq(prospects.countryCode, filters.countryCode.trim().toUpperCase()));
   }
-  // ilike without wildcards = case-insensitive equality (facet values).
-  if (filters.niche?.trim()) conds.push(ilike(prospects.niche, filters.niche.trim()));
-  if (filters.city?.trim()) conds.push(ilike(prospects.city, filters.city.trim()));
+  // Escaped ilike without wildcards = case-insensitive equality (facet values).
+  if (filters.niche?.trim()) conds.push(ilike(prospects.niche, escapeLike(filters.niche.trim())));
+  if (filters.city?.trim()) conds.push(ilike(prospects.city, escapeLike(filters.city.trim())));
   if (typeof filters.minRating === "number") {
     conds.push(gte(prospects.rating, filters.minRating));
   }
@@ -118,6 +124,7 @@ export async function enrichBatch(args: {
   limit?: number;
 }): Promise<EnrichResult> {
   const result: EnrichResult = { enriched: 0, failed: 0, quotaHit: false };
+  const fromIds = Boolean(args.ids && args.ids.length > 0);
 
   // Resolve the target prospects.
   let targets: ProspectRow[];
@@ -146,6 +153,26 @@ export async function enrichBatch(args: {
         result.failed += 1;
         continue;
       }
+
+      // Claim the row BEFORE spending quota: compare-and-swap on updatedAt
+      // (µs precision in PG vs ms in JS, hence the date_trunc) so overlapping
+      // runs — a retried batch, two tabs — meter each row at most once.
+      // Explicit-id runs may deliberately re-enrich, so only the filter path
+      // additionally requires enriched=false.
+      const claimed = await db
+        .update(prospects)
+        .set({ updatedAt: new Date() })
+        .where(
+          and(
+            eq(prospects.id, prospect.id),
+            // ISO + cast: raw sql`` params skip drizzle's column mapping, so a
+            // bare Date would reach postgres.js unserialized and throw.
+            sql`date_trunc('milliseconds', ${prospects.updatedAt}) = ${prospect.updatedAt.toISOString()}::timestamptz`,
+            ...(fromIds ? [] : [eq(prospects.enriched, false)]),
+          ),
+        )
+        .returning({ id: prospects.id });
+      if (claimed.length === 0) continue; // another run owns it / already done
 
       // Meter BEFORE the provider call — throws if the cap is reached.
       await recordOrThrow("details");
@@ -185,10 +212,11 @@ export async function enrichBatch(args: {
         break;
       }
       console.warn(`[prospecting] enrichment failed for prospect ${prospect.id}:`, err);
+      // Conditional stamp: never downgrade a row another run already enriched.
       await db
         .update(prospects)
         .set({ status: "failed", updatedAt: new Date() })
-        .where(eq(prospects.id, prospect.id));
+        .where(and(eq(prospects.id, prospect.id), eq(prospects.enriched, false)));
       result.failed += 1;
     }
   }

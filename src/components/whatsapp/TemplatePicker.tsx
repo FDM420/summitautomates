@@ -24,6 +24,21 @@ function placeholdersOf(body: string): number[] {
 }
 
 /**
+ * We only fill BODY {{n}} params. A template that ALSO needs header media/
+ * variables, dynamic URL buttons, or named params would be accepted here but
+ * rejected by Meta at send time — filter those out until the sender grows.
+ */
+function sendableBy(t: WaTemplate): boolean {
+  const header = t.components?.find((c) => c.type === "HEADER");
+  if (header && header.format && header.format !== "TEXT") return false; // media header needs a handle
+  if (header?.text?.includes("{{")) return false;
+  const buttons = t.components?.find((c) => c.type === "BUTTONS")?.buttons ?? [];
+  if (buttons.some((b) => b.url?.includes("{{"))) return false;
+  if (bodyOf(t).match(/\{\{\s*[a-zA-Z_]/)) return false; // named params
+  return true;
+}
+
+/**
  * Pick an APPROVED template, fill its {{n}} placeholders, preview the result,
  * send. Templates are the only way to message outside the 24h window, so this
  * is the outreach entry point for both the inbox and the prospects drawer.
@@ -63,7 +78,7 @@ export function TemplatePicker({
           setError(j.error ?? "Failed to load templates");
           return;
         }
-        setTemplates(j.templates.filter((t) => t.status === "APPROVED"));
+        setTemplates(j.templates.filter((t) => t.status === "APPROVED" && sendableBy(t)));
       })
       .catch(() => { if (alive) setError("Network error"); })
       .finally(() => { if (alive) setLoading(false); });

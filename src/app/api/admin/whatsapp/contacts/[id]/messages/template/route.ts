@@ -38,6 +38,15 @@ export async function POST(
     return NextResponse.json({ error: "Missing template fields" }, { status: 400 });
   }
   if (idempotencyKey.length < 8) return NextResponse.json({ error: "Missing key" }, { status: 400 });
+  if (
+    templateName.length > 512 ||
+    language.length > 15 ||
+    bodyText.length > 4096 ||
+    idempotencyKey.length > 128 ||
+    (bodyParams && (bodyParams.length > 20 || bodyParams.some((p) => p.length > 1024)))
+  ) {
+    return NextResponse.json({ error: "Template fields out of bounds" }, { status: 400 });
+  }
 
   const result = await sendHumanTemplate({
     contactId: id,

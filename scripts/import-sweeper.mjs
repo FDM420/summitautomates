@@ -46,10 +46,28 @@ function readDatabaseUrl() {
 }
 
 // --- Source rows -----------------------------------------------------------
+// The sweeper seeds a fresh dev database with 24 fabricated sample leads
+// (SEED_LEADS in D:\sweeper\src\server\repos\memory.ts). They are demo data,
+// not real businesses — never import them.
+const SEED_NAMES = new Set([
+  "BrightSmile Dental Center", "Pearl Dental Clinic", "Marina Smiles Dental",
+  "IronWorks Fitness Hub", "Peak Performance Gym", "Riverside CrossFit",
+  "Citadel Strength & Conditioning", "Hartwell & Associates LLP",
+  "Brennan Legal Group", "Coastline Injury Attorneys", "Sterling Tax Law Office",
+  "Flat White Lane", "Harbour Roasters", "The Daily Grind", "Roastery No. 7",
+  "Maple Leaf Plumbing Co.", "Rapid Flow Plumbing", "Northern Drain Experts",
+  "Hauptstadt Immobilien", "Isar Property Partners", "Rheinblick Estates",
+  "Quartz Dental Studio", "Summit Legal Advisors", "Adler Immobilien Hamburg",
+]);
+
 function readSource() {
   const Database = require(`${SWEEPER_MODULES}/better-sqlite3`);
   const db = new Database(sqlitePath, { readonly: true, fileMustExist: true });
-  const leads = db.prepare("SELECT * FROM leads ORDER BY created_at ASC").all();
+  const all = db.prepare("SELECT * FROM leads ORDER BY created_at ASC").all();
+  const leads = all.filter((l) => !SEED_NAMES.has(l.name));
+  if (all.length !== leads.length) {
+    console.log(`  (skipping ${all.length - leads.length} seeded sample leads)`);
+  }
   const sweeps = db.prepare("SELECT * FROM sweeps ORDER BY created_at ASC").all();
   db.close();
   return { leads, sweeps };

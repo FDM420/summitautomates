@@ -32,8 +32,19 @@ export class RetryableInboundError extends Error {
 export async function getOrCreateWaContact(
   waId: string,
   profileName: string | null,
+  opts?: {
+    /**
+     * false for business-initiated (outreach) resolution: the name is only a
+     * creation fallback — an existing contact's WhatsApp profile name is never
+     * overwritten, and no inbound timestamp is faked.
+     */
+    inbound?: boolean;
+    /** Contact `source` when this call creates the contact (default whatsapp). */
+    source?: string;
+  },
 ): Promise<{ id: string; blocked: boolean }> {
   const phone = normalizePhone(waId) ?? `+${waId}`;
+  const inbound = opts?.inbound !== false;
 
   try {
     return await db.transaction(async (tx) => {
@@ -64,9 +75,9 @@ export async function getOrCreateWaContact(
             displayName: profileName ?? phone,
             phone,
             waId,
-            waProfileName: profileName,
-            source: "whatsapp",
-            lastInboundAt: new Date(),
+            waProfileName: inbound ? profileName : null,
+            source: opts?.source ?? "whatsapp",
+            lastInboundAt: inbound ? new Date() : null,
             lastActivityAt: new Date(),
           })
           .onConflictDoNothing({ target: contacts.waId })
@@ -93,7 +104,7 @@ export async function getOrCreateWaContact(
         .update(contacts)
         .set({
           waId: sql`coalesce(${contacts.waId}, ${waId})`,
-          ...(profileName ? { waProfileName: profileName } : {}),
+          ...(profileName && inbound ? { waProfileName: profileName } : {}),
           updatedAt: new Date(),
         })
         .where(eq(contacts.id, contactId))

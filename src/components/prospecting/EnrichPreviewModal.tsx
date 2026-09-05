@@ -60,7 +60,8 @@ export function EnrichPreviewModal({
       const r = await fetch("/api/admin/prospecting/enrich", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ filters, limit: 100 }),
+        // Same limit the preview used — the modal must never promise 50 and run 100.
+        body: JSON.stringify({ filters, limit: 50 }),
       });
       const j = (await r.json()) as EnrichResultDTO & { error?: string };
       if (!r.ok) throw new Error(j.error || `Request failed (${r.status})`);

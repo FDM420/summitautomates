@@ -24,15 +24,16 @@ export function FilterBar({
 }) {
   const [search, setSearch] = useState(filters.q ?? "");
 
-  // Debounce the search box into the shared filters (300ms).
+  // Debounce the search box into the shared filters (300ms). `filters` stays
+  // in the deps so a select changed mid-debounce is never reverted by a stale
+  // spread; the q-equality guard keeps this from looping.
   useEffect(() => {
     const t = setTimeout(() => {
       const q = search.trim();
       if ((filters.q ?? "") !== q) onChange({ ...filters, q: q || undefined });
     }, 300);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on typing
-  }, [search]);
+  }, [search, filters, onChange]);
 
   const set = (patch: Partial<ProspectFilters>) => onChange({ ...filters, ...patch });
 

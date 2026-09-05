@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { EnrichPreviewModal } from "./EnrichPreviewModal";
 import { FilterBar } from "./FilterBar";
 import { ProspectDrawer } from "./ProspectDrawer";
@@ -46,22 +46,28 @@ export function ProspectsApp() {
   const [enrichOpen, setEnrichOpen] = useState(false);
   const [sweepsRefreshKey, setSweepsRefreshKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
+  const [listError, setListError] = useState<string | null>(null);
+  // Monotonic fetch id: a slow older response must never overwrite a newer one.
+  const fetchSeq = useRef(0);
 
   const loadProspects = useCallback(async () => {
+    const seq = ++fetchSeq.current;
     const q = filtersToParams(filters);
     q.set("page", String(page));
     q.set("pageSize", String(PAGE_SIZE));
     try {
       const r = await fetch(`/api/admin/prospecting/prospects?${q}`);
-      const j = (await r.json()) as { items?: ProspectDTO[]; total?: number };
-      if (j.items) {
-        setItems(j.items);
-        setTotal(j.total ?? 0);
-      }
-    } catch {
-      /* ignore */
+      const j = (await r.json()) as { items?: ProspectDTO[]; total?: number; error?: string };
+      if (seq !== fetchSeq.current) return; // superseded by a newer fetch
+      if (!r.ok || !j.items) throw new Error(j.error || `Request failed (${r.status})`);
+      setItems(j.items);
+      setTotal(j.total ?? 0);
+      setListError(null);
+    } catch (e) {
+      if (seq !== fetchSeq.current) return;
+      setListError(e instanceof Error ? e.message : "Failed to load prospects");
     } finally {
-      setLoading(false);
+      if (seq === fetchSeq.current) setLoading(false);
     }
   }, [filters, page]);
 
@@ -221,6 +227,17 @@ export function ProspectsApp() {
       {/* Table / states */}
       {loading ? (
         <p className="mt-10 text-sm text-slate-500">Loading prospects…</p>
+      ) : listError ? (
+        <div className="mt-10 rounded-2xl border border-rose-500/30 bg-rose-500/[0.06] p-6 text-center">
+          <p className="text-sm text-rose-200">Couldn’t load prospects: {listError}</p>
+          <button
+            className="mt-3 rounded-lg border border-rose-400/30 px-3 py-1.5 text-xs text-rose-100 hover:bg-rose-500/10"
+            onClick={() => { setLoading(true); void loadProspects(); }}
+            type="button"
+          >
+            Try again
+          </button>
+        </div>
       ) : items.length === 0 ? (
         <div className="mt-10 rounded-2xl border border-dashed border-white/12 bg-white/[0.02] p-10 text-center">
           <p className="text-sm text-slate-300">

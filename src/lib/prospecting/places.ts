@@ -232,6 +232,9 @@ export async function searchPlaces(input: {
         "X-Goog-FieldMask": SEARCH_FIELD_MASK,
       },
       body: JSON.stringify(body),
+      // A hung upstream connection must not stall a sweep (or the request
+      // that awaits it) indefinitely.
+      signal: AbortSignal.timeout(20_000),
     });
 
     if (!res.ok) {
@@ -266,6 +269,8 @@ export async function getPlaceDetails(placeId: string): Promise<ProviderPlaceDet
       "X-Goog-Api-Key": key,
       "X-Goog-FieldMask": DETAILS_FIELD_MASK,
     },
+    // Bounded: enrichBatch runs up to 50 of these sequentially in one request.
+    signal: AbortSignal.timeout(15_000),
   });
 
   if (!res.ok) {

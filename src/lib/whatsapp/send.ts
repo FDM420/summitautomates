@@ -1,4 +1,5 @@
 import { eq, sql } from "drizzle-orm";
+import { parsePhoneNumberFromString, type CountryCode } from "libphonenumber-js";
 import { db } from "@/lib/db";
 import { activities, contacts, prospects, whatsappMessages } from "@/lib/db/schema";
 import { clip } from "./decode";
@@ -345,23 +346,44 @@ export async function sendHumanTemplate(input: {
         name: prospects.name,
         phone: prospects.phone,
         whatsapp: prospects.whatsapp,
+        countryCode: prospects.countryCode,
       })
       .from(prospects)
       .where(eq(prospects.id, input.prospectId))
       .limit(1);
     if (!prospect) return { ok: false, status: 404, error: "Prospect not found" };
 
-    // Prefer the scraped WhatsApp number; fall back to the listing phone.
-    const digits =
-      (prospect.whatsapp ?? "").replace(/\D/g, "") || (prospect.phone ?? "").replace(/\D/g, "");
-    if (digits.length < 8) {
+    // Prefer the scraped WhatsApp number (already full international digits
+    // from wa.me links); otherwise PARSE the listing phone against the
+    // prospect's country. Raw digit-stripping is not enough: a national-format
+    // number ("0310 0577770") would target a completely different wa_id.
+    const scraped = (prospect.whatsapp ?? "").replace(/\D/g, "");
+    let digits = scraped.length >= 8 ? scraped : null;
+    if (!digits && prospect.phone) {
+      const parsed = parsePhoneNumberFromString(
+        prospect.phone,
+        prospect.countryCode as CountryCode,
+      );
+      if (parsed?.isValid()) digits = parsed.number.slice(1); // E.164 minus "+"
+    }
+    if (!digits) {
       return { ok: false, status: 400, error: "Prospect has no usable phone number" };
     }
-    const contact = await getOrCreateWaContact(digits, prospect.name);
+    const contact = await getOrCreateWaContact(digits, prospect.name, {
+      inbound: false,
+      source: "prospecting",
+    });
     if (contact.blocked) return { ok: false, status: 400, error: "Contact is blocked" };
     contactId = contact.id;
     waId = digits;
     prospectId = prospect.id;
+
+    // Link the thread immediately (not only on Meta success) so a failed
+    // first touch is never orphaned from its prospect.
+    await db
+      .update(prospects)
+      .set({ contactId, updatedAt: new Date() })
+      .where(eq(prospects.id, prospect.id));
   } else {
     const [contact] = await db
       .select({ waId: contacts.waId, blockedAt: contacts.waBlockedAt })

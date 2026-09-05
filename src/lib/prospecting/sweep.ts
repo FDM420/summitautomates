@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray, lt } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { prospects, prospectSweeps } from "@/lib/db/schema";
 import { citiesFor } from "./cities";
@@ -33,9 +33,14 @@ const INSERT_CHUNK = 500;
 
 const QUOTA_MESSAGE = "Free tier search quota reached for this month.";
 
-/** placeId when present, else `name|countryCode` — provider-agnostic dedupe. */
+/**
+ * `place:<placeId>` when present, else `nc:<name>|<CC>` — MUST match the
+ * sweeper/importer format exactly (see D:\sweeper repos + import-sweeper.mjs),
+ * or re-swept businesses duplicate rows imported from the old system.
+ */
 function dedupeKeyFor(place: ProviderPlace, countryCode: string): string {
-  return place.placeId || `${place.name.toLowerCase().trim()}|${countryCode}`;
+  if (place.placeId) return `place:${place.placeId}`;
+  return `nc:${place.name.trim().toLowerCase()}|${countryCode.toUpperCase()}`;
 }
 
 /**
@@ -88,7 +93,13 @@ export async function executeSweep(sweepId: string, args: SweepArgs): Promise<vo
   }
 
   try {
-    const collected: ProviderPlace[] = [];
+    // Persist INCREMENTALLY, one target at a time: after() work is best-effort
+    // on Cloud Run, so if the instance is recycled mid-sweep the cities already
+    // searched (and their metered quota) are not lost, and `found` doubles as a
+    // live progress counter for the UI.
+    const seen = new Set<string>();
+    let inserted = 0;
+    let anyCollected = false;
     let quotaHit = false;
 
     for (let i = 0; i < targets.length; i++) {
@@ -103,9 +114,10 @@ export async function executeSweep(sweepId: string, args: SweepArgs): Promise<vo
         throw err;
       }
 
+      let places: ProviderPlace[];
       try {
         const target = targets[i];
-        const places = await searchPlaces({
+        const found = await searchPlaces({
           niche,
           countryCode,
           countryName: resolvedCountryName,
@@ -114,21 +126,74 @@ export async function executeSweep(sweepId: string, args: SweepArgs): Promise<vo
         });
         // When we searched a specific city, trust that over the address-derived
         // city so the city facet/filter stays clean.
-        for (const p of places) {
-          collected.push(target ? { ...p, city: target } : p);
-        }
+        places = found.map((p) => (target ? { ...p, city: target } : p));
       } catch (err) {
         // The first query surfaces hard errors (bad key, API disabled); later
         // city queries are best-effort so one bad city doesn't fail the run.
         if (i === 0) throw err;
         console.warn(`[prospecting] sweep city query failed (${targets[i]}); continuing:`, err);
+        continue;
       }
+
+      anyCollected ||= places.length > 0;
+
+      // Dedupe within the sweep (the same place shows up in adjacent city
+      // queries), then upsert; the unique dedupe_key index skips known rows.
+      const values = places
+        .filter((p) => {
+          const key = dedupeKeyFor(p, countryCode);
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .map((p) => ({
+          name: p.name,
+          niche,
+          countryCode,
+          countryName: resolvedCountryName,
+          city: p.city,
+          address: p.address,
+          rating: p.rating,
+          reviews: p.reviews,
+          // Score the sparse (pre-enrichment) fields — recomputed on enrich.
+          score: computeProspectScore({
+            rating: p.rating,
+            reviews: p.reviews,
+            phone: null,
+            website: null,
+            linkedin: null,
+            email: null,
+            whatsapp: null,
+            facebook: null,
+            instagram: null,
+          }),
+          placeId: p.placeId || null,
+          lat: p.lat,
+          lng: p.lng,
+          dedupeKey: dedupeKeyFor(p, countryCode),
+        }));
+
+      for (let j = 0; j < values.length; j += INSERT_CHUNK) {
+        const chunk = values.slice(j, j + INSERT_CHUNK);
+        const rows = await db
+          .insert(prospects)
+          .values(chunk)
+          .onConflictDoNothing({ target: prospects.dedupeKey })
+          .returning({ id: prospects.id });
+        inserted += rows.length;
+      }
+
+      // Live progress for the sweeps strip (still "running").
+      await db
+        .update(prospectSweeps)
+        .set({ found: inserted })
+        .where(eq(prospectSweeps.id, sweepId));
     }
 
     const finished = new Date();
 
     // Nothing collected purely because the quota ran out — surface that clearly.
-    if (collected.length === 0 && quotaHit) {
+    if (!anyCollected && quotaHit) {
       await db
         .update(prospectSweeps)
         .set({ status: "failed", finishedAt: finished, error: QUOTA_MESSAGE })
@@ -136,55 +201,15 @@ export async function executeSweep(sweepId: string, args: SweepArgs): Promise<vo
       return;
     }
 
-    // Dedupe within the batch (the same place shows up in adjacent city
-    // queries), then upsert; the unique dedupe_key index skips known rows.
-    const byKey = new Map<string, ProviderPlace>();
-    for (const p of collected) {
-      const key = dedupeKeyFor(p, countryCode);
-      if (!byKey.has(key)) byKey.set(key, p);
-    }
-
-    const values = [...byKey.entries()].map(([dedupeKey, p]) => ({
-      name: p.name,
-      niche,
-      countryCode,
-      countryName: resolvedCountryName,
-      city: p.city,
-      address: p.address,
-      rating: p.rating,
-      reviews: p.reviews,
-      // Score the sparse (pre-enrichment) fields — recomputed on enrich.
-      score: computeProspectScore({
-        rating: p.rating,
-        reviews: p.reviews,
-        phone: null,
-        website: null,
-        linkedin: null,
-        email: null,
-        whatsapp: null,
-        facebook: null,
-        instagram: null,
-      }),
-      placeId: p.placeId || null,
-      lat: p.lat,
-      lng: p.lng,
-      dedupeKey,
-    }));
-
-    let inserted = 0;
-    for (let i = 0; i < values.length; i += INSERT_CHUNK) {
-      const chunk = values.slice(i, i + INSERT_CHUNK);
-      const rows = await db
-        .insert(prospects)
-        .values(chunk)
-        .onConflictDoNothing({ target: prospects.dedupeKey })
-        .returning({ id: prospects.id });
-      inserted += rows.length;
-    }
-
     await db
       .update(prospectSweeps)
-      .set({ status: "done", found: inserted, finishedAt: finished, error: null })
+      .set({
+        status: "done",
+        found: inserted,
+        finishedAt: finished,
+        // A quota stop mid-run still finishes, but says so instead of a clean done.
+        error: quotaHit ? "Stopped early: free-tier search quota reached — results are partial." : null,
+      })
       .where(eq(prospectSweeps.id, sweepId));
   } catch (err) {
     const message =
@@ -202,8 +227,30 @@ export async function executeSweep(sweepId: string, args: SweepArgs): Promise<vo
   }
 }
 
-/** Recent sweeps, newest first. */
+// A sweep older than this still marked running was killed mid-flight (Cloud
+// Run recycled the instance during after()) — nothing will ever finish it.
+const STALE_RUNNING_MS = 15 * 60 * 1000;
+
+/**
+ * Recent sweeps, newest first. Self-heals first: stale queued/running rows are
+ * stamped failed so the UI never polls a dead sweep forever. Any results the
+ * sweep persisted before dying are kept (inserts are incremental).
+ */
 export async function listSweeps(limit = 20): Promise<SweepRow[]> {
+  await db
+    .update(prospectSweeps)
+    .set({
+      status: "failed",
+      finishedAt: new Date(),
+      error: "Sweep interrupted before finishing (server instance recycled) — re-run it.",
+    })
+    .where(
+      and(
+        inArray(prospectSweeps.status, ["queued", "running"]),
+        lt(prospectSweeps.createdAt, new Date(Date.now() - STALE_RUNNING_MS)),
+      ),
+    );
+
   return db
     .select()
     .from(prospectSweeps)

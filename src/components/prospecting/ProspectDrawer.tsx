@@ -2,7 +2,7 @@
 
 import { ExternalLink, MessageSquare, Sparkles, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { TemplatePicker, type TemplateSelection } from "@/components/whatsapp/TemplatePicker";
 import { formatWhen } from "@/lib/crm/format";
 import { flagEmoji } from "@/lib/prospecting/countries";
@@ -52,6 +52,9 @@ export function ProspectDrawer({
   const [enriching, setEnriching] = useState(false);
   const [sentOk, setSentOk] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
+  // One key per send attempt-chain: a network-lost retry replays the same key
+  // (no duplicate outreach); once the server answers, the next send is new.
+  const idemKeyRef = useRef<string | null>(null);
 
   const waDigits = (prospect.whatsapp ?? prospect.phone ?? "").replace(/\D/g, "");
   const tier = scoreTier(prospect.score);
@@ -67,14 +70,33 @@ export function ProspectDrawer({
 
   const sendSelection = async (sel: TemplateSelection) => {
     setSendError(null);
+    idemKeyRef.current ??= crypto.randomUUID();
+    let res: Response;
     try {
-      const res = await fetch(`/api/admin/prospecting/prospects/${prospect.id}/send-template`, {
+      res = await fetch(`/api/admin/prospecting/prospects/${prospect.id}/send-template`, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...sel, idempotencyKey: crypto.randomUUID() }),
+        body: JSON.stringify({ ...sel, idempotencyKey: idemKeyRef.current }),
       });
-      const j = (await res.json().catch(() => ({}))) as { error?: string };
+    } catch (e) {
+      // No response — the send may or may not have happened. KEEP the key so a
+      // retry replays instead of double-messaging the prospect.
+      setSendError(e instanceof Error ? e.message : "Network error — retry is safe");
+      setPickerOpen(false);
+      return;
+    }
+    // The server answered: the outcome is definitive, next attempt is a new send.
+    idemKeyRef.current = null;
+    try {
+      const j = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        message?: { status?: string; errorTitle?: string };
+      };
       if (!res.ok) throw new Error(j.error || `Send failed (${res.status})`);
+      // HTTP 200 covers "recorded" — the Meta outcome is on the message row.
+      if (j.message?.status === "failed") {
+        throw new Error(j.message.errorTitle || "Meta rejected the send");
+      }
       setSentOk(true);
       onTemplateSent(prospect.id);
     } catch (e) {

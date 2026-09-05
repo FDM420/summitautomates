@@ -26,11 +26,13 @@ function strParam(url: URL, key: string): string | undefined {
 
 function orderFor(sort: ProspectFilters["sort"]) {
   switch (sort) {
+    // Final id tiebreak everywhere: rows from one sweep share createdAt (one
+    // multi-row INSERT), so without it pages can duplicate/drop prospects.
     case "score":
-      return [desc(prospects.score), desc(prospects.createdAt)];
+      return [desc(prospects.score), desc(prospects.createdAt), desc(prospects.id)];
     case "rating":
       // NULLS LAST so un-rated rows don't float to the top of a desc sort.
-      return [sql`${prospects.rating} desc nulls last`, desc(prospects.createdAt)];
+      return [sql`${prospects.rating} desc nulls last`, desc(prospects.createdAt), desc(prospects.id)];
     default:
       return [desc(prospects.createdAt), desc(prospects.id)];
   }
