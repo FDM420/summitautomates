@@ -5,6 +5,9 @@
 const GRAPH = "https://graph.facebook.com/v21.0";
 const TOKEN = process.env.WHATSAPP_ACCESS_TOKEN?.trim();
 const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID?.trim();
+// WABA id is an identifier, not a secret; fall back to the known account so
+// template listing works even before the env var lands on a fresh deploy.
+const WABA_ID = process.env.WHATSAPP_WABA_ID?.trim() || "2583097728809080";
 
 export type GraphError = { code?: number; title?: string; message?: string };
 
@@ -185,6 +188,65 @@ export async function sendMedia(
   } catch (error) {
     const aborted = error instanceof Error && error.name === "AbortError";
     return { error: { message: aborted ? "Graph timeout (30s)" : String(error) } };
+  }
+}
+
+// --- Message templates -----------------------------------------------------
+
+export type TemplateButton = { type: string; text?: string; url?: string; phone_number?: string };
+export type TemplateComponent = {
+  type: string; // HEADER | BODY | FOOTER | BUTTONS
+  format?: string; // for HEADER: TEXT | IMAGE | VIDEO | DOCUMENT
+  text?: string;
+  buttons?: TemplateButton[];
+};
+export type WaTemplate = {
+  id?: string;
+  name: string;
+  status: string; // APPROVED | PENDING | REJECTED | PAUSED | DISABLED | ...
+  category: string; // MARKETING | UTILITY | AUTHENTICATION
+  language: string;
+  components?: TemplateComponent[];
+  rejected_reason?: string;
+  quality_score?: { score?: string };
+};
+
+/**
+ * List every message template on the WABA with its live approval status.
+ * Reads straight from Meta's Graph API — approval is a Meta concept, not ours.
+ * Follows cursor paging (the `after` cursor only, never the token-bearing
+ * `next` URL). Returns all templates or a compact error.
+ */
+export async function listMessageTemplates(): Promise<
+  { templates: WaTemplate[] } | { error: GraphError }
+> {
+  if (!TOKEN) return { error: { message: "WhatsApp access token not configured" } };
+  if (!WABA_ID) return { error: { message: "WHATSAPP_WABA_ID not set" } };
+  const fields = "name,status,category,language,components,rejected_reason,quality_score";
+
+  try {
+    return await withTimeout(20_000, async (signal) => {
+      const all: WaTemplate[] = [];
+      let after: string | undefined;
+      for (let guard = 0; guard < 20; guard++) {
+        const url =
+          `${GRAPH}/${WABA_ID}/message_templates?fields=${fields}&limit=200` +
+          (after ? `&after=${encodeURIComponent(after)}` : "");
+        const res = await fetch(url, { headers: authHeaders(), signal });
+        if (!res.ok) return { error: await readGraphError(res) };
+        const j = (await res.json()) as {
+          data?: WaTemplate[];
+          paging?: { next?: string; cursors?: { after?: string } };
+        };
+        if (j.data?.length) all.push(...j.data);
+        if (!j.paging?.next || !j.paging.cursors?.after) break;
+        after = j.paging.cursors.after;
+      }
+      return { templates: all };
+    });
+  } catch (error) {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    return { error: { message: aborted ? "Graph timeout (20s)" : String(error) } };
   }
 }
 

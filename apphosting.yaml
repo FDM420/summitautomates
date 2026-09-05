@@ -26,6 +26,13 @@ env:
     availability:
       - RUNTIME
 
+  # WhatsApp Business Account (WABA) ID — an identifier, not a secret. Used to
+  # list message templates and their approval status from the Graph API.
+  - variable: WHATSAPP_WABA_ID
+    value: "2583097728809080"
+    availability:
+      - RUNTIME
+
   # Sensitive values — stored in Cloud Secret Manager, referenced by name.
   - variable: WHATSAPP_APP_SECRET
     secret: whatsapp-app-secret
