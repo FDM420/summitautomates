@@ -48,6 +48,10 @@ export function ProspectsApp() {
   const [sweepOpen, setSweepOpen] = useState(false);
   const [enrichOpen, setEnrichOpen] = useState(false);
   const [bulkOpen, setBulkOpen] = useState(false);
+  /** Hand-picked audience for the bulk modal (null = current filters). */
+  const [bulkIds, setBulkIds] = useState<string[] | null>(null);
+  /** Row checkboxes — persists across pages, cleared on filter changes. */
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [sweepsRefreshKey, setSweepsRefreshKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   const [listError, setListError] = useState<string | null>(null);
@@ -124,6 +128,27 @@ export function ProspectsApp() {
   const onFiltersChange = useCallback((next: ProspectFilters) => {
     setFilters(next);
     setPage(1);
+    setSelectedIds(new Set());
+  }, []);
+
+  const toggleOne = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const togglePage = useCallback((ids: string[], on: boolean) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      for (const id of ids) {
+        if (on) next.add(id);
+        else next.delete(id);
+      }
+      return next;
+    });
   }, []);
 
   /** Sweep dropdown: load that sweep's full data (its niche/country/city). */
@@ -140,6 +165,7 @@ export function ProspectsApp() {
         : { ...prev, niche: undefined, countryCode: undefined, city: undefined },
     );
     setPage(1);
+    setSelectedIds(new Set());
   }, []);
 
   /** A sweep finished server-side: new rows + facets + spent quota. */
@@ -239,7 +265,10 @@ export function ProspectsApp() {
         <FilterBar
           facets={facets}
           filters={filters}
-          onBulkTemplate={() => setBulkOpen(true)}
+          onBulkTemplate={() => {
+            setBulkIds(null);
+            setBulkOpen(true);
+          }}
           onChange={onFiltersChange}
           onEnrichFiltered={() => setEnrichOpen(true)}
         />
@@ -274,8 +303,42 @@ export function ProspectsApp() {
         </div>
       ) : (
         <>
+          {selectedIds.size > 0 ? (
+            <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-emerald-400/20 bg-emerald-500/[0.06] px-3 py-2">
+              <span className="text-xs text-emerald-200">
+                {selectedIds.size} selected
+              </span>
+              <button
+                className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition hover:bg-emerald-500/20"
+                onClick={() => {
+                  setBulkIds([...selectedIds]);
+                  setBulkOpen(true);
+                }}
+                type="button"
+              >
+                Send template to selected
+              </button>
+              <button
+                className="text-xs text-slate-400 hover:text-slate-200"
+                onClick={() => setSelectedIds(new Set())}
+                type="button"
+              >
+                Clear
+              </button>
+            </div>
+          ) : null}
           <div className="mt-4">
-            <ProspectsTable items={items} onSelect={setSelected} />
+            <ProspectsTable
+              items={items}
+              onSelect={setSelected}
+              onSendOne={(p) => {
+                setBulkIds([p.id]);
+                setBulkOpen(true);
+              }}
+              onToggle={toggleOne}
+              onTogglePage={togglePage}
+              selected={selectedIds}
+            />
           </div>
           {/* Pagination */}
           <div className="mt-3 flex items-center justify-between gap-3">
@@ -321,7 +384,11 @@ export function ProspectsApp() {
       />
       <BulkTemplateModal
         filters={filters}
-        onClose={() => setBulkOpen(false)}
+        ids={bulkIds}
+        onClose={() => {
+          setBulkOpen(false);
+          setBulkIds(null);
+        }}
         onDone={() => void loadProspects()}
         open={bulkOpen}
       />

@@ -1,4 +1,4 @@
-import { and, count, desc, isNotNull, isNull, lt, or } from "drizzle-orm";
+import { and, count, desc, inArray, isNotNull, isNull, lt, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { db } from "@/lib/db";
@@ -20,6 +20,8 @@ const BUSINESS_TOKEN = "{{business}}";
 
 type Body = {
   preview?: boolean;
+  /** Explicit hand-picked prospects — takes precedence over `filters`. */
+  ids?: string[];
   filters?: ProspectFilters;
   templateName?: string;
   language?: string;
@@ -46,12 +48,23 @@ export async function POST(request: Request) {
   const filters = (body.filters ?? {}) as ProspectFilters;
   const limit = Math.min(Math.max(Math.trunc(Number(body.limit)) || BULK_CAP, 1), BULK_CAP);
 
+  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const ids = Array.isArray(body.ids)
+    ? body.ids.filter((v): v is string => typeof v === "string" && UUID.test(v)).slice(0, BULK_CAP)
+    : null;
+  if (Array.isArray(body.ids) && (!ids || ids.length === 0)) {
+    return NextResponse.json({ error: "No valid prospect ids" }, { status: 400 });
+  }
+
   const contactable = or(isNotNull(prospects.whatsapp), isNotNull(prospects.phone));
   const notRecent = or(
     isNull(prospects.lastTemplateSentAt),
     lt(prospects.lastTemplateSentAt, new Date(Date.now() - RECENT_MS)),
   );
-  const matchingWhere = and(prospectWhere(filters), contactable);
+  // Hand-picked ids beat filters; the safety rails (number on file, 24h skip)
+  // apply either way.
+  const base = ids ? inArray(prospects.id, ids) : prospectWhere(filters);
+  const matchingWhere = and(base, contactable);
   const eligibleWhere = and(matchingWhere, notRecent);
 
   if (body.preview) {

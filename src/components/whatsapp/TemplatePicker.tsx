@@ -29,6 +29,9 @@ export function placeholdersOf(body: string): number[] {
  * rejected by Meta at send time — filter those out until the sender grows.
  */
 export function sendableBy(t: WaTemplate): boolean {
+  // Meta's sample template only sends from Public Test Numbers (error 131058)
+  // — never offer it from a real registered number.
+  if (t.name === "hello_world") return false;
   const header = t.components?.find((c) => c.type === "HEADER");
   if (header && header.format && header.format !== "TEXT") return false; // media header needs a handle
   if (header?.text?.includes("{{")) return false;

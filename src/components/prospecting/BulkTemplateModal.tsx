@@ -21,12 +21,15 @@ type Counts = { matching: number; eligible: number; targeted: number; cap: numbe
 export function BulkTemplateModal({
   open,
   filters,
+  ids,
   onClose,
   onDone,
 }: {
   open: boolean;
   /** The table's current filters — the audience is exactly what the user sees. */
   filters: ProspectFilters;
+  /** Hand-picked prospect ids (checkboxes / per-row send) — beats filters. */
+  ids?: string[] | null;
   onClose: () => void;
   /** A batch finished (any outcome mix): refresh the list. */
   onDone: () => void;
@@ -60,7 +63,7 @@ export function BulkTemplateModal({
       fetch("/api/admin/prospecting/send-template-bulk", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ preview: true, filters }),
+        body: JSON.stringify({ preview: true, filters, ids: ids ?? undefined }),
       }).then(async (r) => {
         const j = (await r.json().catch(() => ({}))) as Counts & { error?: string };
         if (!r.ok) throw new Error(j.error ?? "Failed to count the audience");
@@ -81,7 +84,7 @@ export function BulkTemplateModal({
     return () => {
       alive = false;
     };
-  }, [open, filters]);
+  }, [open, filters, ids]);
 
   const body = selected ? bodyOf(selected) : "";
   const slots = useMemo(() => placeholdersOf(body), [body]);
@@ -115,6 +118,7 @@ export function BulkTemplateModal({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           filters,
+          ids: ids ?? undefined,
           templateName: selected.name,
           language: selected.language,
           templateBody: body,
@@ -149,7 +153,11 @@ export function BulkTemplateModal({
       <div className="absolute inset-0 bg-black/60" onClick={sending ? undefined : onClose} />
       <div className="relative z-10 flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-t-2xl border border-white/10 bg-[#0f1320] sm:max-w-lg sm:rounded-2xl">
         <header className="flex items-center justify-between border-b border-white/8 px-4 py-3">
-          <h2 className="text-sm font-semibold text-white">Send template to filtered prospects</h2>
+          <h2 className="text-sm font-semibold text-white">
+            {ids && ids.length > 0
+              ? `Send template to ${ids.length} selected prospect${ids.length === 1 ? "" : "s"}`
+              : "Send template to filtered prospects"}
+          </h2>
           <button className="text-slate-500 hover:text-slate-300" disabled={sending} onClick={onClose} type="button">
             <X className="h-5 w-5" />
           </button>
@@ -184,8 +192,9 @@ export function BulkTemplateModal({
             <>
               {counts ? (
                 <p className="mb-3 text-xs text-slate-400">
-                  {counts.matching.toLocaleString()} match your filters with a number on file ·{" "}
-                  {counts.eligible.toLocaleString()} not messaged in 24h ·{" "}
+                  {counts.matching.toLocaleString()}{" "}
+                  {ids && ids.length > 0 ? "of your selection have" : "match your filters with"} a number on
+                  file · {counts.eligible.toLocaleString()} not messaged in 24h ·{" "}
                   <span className="text-amber-200">this batch sends to {counts.targeted}</span>
                   {counts.eligible > counts.cap ? ` (cap ${counts.cap}/batch — run again for the rest)` : ""}
                 </p>
