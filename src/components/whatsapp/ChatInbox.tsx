@@ -69,13 +69,13 @@ export function ChatInbox({ threads, activeId, onSelect, filter, onFilter, searc
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center justify-between gap-2">
-                      <span className={`truncate text-sm ${unread ? "font-semibold text-white" : "text-slate-200"}`}>
+                      <span className={`min-w-0 flex-1 truncate text-sm ${unread ? "font-semibold text-white" : "text-slate-200"}`}>
                         {name}
                       </span>
                       <span className="shrink-0 text-[11px] text-slate-500">{relativeShort(t.waLastMessageAt)}</span>
                     </span>
                     <span className="mt-0.5 flex items-center justify-between gap-2">
-                      <span className={`truncate text-[12px] ${unread ? "text-slate-200" : "text-slate-500"}`}>
+                      <span className={`min-w-0 flex-1 truncate text-[12px] ${unread ? "text-slate-200" : "text-slate-500"}`}>
                         {previewLabel(t.waLastMessagePreview)}
                       </span>
                       <span className="flex shrink-0 items-center gap-1">
