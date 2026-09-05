@@ -68,7 +68,14 @@ function readSource() {
   if (all.length !== leads.length) {
     console.log(`  (skipping ${all.length - leads.length} seeded sample leads)`);
   }
-  const sweeps = db.prepare("SELECT * FROM sweeps ORDER BY created_at ASC").all();
+  // The sweeper also seeds 3 demo sweep rows (buildSeedSweeps): dentist/AE,
+  // gym/GB and a failed law firm/US. Same rule — demo data stays out.
+  const SEED_SWEEPS = new Set(["dentist|AE", "gym|GB", "law firm|US"]);
+  const allSweeps = db.prepare("SELECT * FROM sweeps ORDER BY created_at ASC").all();
+  const sweeps = allSweeps.filter((s) => !SEED_SWEEPS.has(`${s.niche}|${s.country_code}`));
+  if (allSweeps.length !== sweeps.length) {
+    console.log(`  (skipping ${allSweeps.length - sweeps.length} seeded sample sweeps)`);
+  }
   db.close();
   return { leads, sweeps };
 }

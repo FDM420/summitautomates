@@ -2,6 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { BulkTemplateModal } from "./BulkTemplateModal";
 import { EnrichPreviewModal } from "./EnrichPreviewModal";
 import { FilterBar } from "./FilterBar";
 import { ProspectDrawer } from "./ProspectDrawer";
@@ -15,6 +16,7 @@ import type {
   ProspectDTO,
   ProspectFilters,
   QuotaDTO,
+  SweepDTO,
 } from "./types";
 
 const PAGE_SIZE = 50;
@@ -28,6 +30,7 @@ function filtersToParams(f: ProspectFilters): URLSearchParams {
   if (f.minRating != null) q.set("minRating", String(f.minRating));
   if (f.minReviews != null) q.set("minReviews", String(f.minReviews));
   if (f.enrichment && f.enrichment !== "all") q.set("enrichment", f.enrichment);
+  if (f.contactable) q.set("contact", f.contactable);
   if (f.sort) q.set("sort", f.sort);
   return q;
 }
@@ -44,6 +47,7 @@ export function ProspectsApp() {
   const [selected, setSelected] = useState<ProspectDTO | null>(null);
   const [sweepOpen, setSweepOpen] = useState(false);
   const [enrichOpen, setEnrichOpen] = useState(false);
+  const [bulkOpen, setBulkOpen] = useState(false);
   const [sweepsRefreshKey, setSweepsRefreshKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   const [listError, setListError] = useState<string | null>(null);
@@ -119,6 +123,22 @@ export function ProspectsApp() {
 
   const onFiltersChange = useCallback((next: ProspectFilters) => {
     setFilters(next);
+    setPage(1);
+  }, []);
+
+  /** Sweep dropdown: load that sweep's full data (its niche/country/city). */
+  const onSelectSweep = useCallback((sweep: SweepDTO | null) => {
+    setFilters((prev) =>
+      sweep
+        ? {
+            ...prev,
+            niche: sweep.niche,
+            countryCode: sweep.countryCode,
+            city: sweep.city ?? undefined,
+            q: undefined,
+          }
+        : { ...prev, niche: undefined, countryCode: undefined, city: undefined },
+    );
     setPage(1);
   }, []);
 
@@ -212,13 +232,14 @@ export function ProspectsApp() {
       </div>
 
       <div className="mt-4">
-        <SweepsStrip onSweepDone={onSweepDone} refreshKey={sweepsRefreshKey} />
+        <SweepsStrip onSelectSweep={onSelectSweep} onSweepDone={onSweepDone} refreshKey={sweepsRefreshKey} />
       </div>
 
       <div className="mt-4">
         <FilterBar
           facets={facets}
           filters={filters}
+          onBulkTemplate={() => setBulkOpen(true)}
           onChange={onFiltersChange}
           onEnrichFiltered={() => setEnrichOpen(true)}
         />
@@ -297,6 +318,12 @@ export function ProspectsApp() {
           void loadQuota();
         }}
         open={enrichOpen}
+      />
+      <BulkTemplateModal
+        filters={filters}
+        onClose={() => setBulkOpen(false)}
+        onDone={() => void loadProspects()}
+        open={bulkOpen}
       />
       {selected ? (
         <ProspectDrawer

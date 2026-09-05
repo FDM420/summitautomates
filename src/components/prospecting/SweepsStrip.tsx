@@ -6,28 +6,35 @@ import type { SweepDTO } from "./types";
 
 const POLL_MS = 5000;
 
-const STATUS_STYLE: Record<SweepDTO["status"], string> = {
-  queued: "bg-white/5 text-slate-400",
-  running: "bg-amber-400/15 text-amber-200 animate-pulse",
-  done: "bg-emerald-500/15 text-emerald-300",
-  failed: "bg-rose-500/15 text-rose-300",
-};
+const SELECT =
+  "max-w-full rounded-lg border border-white/10 bg-[#0f1320] px-2 py-1.5 text-xs text-slate-200 focus:border-amber-400/40 focus:outline-none";
+
+function sweepLabel(s: SweepDTO): string {
+  const where = s.city ? ` · ${s.city}` : s.allCities ? " · all cities" : "";
+  const status = s.status === "done" ? `+${s.found}` : s.status;
+  return `${s.niche} · ${s.countryCode}${where} · ${status}`;
+}
 
 /**
- * Horizontal strip of recent sweeps. Owns its own fetching: polls every 5s
- * while any sweep is queued/running, stops otherwise, and tells the parent
- * when a sweep finishes so the prospects list can refresh.
+ * Sweep history as a dropdown: pick a past sweep to load ALL of its data —
+ * the parent applies the sweep's niche/country/city as table filters. Owns its
+ * own fetching: polls every 5s while a sweep is queued/running (showing a live
+ * progress chip), and tells the parent when one finishes so the list refreshes.
  */
 export function SweepsStrip({
   refreshKey,
   onSweepDone,
+  onSelectSweep,
 }: {
   /** Bump to force an immediate reload (e.g. right after creating a sweep). */
   refreshKey: number;
   /** A sweep transitioned to "done" — refresh prospects/facets/quota. */
   onSweepDone: () => void;
+  /** A sweep was picked (null = "all prospects"): filter the table to it. */
+  onSelectSweep: (sweep: SweepDTO | null) => void;
 }) {
   const [sweeps, setSweeps] = useState<SweepDTO[]>([]);
+  const [selectedId, setSelectedId] = useState("");
   const statusById = useRef<Map<string, SweepDTO["status"]>>(new Map());
 
   const load = useCallback(async () => {
@@ -51,33 +58,54 @@ export function SweepsStrip({
   useEffect(() => {
     void load();
   }, [load, refreshKey]);
-  const anyActive = sweeps.some((s) => s.status === "queued" || s.status === "running");
+  const active = sweeps.find((s) => s.status === "queued" || s.status === "running");
   useEffect(() => {
-    if (!anyActive) return;
+    if (!active) return;
     const i = setInterval(() => {
       if (!document.hidden) void load();
     }, POLL_MS);
     return () => clearInterval(i);
-  }, [anyActive, load]);
+  }, [active, load]);
 
   if (sweeps.length === 0) return null;
 
+  const selected = sweeps.find((s) => s.id === selectedId);
+
   return (
-    <div className="-mx-1 flex gap-2 overflow-x-auto px-1 py-1">
-      {sweeps.map((s) => (
-        <div
-          key={s.id}
-          className="flex shrink-0 items-center gap-2 rounded-xl border border-white/8 bg-white/[0.03] px-3 py-1.5"
-          title={s.error ?? `${s.niche} · ${s.countryName}${s.city ? ` · ${s.city}` : s.allCities ? " · all cities" : ""}`}
-        >
-          <span className="max-w-[160px] truncate text-xs text-slate-200">{s.niche}</span>
-          <span className="text-xs text-slate-500">{flagEmoji(s.countryCode)} {s.countryCode}</span>
-          <span className={`rounded-full px-2 py-0.5 text-[10px] ${STATUS_STYLE[s.status]}`}>{s.status}</span>
-          {s.status === "done" ? (
-            <span className="text-[11px] tabular-nums text-slate-400">+{s.found}</span>
-          ) : null}
-        </div>
-      ))}
+    <div className="flex flex-wrap items-center gap-2">
+      <label className="text-[11px] uppercase tracking-wide text-slate-500" htmlFor="sweep-picker">
+        Sweep
+      </label>
+      <select
+        className={SELECT}
+        id="sweep-picker"
+        onChange={(e) => {
+          const id = e.target.value;
+          setSelectedId(id);
+          onSelectSweep(sweeps.find((s) => s.id === id) ?? null);
+        }}
+        value={selectedId}
+      >
+        <option value="">All prospects</option>
+        {sweeps.map((s) => (
+          <option key={s.id} value={s.id}>
+            {sweepLabel(s)}
+          </option>
+        ))}
+      </select>
+
+      {selected ? (
+        <span className="text-[11px] text-slate-500">
+          {flagEmoji(selected.countryCode)} {selected.countryName}
+          {selected.status === "failed" && selected.error ? ` — ${selected.error}` : ""}
+        </span>
+      ) : null}
+
+      {active ? (
+        <span className="inline-flex animate-pulse items-center gap-1.5 rounded-full bg-amber-400/15 px-2.5 py-1 text-[11px] text-amber-200">
+          {active.niche} · {active.countryCode} running… +{active.found}
+        </span>
+      ) : null}
     </div>
   );
 }

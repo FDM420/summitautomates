@@ -79,7 +79,17 @@ export type ProspectFilters = {
   minRating?: number;
   minReviews?: number;
   enrichment?: "all" | "enriched" | "not_enriched";
+  /** "has" = a WhatsApp or phone number is on file (outreach-ready). */
+  contactable?: "has" | "none";
   sort?: "recent" | "score" | "rating";
+};
+
+export type BulkSendResultDTO = {
+  targeted: number;
+  sent: number;
+  failed: number;
+  skipped: number;
+  failures: { name: string; error: string }[];
 };
 
 export type FacetsDTO = {

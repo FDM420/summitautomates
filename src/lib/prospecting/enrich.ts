@@ -1,4 +1,4 @@
-import { and, asc, count, eq, gte, ilike, inArray, or, sql, type SQL } from "drizzle-orm";
+import { and, asc, count, eq, gte, ilike, inArray, isNotNull, isNull, or, sql, type SQL } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { prospects } from "@/lib/db/schema";
 import { getPlaceDetails } from "./places";
@@ -23,6 +23,8 @@ export type ProspectFilters = {
   minRating?: number;
   minReviews?: number;
   enrichment?: "all" | "enriched" | "not_enriched";
+  /** "has" = a WhatsApp or phone number is on file (outreach-ready). */
+  contactable?: "has" | "none";
   sort?: "recent" | "score" | "rating";
 };
 
@@ -84,6 +86,12 @@ export function prospectWhere(filters: ProspectFilters): SQL | undefined {
   }
   if (filters.enrichment === "enriched") conds.push(eq(prospects.enriched, true));
   if (filters.enrichment === "not_enriched") conds.push(eq(prospects.enriched, false));
+  if (filters.contactable === "has") {
+    conds.push(or(isNotNull(prospects.whatsapp), isNotNull(prospects.phone)));
+  }
+  if (filters.contactable === "none") {
+    conds.push(and(isNull(prospects.whatsapp), isNull(prospects.phone)));
+  }
 
   return and(...conds);
 }

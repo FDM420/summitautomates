@@ -12,12 +12,12 @@ export type TemplateSelection = {
 };
 
 /** Body text of a template (Meta's BODY component). */
-function bodyOf(t: WaTemplate): string {
+export function bodyOf(t: WaTemplate): string {
   return t.components?.find((c) => c.type === "BODY")?.text ?? "";
 }
 
 /** Unique {{n}} placeholder numbers in a body, ascending. */
-function placeholdersOf(body: string): number[] {
+export function placeholdersOf(body: string): number[] {
   const ns = new Set<number>();
   for (const m of body.matchAll(/\{\{(\d+)\}\}/g)) ns.add(Number(m[1]));
   return [...ns].sort((a, b) => a - b);
@@ -28,7 +28,7 @@ function placeholdersOf(body: string): number[] {
  * variables, dynamic URL buttons, or named params would be accepted here but
  * rejected by Meta at send time — filter those out until the sender grows.
  */
-function sendableBy(t: WaTemplate): boolean {
+export function sendableBy(t: WaTemplate): boolean {
   const header = t.components?.find((c) => c.type === "HEADER");
   if (header && header.format && header.format !== "TEXT") return false; // media header needs a handle
   if (header?.text?.includes("{{")) return false;

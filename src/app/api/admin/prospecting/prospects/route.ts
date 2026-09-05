@@ -9,6 +9,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const ENRICHMENT_VALUES = new Set(["all", "enriched", "not_enriched"]);
+const CONTACT_VALUES = new Set(["has", "none"]);
 const SORT_VALUES = new Set(["recent", "score", "rating"]);
 
 /** Numeric query param — undefined when absent, empty, or not a number. */
@@ -62,6 +63,10 @@ export async function GET(request: Request) {
       enrichmentRaw && ENRICHMENT_VALUES.has(enrichmentRaw)
         ? (enrichmentRaw as ProspectFilters["enrichment"])
         : undefined,
+    contactable: (() => {
+      const raw = strParam(url, "contact");
+      return raw && CONTACT_VALUES.has(raw) ? (raw as ProspectFilters["contactable"]) : undefined;
+    })(),
     sort:
       sortRaw && SORT_VALUES.has(sortRaw)
         ? (sortRaw as ProspectFilters["sort"])

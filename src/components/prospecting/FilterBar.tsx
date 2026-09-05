@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { FacetsDTO, ProspectFilters } from "./types";
 
@@ -16,11 +16,14 @@ export function FilterBar({
   facets,
   onChange,
   onEnrichFiltered,
+  onBulkTemplate,
 }: {
   filters: ProspectFilters;
   facets: FacetsDTO | null;
   onChange: (next: ProspectFilters) => void;
   onEnrichFiltered: () => void;
+  /** Open the bulk "send template to filtered" modal. */
+  onBulkTemplate: () => void;
 }) {
   const [search, setSearch] = useState(filters.q ?? "");
 
@@ -121,6 +124,18 @@ export function FilterBar({
 
       <select
         className={SELECT}
+        onChange={(e) =>
+          set({ contactable: (e.target.value || undefined) as ProspectFilters["contactable"] })
+        }
+        value={filters.contactable ?? ""}
+      >
+        <option value="">Any number</option>
+        <option value="has">Has number (outreach-ready)</option>
+        <option value="none">Missing number</option>
+      </select>
+
+      <select
+        className={SELECT}
         onChange={(e) => set({ sort: e.target.value as ProspectFilters["sort"] })}
         value={filters.sort ?? "recent"}
       >
@@ -129,13 +144,22 @@ export function FilterBar({
         <option value="rating">Best rating</option>
       </select>
 
-      <button
-        className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-amber-300/30 bg-amber-300/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition hover:bg-amber-300/20"
-        onClick={onEnrichFiltered}
-        type="button"
-      >
-        <Sparkles className="h-3.5 w-3.5" /> Enrich filtered
-      </button>
+      <div className="ml-auto flex items-center gap-2">
+        <button
+          className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300/30 bg-amber-300/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition hover:bg-amber-300/20"
+          onClick={onEnrichFiltered}
+          type="button"
+        >
+          <Sparkles className="h-3.5 w-3.5" /> Enrich filtered
+        </button>
+        <button
+          className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition hover:bg-emerald-500/20"
+          onClick={onBulkTemplate}
+          type="button"
+        >
+          <Send className="h-3.5 w-3.5" /> Send template
+        </button>
+      </div>
     </div>
   );
 }
