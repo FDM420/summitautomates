@@ -110,7 +110,34 @@ export function ProspectsTable({
                   )}
                 </td>
                 <td className="whitespace-nowrap px-3 py-2 text-xs text-slate-400">
-                  {p.phone ?? <span className="text-slate-600">—</span>}
+                  <span className="flex items-center gap-1.5">
+                    {p.whatsapp ? (
+                      <span
+                        className="rounded-full bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-300"
+                        title={`WhatsApp found on their site: ${p.whatsapp}`}
+                      >
+                        WA
+                      </span>
+                    ) : null}
+                    {p.phoneType === "mobile" ? (
+                      <span title="Mobile number">📱</span>
+                    ) : p.phoneType === "landline" ? (
+                      <span title="Landline — can't receive WhatsApp">☎️</span>
+                    ) : null}
+                    {p.phone ? (
+                      <span className={p.waUndeliverableAt ? "text-slate-600 line-through" : ""}>{p.phone}</span>
+                    ) : !p.whatsapp ? (
+                      <span className="text-slate-600">—</span>
+                    ) : null}
+                    {p.waUndeliverableAt ? (
+                      <span
+                        className="rounded-full bg-rose-500/10 px-1.5 py-0.5 text-[10px] text-rose-300"
+                        title="A template to this number bounced (131026) — it's not on WhatsApp. Kept, but excluded from bulk sends."
+                      >
+                        not on WA
+                      </span>
+                    ) : null}
+                  </span>
                 </td>
                 <td className={`px-3 py-2 text-right font-semibold tabular-nums ${TIER_STYLE[scoreTier(p.score)]}`}>
                   {p.score}

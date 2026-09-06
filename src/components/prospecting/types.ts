@@ -13,6 +13,7 @@ export type ProspectDTO = {
   rating: number | null;
   reviews: number | null;
   phone: string | null;
+  phoneType: "mobile" | "landline" | "unknown" | null;
   website: string | null;
   hours: string | null;
   linkedin: string | null;
@@ -31,8 +32,16 @@ export type ProspectDTO = {
   contactId: string | null;
   lastTemplateSentAt: string | null;
   templateSendCount: number;
+  waUndeliverableAt: string | null;
   createdAt: string;
   updatedAt: string;
+};
+
+export type ScrapeResultDTO = {
+  scraped: number;
+  foundWhatsapp: number;
+  foundEmail: number;
+  noData: number;
 };
 
 export type SweepDTO = {
@@ -79,8 +88,8 @@ export type ProspectFilters = {
   minRating?: number;
   minReviews?: number;
   enrichment?: "all" | "enriched" | "not_enriched";
-  /** "has" = a WhatsApp or phone number is on file (outreach-ready). */
-  contactable?: "has" | "none";
+  /** Number filter: any / wa.me found / mobile / landline / none on file. */
+  contactable?: "has" | "whatsapp" | "mobile" | "landline" | "none";
   sort?: "recent" | "score" | "rating";
 };
 

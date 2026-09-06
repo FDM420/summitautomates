@@ -2,6 +2,7 @@ import { and, asc, count, eq, gte, ilike, inArray, isNotNull, isNull, or, sql, t
 import { db } from "@/lib/db";
 import { prospects } from "@/lib/db/schema";
 import { getPlaceDetails } from "./places";
+import { classifyPhone } from "./phone-type";
 import { computeProspectScore } from "./score";
 import { QuotaExhaustedError, recordOrThrow, remaining } from "./quota";
 
@@ -23,8 +24,11 @@ export type ProspectFilters = {
   minRating?: number;
   minReviews?: number;
   enrichment?: "all" | "enriched" | "not_enriched";
-  /** "has" = a WhatsApp or phone number is on file (outreach-ready). */
-  contactable?: "has" | "none";
+  /**
+   * Number filter: "has" = any number on file; "whatsapp" = a wa.me number was
+   * found; "mobile"/"landline" = classified phone type; "none" = no number.
+   */
+  contactable?: "has" | "whatsapp" | "mobile" | "landline" | "none";
   sort?: "recent" | "score" | "rating";
 };
 
@@ -89,6 +93,9 @@ export function prospectWhere(filters: ProspectFilters): SQL | undefined {
   if (filters.contactable === "has") {
     conds.push(or(isNotNull(prospects.whatsapp), isNotNull(prospects.phone)));
   }
+  if (filters.contactable === "whatsapp") conds.push(isNotNull(prospects.whatsapp));
+  if (filters.contactable === "mobile") conds.push(eq(prospects.phoneType, "mobile"));
+  if (filters.contactable === "landline") conds.push(eq(prospects.phoneType, "landline"));
   if (filters.contactable === "none") {
     conds.push(and(isNull(prospects.whatsapp), isNull(prospects.phone)));
   }
@@ -192,6 +199,7 @@ export async function enrichBatch(args: {
         .update(prospects)
         .set({
           phone: details.phone,
+          phoneType: classifyPhone(details.phone, prospect.countryCode),
           website: details.website,
           hours: details.hours,
           rating,

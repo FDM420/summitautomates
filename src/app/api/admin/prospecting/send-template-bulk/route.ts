@@ -61,10 +61,13 @@ export async function POST(request: Request) {
     isNull(prospects.lastTemplateSentAt),
     lt(prospects.lastTemplateSentAt, new Date(Date.now() - RECENT_MS)),
   );
-  // Hand-picked ids beat filters; the safety rails (number on file, 24h skip)
-  // apply either way.
+  // A number that already bounced with 131026 (not on WhatsApp) is never
+  // retried — the prospect stays in the CRM but leaves the send pool.
+  const deliverable = isNull(prospects.waUndeliverableAt);
+  // Hand-picked ids beat filters; the safety rails (number on file, 24h skip,
+  // known-dead exclusion) apply either way.
   const base = ids ? inArray(prospects.id, ids) : prospectWhere(filters);
-  const matchingWhere = and(base, contactable);
+  const matchingWhere = and(base, contactable, deliverable);
   const eligibleWhere = and(matchingWhere, notRecent);
 
   if (body.preview) {

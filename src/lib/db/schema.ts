@@ -368,6 +368,8 @@ export const prospects = pgTable(
     rating: real("rating"), // 0..5
     reviews: integer("reviews"),
     phone: text("phone"), // international format from Place Details
+    /** mobile | landline | unknown — classified from the phone number's range. */
+    phoneType: text("phone_type"),
     website: text("website"),
     hours: text("hours"),
     // Social & outreach channels (populated by the website scraper, later phase)
@@ -389,6 +391,11 @@ export const prospects = pgTable(
     contactId: uuid("contact_id").references(() => contacts.id, { onDelete: "set null" }),
     lastTemplateSentAt: timestamp("last_template_sent_at", { withTimezone: true }),
     templateSendCount: integer("template_send_count").notNull().default(0),
+    /**
+     * Set when a template send bounced with Meta 131026 (number not on
+     * WhatsApp). The prospect is KEPT but excluded from future bulk sends.
+     */
+    waUndeliverableAt: timestamp("wa_undeliverable_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },

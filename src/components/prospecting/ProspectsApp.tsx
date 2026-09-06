@@ -16,6 +16,7 @@ import type {
   ProspectDTO,
   ProspectFilters,
   QuotaDTO,
+  ScrapeResultDTO,
   SweepDTO,
 } from "./types";
 
@@ -168,6 +169,43 @@ export function ProspectsApp() {
     setSelectedIds(new Set());
   }, []);
 
+  /** Scrape filtered prospects' websites for wa.me numbers/emails/socials. */
+  const scrapingRef = useRef(false);
+  const scrapeFiltered = useCallback(async () => {
+    if (scrapingRef.current) return;
+    scrapingRef.current = true;
+    try {
+      const prev = await fetch("/api/admin/prospecting/scrape", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ preview: true, filters }),
+      }).then((r) => r.json() as Promise<{ matching: number; planned: number; error?: string }>);
+      if (prev.error) throw new Error(prev.error);
+      if (!prev.matching) {
+        setToast("Nothing to scrape — these prospects have no website yet (enrich first) or are already scraped.");
+        return;
+      }
+      setToast(`Scraping ${prev.planned} of ${prev.matching} websites for WhatsApp numbers…`);
+      const r = await fetch("/api/admin/prospecting/scrape", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ filters, limit: 25 }),
+      });
+      const j = (await r.json()) as ScrapeResultDTO & { error?: string };
+      if (!r.ok) throw new Error(j.error || `Scrape failed (${r.status})`);
+      const left = prev.matching - j.scraped;
+      setToast(
+        `Scraped ${j.scraped} sites: ${j.foundWhatsapp} WhatsApp, ${j.foundEmail} emails found` +
+          (left > 0 ? ` — ${left} to go, run again` : ""),
+      );
+      void loadProspects();
+    } catch (e) {
+      setToast(e instanceof Error ? e.message : "Scrape failed");
+    } finally {
+      scrapingRef.current = false;
+    }
+  }, [filters, loadProspects]);
+
   /** A sweep finished server-side: new rows + facets + spent quota. */
   const onSweepDone = useCallback(() => {
     void loadProspects();
@@ -271,6 +309,7 @@ export function ProspectsApp() {
           }}
           onChange={onFiltersChange}
           onEnrichFiltered={() => setEnrichOpen(true)}
+          onScrapeFiltered={() => void scrapeFiltered()}
         />
       </div>
 

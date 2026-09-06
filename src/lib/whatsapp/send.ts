@@ -501,5 +501,15 @@ export async function sendHumanTemplate(input: {
     })
     .where(eq(whatsappMessages.id, row.id))
     .returning(FIELDS);
+
+  // 131026 = the number is not on WhatsApp. Mark the prospect (kept, never
+  // deleted) so future bulk batches stop retrying a dead number.
+  if (prospectId && sent.error.code === 131026) {
+    await db
+      .update(prospects)
+      .set({ waUndeliverableAt: new Date(), updatedAt: new Date() })
+      .where(eq(prospects.id, prospectId));
+  }
+
   return { ok: true, message: ((failedTpl as MessageRow | undefined) ?? row) };
 }

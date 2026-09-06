@@ -1,6 +1,6 @@
 "use client";
 
-import { Send, Sparkles } from "lucide-react";
+import { Search, Send, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { FacetsDTO, ProspectFilters } from "./types";
 
@@ -16,12 +16,15 @@ export function FilterBar({
   facets,
   onChange,
   onEnrichFiltered,
+  onScrapeFiltered,
   onBulkTemplate,
 }: {
   filters: ProspectFilters;
   facets: FacetsDTO | null;
   onChange: (next: ProspectFilters) => void;
   onEnrichFiltered: () => void;
+  /** Scrape filtered prospects' websites for wa.me numbers/emails/socials. */
+  onScrapeFiltered: () => void;
   /** Open the bulk "send template to filtered" modal. */
   onBulkTemplate: () => void;
 }) {
@@ -130,7 +133,10 @@ export function FilterBar({
         value={filters.contactable ?? ""}
       >
         <option value="">Any number</option>
-        <option value="has">Has number (outreach-ready)</option>
+        <option value="whatsapp">WhatsApp (wa.me found)</option>
+        <option value="mobile">Mobile number</option>
+        <option value="landline">Landline</option>
+        <option value="has">Has any number</option>
         <option value="none">Missing number</option>
       </select>
 
@@ -151,6 +157,14 @@ export function FilterBar({
           type="button"
         >
           <Sparkles className="h-3.5 w-3.5" /> Enrich filtered
+        </button>
+        <button
+          className="inline-flex items-center gap-1.5 rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-1.5 text-xs font-medium text-sky-200 transition hover:bg-sky-500/20"
+          onClick={onScrapeFiltered}
+          title="Visit filtered prospects' websites and pull their wa.me WhatsApp numbers, emails and socials"
+          type="button"
+        >
+          <Search className="h-3.5 w-3.5" /> Find WhatsApp
         </button>
         <button
           className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition hover:bg-emerald-500/20"

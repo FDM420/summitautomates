@@ -50,6 +50,13 @@
       "when": 1788614308061,
       "tag": "0006_wide_carlie_cooper",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1788687904453,
+      "tag": "0007_ordinary_scrambler",
+      "breakpoints": true
     }
   ]
 }
