@@ -34,6 +34,7 @@ export function ChatThread({
   contactId,
   windowOpen,
   onRead,
+  onActivity,
   contactName,
 }: {
   contactId: string;
@@ -41,6 +42,8 @@ export function ChatThread({
   windowOpen: boolean;
   /** Called when a new inbound message arrives while the thread is visible (we re-mark it read). */
   onRead?: () => void;
+  /** A message was just sent from this thread — bump it to the top of the list. */
+  onActivity?: () => void;
   /** Contact's display name — prefills the template picker's {{1}}. */
   contactName?: string;
 }) {
@@ -198,6 +201,7 @@ export function ChatThread({
         if (res.ok && j.message) {
           knownIds.current.add(j.message.id);
           setMessages((prev) => mergeById(prev.filter((m) => m.id !== temp.id), [j.message!]));
+          onActivity?.();
         } else {
           setMessages((prev) =>
             prev.map((m) =>
@@ -213,7 +217,7 @@ export function ChatThread({
         );
       }
     },
-    [base, replyTo],
+    [base, replyTo, onActivity],
   );
 
   /** Optimistic media send: local-preview bubble now, replaced by the server row. */
@@ -266,6 +270,7 @@ export function ChatThread({
         if (res.ok && j.message) {
           knownIds.current.add(j.message.id);
           setMessages((prev) => mergeById(prev.filter((m) => m.id !== temp.id), [j.message!]));
+          onActivity?.();
         } else {
           setMessages((prev) =>
             prev.map((m) => (m.id === temp.id ? { ...m, status: "failed", localUrl: null, errorTitle: j.error ?? "Upload failed" } : m)),
@@ -278,7 +283,7 @@ export function ChatThread({
         );
       }
     },
-    [base],
+    [base, onActivity],
   );
 
   /** Optimistic template send (window closed): temp bubble now, server row after. */
@@ -327,6 +332,7 @@ export function ChatThread({
         if (res.ok && j.message) {
           knownIds.current.add(j.message.id);
           setMessages((prev) => mergeById(prev.filter((m) => m.id !== temp.id), [j.message!]));
+          onActivity?.();
           return true;
         }
         setMessages((prev) =>
@@ -344,7 +350,7 @@ export function ChatThread({
         return false;
       }
     },
-    [base],
+    [base, onActivity],
   );
 
   // Derived: quoted lookup, reactions (last-wins per target+sender, empty =

@@ -49,8 +49,10 @@ export async function GET(request: Request) {
     })
     .from(contacts)
     .where(and(...conds))
+    // WhatsApp-style ordering: newest activity first, nothing pinned above it.
+    // (The "Awaiting" filter tab still exists for triage; the Reply badge
+    // still marks those rows inline.)
     .orderBy(
-      desc(contacts.waAwaitingReply),
       sql`${contacts.waLastMessageAt} desc nulls last`,
       desc(contacts.id),
     )

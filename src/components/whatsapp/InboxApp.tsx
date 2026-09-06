@@ -54,6 +54,26 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
   const active = useMemo(() => threads.find((t) => t.id === activeId) ?? null, [threads, activeId]);
   const windowOpen = active?.waWindowExpiresAt ? new Date(active.waWindowExpiresAt).getTime() > Date.now() : false;
 
+  // WhatsApp ordering: newest activity on top, always — including optimistic
+  // local bumps (a just-sent message moves its thread up before the next poll).
+  const ordered = useMemo(
+    () =>
+      [...threads].sort(
+        (a, b) =>
+          (Date.parse(b.waLastMessageAt ?? "") || 0) - (Date.parse(a.waLastMessageAt ?? "") || 0),
+      ),
+    [threads],
+  );
+
+  /** A message was just sent in the open thread — move it to the top now. */
+  const bumpActive = useCallback(() => {
+    if (!activeId) return;
+    const now = new Date().toISOString();
+    setThreads((prev) =>
+      prev.map((t) => (t.id === activeId ? { ...t, waLastMessageAt: now } : t)),
+    );
+  }, [activeId]);
+
   const toggleAutopilot = useCallback(async () => {
     if (!activeId || !active) return;
     const next = !active.waAutopilot;
@@ -85,7 +105,7 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
           onSearch={setSearch}
           onSelect={select}
           search={search}
-          threads={threads}
+          threads={ordered}
         />
       </aside>
 
@@ -127,6 +147,7 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
               <ChatThread
                 contactId={activeId}
                 contactName={active?.waProfileName || active?.displayName || undefined}
+                onActivity={bumpActive}
                 onRead={() =>
                   setThreads((prev) => prev.map((t) => (t.id === activeId ? { ...t, waUnreadCount: 0 } : t)))
                 }
