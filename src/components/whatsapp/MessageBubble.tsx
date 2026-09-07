@@ -165,7 +165,13 @@ function Content({ m, mediaSrc }: { m: WaMessage; mediaSrc: string }) {
     case "interactive":
       return <p className="text-slate-200">↳ {m.body ?? "Selection"}</p>;
     default:
-      return <p className="text-[12px] italic text-slate-400">Unsupported message type</p>;
+      return (
+        <p className="max-w-[260px] text-[12px] italic leading-5 text-slate-400">
+          WhatsApp couldn&rsquo;t deliver this message — view-once photos, polls and
+          edited messages never reach business accounts. The bot has asked them to
+          resend it as a normal message.
+        </p>
+      );
   }
 }
 

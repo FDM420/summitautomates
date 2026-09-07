@@ -66,6 +66,8 @@ export type RawMessage = {
     button_reply?: { id?: string; title?: string };
     list_reply?: { id?: string; title?: string; description?: string };
   };
+  /** A tap on a TEMPLATE's quick-reply button (distinct from `interactive`). */
+  button?: { text?: string; payload?: string };
   reaction?: { message_id?: string; emoji?: string };
   system?: { body?: string; type?: string; wa_id?: string; new_wa_id?: string };
   errors?: { code?: number; title?: string }[];
@@ -227,8 +229,21 @@ export function decodeInbound(
           countsAsMessage: false,
         };
       }
+      case "button": {
+        // A tap on an outreach template's quick-reply button — the hottest
+        // signal in the funnel. Stored as `interactive` (same semantics: the
+        // customer chose an option) so the bot replies to it like text.
+        const text = msg.button?.text ?? null;
+        return {
+          ...base,
+          type: "interactive",
+          body: text,
+          payload: { button: msg.button },
+          preview: text ? `↳ ${clip(text)}` : "[button reply]",
+        };
+      }
       default:
-        // button, order, unsupported (131051), and future types.
+        // order, unsupported (131051: view-once/polls/edits), future types.
         return {
           ...base,
           type: "unsupported",

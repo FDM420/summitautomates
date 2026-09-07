@@ -142,7 +142,7 @@ export async function getRecentHistory(
     .where(
       and(
         eq(whatsappMessages.contactId, contactId),
-        inArray(whatsappMessages.type, ["text", "template"]),
+        inArray(whatsappMessages.type, ["text", "template", "interactive"]),
         // A failed send never reached the customer — don't feed it back to the
         // model as if it were part of the conversation.
         ne(whatsappMessages.status, "failed"),
