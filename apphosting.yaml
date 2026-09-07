@@ -65,14 +65,16 @@ env:
       - RUNTIME
 
   # --- Prospecting (Lead Finder port) ---
-  # Free-tier caps for the business-data provider (Google Places). The quota
-  # service hard-stops before any metered call once a monthly cap is reached.
+  # Monthly caps for the business-data provider (Google Places); the quota
+  # service hard-stops at the cap. Raised from 1000 on 2026-09-08 (owner opted
+  # into paid usage): searches stay inside the 5,000/mo free Pro tier; detail
+  # lookups past the 1,000/mo free Enterprise tier bill ~$35 per 1,000.
   - variable: SEARCH_MONTHLY_CAP
-    value: "1000"
+    value: "5000"
     availability:
       - RUNTIME
   - variable: DETAILS_MONTHLY_CAP
-    value: "1000"
+    value: "5000"
     availability:
       - RUNTIME
   # Places API key — piped from the Railway lead-finder service env into
