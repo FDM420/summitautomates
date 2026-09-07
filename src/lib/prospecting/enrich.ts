@@ -45,14 +45,18 @@ export type EnrichResult = {
   quotaHit: boolean;
 };
 
-// Preview and run share this cap so the confirmation modal never understates
-// the metered spend; 50 sequential Place Details calls also stay comfortably
-// inside one request's time budget on Cloud Run.
 const DEFAULT_LIMIT = 50;
-const MAX_LIMIT = 50;
+/**
+ * Per-REQUEST cap: 50 sequential Place Details calls stay comfortably inside
+ * one request's time budget on Cloud Run. Bigger runs are made of several
+ * 50-chunk requests driven by the modal, never one long request.
+ */
+const RUN_MAX = 50;
+/** Planning cap: the UI may aim a chunked run at up to this many. */
+const PLAN_MAX = 250;
 
-function clampLimit(limit?: number): number {
-  return Math.min(Math.max(limit ?? DEFAULT_LIMIT, 1), MAX_LIMIT);
+function clampLimit(limit: number | undefined, max: number): number {
+  return Math.min(Math.max(limit ?? DEFAULT_LIMIT, 1), max);
 }
 
 /**
@@ -112,7 +116,7 @@ export async function previewEnrich(
   filters: ProspectFilters,
   limit?: number,
 ): Promise<EnrichPreview> {
-  const requested = clampLimit(limit);
+  const requested = clampLimit(limit, PLAN_MAX);
   const notEnriched = and(prospectWhere(filters), eq(prospects.enriched, false));
 
   const [[{ matching }], quotaRemaining] = await Promise.all([
@@ -147,14 +151,14 @@ export async function enrichBatch(args: {
     targets = await db
       .select()
       .from(prospects)
-      .where(inArray(prospects.id, args.ids.slice(0, MAX_LIMIT)));
+      .where(inArray(prospects.id, args.ids.slice(0, RUN_MAX)));
   } else {
     targets = await db
       .select()
       .from(prospects)
       .where(and(prospectWhere(args.filters ?? {}), eq(prospects.enriched, false)))
       .orderBy(asc(prospects.createdAt))
-      .limit(clampLimit(args.limit));
+      .limit(clampLimit(args.limit, RUN_MAX));
   }
 
   for (const prospect of targets) {

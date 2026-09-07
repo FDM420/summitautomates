@@ -25,18 +25,22 @@ export function EnrichPreviewModal({
   const [result, setResult] = useState<EnrichResultDTO | null>(null);
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // How many to enrich this run — the preview recomputes for the chosen size.
+  const [batch, setBatch] = useState(50);
+  const [progress, setProgress] = useState(0);
 
-  // Fresh preview each time the modal opens.
+  // Fresh preview each time the modal opens or the batch size changes.
   useEffect(() => {
     if (!open) return;
     setPreview(null);
     setResult(null);
     setError(null);
+    setProgress(0);
     let alive = true;
     fetch("/api/admin/prospecting/enrich/preview", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ filters }),
+      body: JSON.stringify({ filters, limit: batch }),
     })
       .then(async (r) => {
         const j = (await r.json()) as EnrichPreviewDTO & { error?: string };
@@ -49,26 +53,45 @@ export function EnrichPreviewModal({
     return () => {
       alive = false;
     };
-  }, [open, filters]);
+  }, [open, filters, batch]);
 
   if (!open) return null;
 
   const run = async () => {
+    if (!preview) return;
     setRunning(true);
     setError(null);
+    setProgress(0);
+    // Big runs happen as several 50-chunk requests — each stays inside one
+    // request's time budget, and progress updates live between chunks.
+    const target = preview.planned;
+    const totals: EnrichResultDTO = { enriched: 0, failed: 0, quotaHit: false };
     try {
-      const r = await fetch("/api/admin/prospecting/enrich", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        // Same limit the preview used — the modal must never promise 50 and run 100.
-        body: JSON.stringify({ filters, limit: 50 }),
-      });
-      const j = (await r.json()) as EnrichResultDTO & { error?: string };
-      if (!r.ok) throw new Error(j.error || `Request failed (${r.status})`);
-      setResult(j);
+      while (totals.enriched + totals.failed < target) {
+        const want = Math.min(50, target - (totals.enriched + totals.failed));
+        const r = await fetch("/api/admin/prospecting/enrich", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ filters, limit: want }),
+        });
+        const j = (await r.json()) as EnrichResultDTO & { error?: string };
+        if (!r.ok) throw new Error(j.error || `Request failed (${r.status})`);
+        totals.enriched += j.enriched;
+        totals.failed += j.failed;
+        totals.quotaHit = totals.quotaHit || j.quotaHit;
+        setProgress(totals.enriched + totals.failed);
+        if (j.quotaHit) break;
+        if (j.enriched + j.failed === 0) break; // nothing left to claim
+      }
+      setResult(totals);
       onDone();
     } catch (e) {
+      // Keep whatever finished visible — chunks that ran are already saved.
       setError(e instanceof Error ? e.message : "Enrichment failed");
+      if (totals.enriched + totals.failed > 0) {
+        setResult(totals);
+        onDone();
+      }
     } finally {
       setRunning(false);
     }
@@ -114,7 +137,25 @@ export function EnrichPreviewModal({
         ) : !preview && !error ? (
           <p className="mt-4 text-sm text-slate-500">Checking matches and quota…</p>
         ) : preview ? (
-          <div className="mt-4 space-y-2 text-sm text-slate-300">
+          <div className="mt-4 space-y-3 text-sm text-slate-300">
+            <div className="flex items-center gap-2">
+              <span className="text-xs uppercase tracking-wide text-slate-500">Batch size</span>
+              {[50, 100, 250].map((n) => (
+                <button
+                  key={n}
+                  className={`rounded-full px-3 py-1 text-xs transition ${
+                    batch === n
+                      ? "bg-amber-300/15 text-amber-100"
+                      : "bg-white/5 text-slate-400 hover:text-white"
+                  }`}
+                  disabled={running}
+                  onClick={() => setBatch(n)}
+                  type="button"
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
             <p>
               <span className="font-semibold text-white">{preview.matching.toLocaleString()}</span>{" "}
               matching {preview.matching === 1 ? "prospect isn't" : "prospects aren't"} enriched yet.
@@ -122,7 +163,8 @@ export function EnrichPreviewModal({
             <p>
               <span className="font-semibold text-white">{preview.quotaRemaining.toLocaleString()}</span>{" "}
               detail lookups remain this month — this run will enrich{" "}
-              <span className="font-semibold text-amber-200">{preview.planned.toLocaleString()}</span>.
+              <span className="font-semibold text-amber-200">{preview.planned.toLocaleString()}</span>
+              {preview.planned > 50 ? " (in chunks of 50, watch it count up)" : ""}.
             </p>
             {preview.willStopEarly ? (
               <p className="rounded-lg border border-amber-300/20 bg-amber-300/5 px-3 py-2 text-xs text-amber-200">
@@ -147,7 +189,9 @@ export function EnrichPreviewModal({
               onClick={() => void run()}
               type="button"
             >
-              {running ? "Enriching…" : `Enrich ${preview?.planned ?? 0}`}
+              {running
+                ? `Enriching… ${progress}/${preview?.planned ?? 0}`
+                : `Enrich ${preview?.planned ?? 0}`}
             </button>
           ) : null}
         </div>
