@@ -14,6 +14,9 @@ const filtersSchema = z.object({
   minRating: z.number().min(0).max(5).optional(),
   minReviews: z.number().int().min(0).optional(),
   enrichment: z.enum(["all", "enriched", "not_enriched"]).optional(),
+  // Honor the number filter (Mobile / WhatsApp / Landline) — without this the
+  // enrich scope silently ignored it and processed a broader set than shown.
+  contactable: z.enum(["has", "whatsapp", "mobile", "landline", "none"]).optional(),
   sort: z.enum(["recent", "score", "rating"]).optional(),
 });
 

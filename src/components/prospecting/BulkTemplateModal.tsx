@@ -45,7 +45,11 @@ export function BulkTemplateModal({
   const [result, setResult] = useState<BulkSendResultDTO | null>(null);
   const batchKeyRef = useRef<string | null>(null);
 
-  // Load approved templates + audience counts whenever the modal opens.
+  // Load approved templates + audience counts whenever the modal opens. The two
+  // requests are INDEPENDENT: the templates call hits Meta's Graph API (slow,
+  // occasionally flaky) — a hiccup there must not blank the audience count or
+  // crash the modal with "Failed to fetch". Each is fetched and errors on its
+  // own, with a 15s abort so it fails fast and clearly.
   useEffect(() => {
     if (!open) return;
     let alive = true;
@@ -54,33 +58,41 @@ export function BulkTemplateModal({
     setSelected(null);
     setValues({});
     setResult(null);
-    Promise.all([
-      fetch("/api/admin/whatsapp/templates").then(async (r) => {
-        const j = (await r.json().catch(() => ({}))) as { templates?: WaTemplate[]; error?: string };
-        if (!r.ok || !j.templates) throw new Error(j.error ?? "Failed to load templates");
-        return j.templates.filter((t) => t.status === "APPROVED" && sendableBy(t));
-      }),
-      fetch("/api/admin/prospecting/send-template-bulk", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ preview: true, filters, ids: ids ?? undefined }),
-      }).then(async (r) => {
+
+    const withTimeout = (ms: number) => AbortSignal.timeout(ms);
+
+    // Audience count (our own DB — fast, the important one).
+    fetch("/api/admin/prospecting/send-template-bulk", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ preview: true, filters, ids: ids ?? undefined }),
+      signal: withTimeout(15000),
+    })
+      .then(async (r) => {
         const j = (await r.json().catch(() => ({}))) as Counts & { error?: string };
         if (!r.ok) throw new Error(j.error ?? "Failed to count the audience");
-        return j;
-      }),
-    ])
-      .then(([tpls, c]) => {
-        if (!alive) return;
-        setTemplates(tpls);
-        setCounts(c);
+        if (alive) setCounts(j);
       })
       .catch((e) => {
-        if (alive) setError(e instanceof Error ? e.message : "Failed to load");
+        if (alive) setError(e instanceof Error ? e.message : "Couldn't count the audience");
       })
       .finally(() => {
         if (alive) setLoading(false);
       });
+
+    // Templates (Meta Graph — may lag; its own failure only disables sending,
+    // it never wipes the audience count or shows a scary global error).
+    fetch("/api/admin/whatsapp/templates", { signal: withTimeout(15000) })
+      .then(async (r) => {
+        const j = (await r.json().catch(() => ({}))) as { templates?: WaTemplate[]; error?: string };
+        if (!r.ok || !j.templates) throw new Error(j.error ?? "Failed to load templates");
+        if (alive) setTemplates(j.templates.filter((t) => t.status === "APPROVED" && sendableBy(t)));
+      })
+      .catch(() => {
+        // Leave templates empty — the empty-state below explains it. No global error.
+        if (alive) setTemplates([]);
+      });
+
     return () => {
       alive = false;
     };
