@@ -1,4 +1,4 @@
-import { and, count, desc, inArray, isNotNull, isNull, lt, or } from "drizzle-orm";
+import { and, count, desc, eq, inArray, isNotNull, isNull, lt, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { db } from "@/lib/db";
@@ -11,8 +11,11 @@ export const dynamic = "force-dynamic";
 // Up to 50 sequential Meta sends in one request.
 export const maxDuration = 300;
 
-/** Per-run cap: one confirmation covers at most this many outreach messages. */
-const BULK_CAP = 50;
+/** Max actually processed per HTTP request — keeps one call inside its time
+ * budget. The modal loops these to cover a bigger selection. */
+const REQUEST_CAP = 50;
+/** Ceiling for one "Send" click across all chunks (~a day's messaging tier). */
+const MAX_PER_RUN = 250;
 /** Don't re-message a prospect templated within this window. */
 const RECENT_MS = 24 * 60 * 60 * 1000;
 /** Literal token in `params` replaced with each prospect's business name. */
@@ -46,11 +49,11 @@ export async function POST(request: Request) {
 
   const body = ((await request.json().catch(() => null)) ?? {}) as Body;
   const filters = (body.filters ?? {}) as ProspectFilters;
-  const limit = Math.min(Math.max(Math.trunc(Number(body.limit)) || BULK_CAP, 1), BULK_CAP);
+  const limit = Math.min(Math.max(Math.trunc(Number(body.limit)) || REQUEST_CAP, 1), REQUEST_CAP);
 
   const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const ids = Array.isArray(body.ids)
-    ? body.ids.filter((v): v is string => typeof v === "string" && UUID.test(v)).slice(0, BULK_CAP)
+    ? body.ids.filter((v): v is string => typeof v === "string" && UUID.test(v)).slice(0, MAX_PER_RUN)
     : null;
   if (Array.isArray(body.ids) && (!ids || ids.length === 0)) {
     return NextResponse.json({ error: "No valid prospect ids" }, { status: 400 });
@@ -78,8 +81,9 @@ export async function POST(request: Request) {
     return NextResponse.json({
       matching,
       eligible,
-      targeted: Math.min(eligible, limit),
-      cap: BULK_CAP,
+      // The whole "Send" click will cover this many (across chunks of 50).
+      targeted: Math.min(eligible, MAX_PER_RUN),
+      cap: MAX_PER_RUN,
     });
   }
 
@@ -117,7 +121,7 @@ export async function POST(request: Request) {
     .orderBy(desc(prospects.score), desc(prospects.id))
     .limit(limit);
 
-  const result = { targeted: targets.length, sent: 0, failed: 0, skipped: 0 };
+  const result = { targeted: targets.length, sent: 0, failed: 0, skipped: 0, rateLimited: false };
   const failures: { name: string; error: string }[] = [];
 
   for (const p of targets) {
@@ -138,8 +142,13 @@ export async function POST(request: Request) {
     });
 
     if (!outcome.ok) {
-      // Unusable number, blocked contact, … — recorded but not sent.
+      // Unusable number / blocked contact — permanent. Mark it so the modal's
+      // chunk loop doesn't reselect it forever (and it leaves the send pool).
       result.skipped += 1;
+      await db
+        .update(prospects)
+        .set({ waUndeliverableAt: new Date(), updatedAt: new Date() })
+        .where(eq(prospects.id, p.id));
       if (failures.length < 5) failures.push({ name: p.name, error: outcome.error });
       continue;
     }
@@ -147,6 +156,13 @@ export async function POST(request: Request) {
       result.failed += 1;
       if (failures.length < 5) {
         failures.push({ name: p.name, error: String(outcome.message.errorTitle ?? "Meta rejected the send") });
+      }
+      // 131049/131056 = daily marketing/quality cap reached — stop the whole
+      // run; further sends will only pile up failures.
+      const code = String(outcome.message.errorCode ?? "");
+      if (code === "131049" || code === "131056") {
+        result.rateLimited = true;
+        break;
       }
       continue;
     }

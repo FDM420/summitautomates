@@ -42,6 +42,7 @@ export function BulkTemplateModal({
   // Per-placeholder value; null means "use each prospect's business name".
   const [values, setValues] = useState<Record<number, string | null>>({});
   const [sending, setSending] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<BulkSendResultDTO | null>(null);
   const batchKeyRef = useRef<string | null>(null);
 
@@ -124,37 +125,55 @@ export function BulkTemplateModal({
     if (!selected || !allFilled || sending || !counts || counts.targeted === 0) return;
     setSending(true);
     setError(null);
+    setProgress(0);
+    // One stable batch key for the whole multi-chunk run — replays never
+    // double-message, and each chunk sends the NEXT 50 (the previous 50 are now
+    // inside the 24h window, so the server skips them automatically).
     batchKeyRef.current ??= crypto.randomUUID();
-    let res: Response;
+    const target = counts.targeted;
+    const totals: BulkSendResultDTO = { targeted: target, sent: 0, failed: 0, skipped: 0, failures: [] };
+    const payload = {
+      filters,
+      ids: ids ?? undefined,
+      templateName: selected.name,
+      language: selected.language,
+      templateBody: body,
+      params: slots.map((n) => (values[n] === null ? BUSINESS_TOKEN : (values[n] ?? "").trim())),
+      batchKey: batchKeyRef.current,
+    };
     try {
-      res = await fetch("/api/admin/prospecting/send-template-bulk", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          filters,
-          ids: ids ?? undefined,
-          templateName: selected.name,
-          language: selected.language,
-          templateBody: body,
-          params: slots.map((n) => (values[n] === null ? BUSINESS_TOKEN : (values[n] ?? "").trim())),
-          batchKey: batchKeyRef.current,
-        }),
-      });
-    } catch (e) {
-      // No response — some sends may have gone out. Same batchKey on retry
-      // resumes instead of double-messaging.
-      setSending(false);
-      setError(e instanceof Error ? `${e.message} — retrying is safe (same batch resumes)` : "Network error");
-      return;
-    }
-    batchKeyRef.current = null;
-    try {
-      const j = (await res.json().catch(() => ({}))) as BulkSendResultDTO & { error?: string };
-      if (!res.ok) throw new Error(j.error || `Request failed (${res.status})`);
-      setResult(j);
+      // Loop 50-at-a-time until the target is covered or nothing new happens.
+      for (let guard = 0; guard < Math.ceil(target / 50) + 2; guard++) {
+        const res = await fetch("/api/admin/prospecting/send-template-bulk", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ ...payload, limit: 50 }),
+        });
+        const j = (await res.json().catch(() => ({}))) as BulkSendResultDTO & { error?: string };
+        if (!res.ok) throw new Error(j.error || `Request failed (${res.status})`);
+        totals.sent += j.sent;
+        totals.failed += j.failed;
+        totals.skipped += j.skipped;
+        if (j.failures?.length && totals.failures.length < 5) {
+          totals.failures.push(...j.failures.slice(0, 5 - totals.failures.length));
+        }
+        setProgress(totals.sent + totals.failed + totals.skipped);
+        // Stop when the daily cap is hit, or a chunk did nothing (pool drained).
+        if (j.rateLimited) { totals.rateLimited = true; break; }
+        if (j.targeted === 0 || j.sent + j.failed + j.skipped === 0) break;
+        if (totals.sent + totals.failed + totals.skipped >= target) break;
+      }
+      batchKeyRef.current = null;
+      setResult(totals);
       onDone();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Bulk send failed");
+      // Chunks already sent are saved; a retry (new batch key) continues safely.
+      batchKeyRef.current = null;
+      setError(e instanceof Error ? `${e.message} — already-sent messages are saved; you can run again for the rest.` : "Bulk send failed");
+      if (totals.sent + totals.failed + totals.skipped > 0) {
+        setResult(totals);
+        onDone();
+      }
     } finally {
       setSending(false);
     }
@@ -187,6 +206,12 @@ export function BulkTemplateModal({
               <p className="mt-2">✅ Sent: {result.sent}</p>
               <p>❌ Rejected by Meta: {result.failed}</p>
               <p>⏭️ Skipped (no usable number / blocked): {result.skipped}</p>
+              {result.rateLimited ? (
+                <p className="mt-2 rounded-lg border border-amber-300/20 bg-amber-300/5 px-2.5 py-1.5 text-xs text-amber-200">
+                  Reached WhatsApp&rsquo;s daily send limit for your tier — the rest will go through
+                  tomorrow (or sooner as your tier grows). Just run this again then.
+                </p>
+              ) : null}
               {result.failures.length > 0 ? (
                 <ul className="mt-2 space-y-1 text-xs text-slate-400">
                   {result.failures.map((f, i) => (
@@ -209,8 +234,10 @@ export function BulkTemplateModal({
                   {counts.matching.toLocaleString()}{" "}
                   {ids && ids.length > 0 ? "of your selection have" : "match your filters with"} a number on
                   file · {counts.eligible.toLocaleString()} not messaged in 24h ·{" "}
-                  <span className="text-amber-200">this batch sends to {counts.targeted}</span>
-                  {counts.eligible > counts.cap ? ` (cap ${counts.cap}/batch — run again for the rest)` : ""}
+                  <span className="text-amber-200">this run sends to {counts.targeted}</span>
+                  {counts.eligible > counts.cap
+                    ? ` (${counts.cap} max per run — run again for the rest)`
+                    : ""}
                 </p>
               ) : null}
 
@@ -302,6 +329,7 @@ export function BulkTemplateModal({
                 : counts && counts.targeted > 0
                   ? `Send to ${counts.targeted} prospect${counts.targeted === 1 ? "" : "s"}`
                   : "Nothing to send"}
+              {sending ? ` (${progress}/${counts?.targeted ?? 0})` : ""}
             </button>
           </footer>
         ) : null}

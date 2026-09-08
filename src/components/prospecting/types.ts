@@ -98,6 +98,7 @@ export type BulkSendResultDTO = {
   sent: number;
   failed: number;
   skipped: number;
+  rateLimited?: boolean;
   failures: { name: string; error: string }[];
 };
 
