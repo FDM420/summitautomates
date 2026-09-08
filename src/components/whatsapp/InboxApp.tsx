@@ -6,6 +6,7 @@ import { ChatThread } from "./ChatThread";
 import type { WaThread } from "./types";
 
 const LIST_POLL_MS = 10000;
+const PAGE = 50;
 
 /** Split-pane WhatsApp inbox: thread list + conversation. Read-only in Phase A. */
 export function InboxApp({ initialContactId }: { initialContactId?: string }) {
@@ -14,20 +15,36 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
   const [search, setSearch] = useState("");
   const [activeId, setActiveId] = useState<string | null>(initialContactId ?? null);
   const [mobileShowThread, setMobileShowThread] = useState(Boolean(initialContactId));
+  // How many threads to show; grows by PAGE as the user scrolls to the bottom.
+  const [limit, setLimit] = useState(PAGE);
+  const [hasMore, setHasMore] = useState(false);
   // Bumped on every optimistic local mutation (toggle). A poll that started
   // before a mutation is dropped so it can't revert the optimistic state.
   const mutationSeq = useRef(0);
 
   const loadThreads = useCallback(async () => {
-    const q = new URLSearchParams({ filter });
+    const q = new URLSearchParams({ filter, limit: String(limit) });
     if (search.trim()) q.set("search", search.trim());
     const seq = mutationSeq.current;
     try {
       const r = await fetch(`/api/admin/whatsapp/threads?${q}`);
       const j = (await r.json()) as { threads: WaThread[] };
-      if (j.threads && seq === mutationSeq.current) setThreads(j.threads);
+      if (j.threads && seq === mutationSeq.current) {
+        setThreads(j.threads);
+        setHasMore(j.threads.length >= limit); // a full page → probably more
+      }
     } catch { /* ignore */ }
+  }, [filter, search, limit]);
+
+  // A new filter/search starts from the first page again.
+  useEffect(() => {
+    setLimit(PAGE);
   }, [filter, search]);
+
+  // Scrolled near the bottom of the thread list → show the next page.
+  const loadMore = useCallback(() => {
+    if (hasMore) setLimit((n) => n + PAGE);
+  }, [hasMore]);
 
   // Load on filter/search change (debounced), then poll.
   useEffect(() => {
@@ -103,6 +120,8 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
           filter={filter}
           onFilter={setFilter}
           onSearch={setSearch}
+          hasMore={hasMore}
+          onLoadMore={loadMore}
           onSelect={select}
           search={search}
           threads={ordered}

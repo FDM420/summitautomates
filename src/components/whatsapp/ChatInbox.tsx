@@ -13,10 +13,29 @@ type Props = {
   onFilter: (f: InboxFilter) => void;
   search: string;
   onSearch: (s: string) => void;
+  hasMore?: boolean;
+  onLoadMore?: () => void;
 };
 
-export function ChatInbox({ threads, activeId, onSelect, filter, onFilter, search, onSearch }: Props) {
+export function ChatInbox({
+  threads,
+  activeId,
+  onSelect,
+  filter,
+  onFilter,
+  search,
+  onSearch,
+  hasMore,
+  onLoadMore,
+}: Props) {
   const now = Date.now();
+
+  // Grow the list when scrolled within ~200px of the bottom.
+  const onScroll = (e: React.UIEvent<HTMLUListElement>) => {
+    if (!hasMore || !onLoadMore) return;
+    const el = e.currentTarget;
+    if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) onLoadMore();
+  };
   return (
     <div className="flex h-full flex-col">
       <div className="space-y-2 border-b border-white/8 p-3">
@@ -43,7 +62,7 @@ export function ChatInbox({ threads, activeId, onSelect, filter, onFilter, searc
         </div>
       </div>
 
-      <ul className="flex-1 overflow-y-auto">
+      <ul className="flex-1 overflow-y-auto" onScroll={onScroll}>
         {threads.length === 0 ? (
           <li className="p-6 text-sm text-slate-500">No conversations yet.</li>
         ) : (
@@ -99,6 +118,17 @@ export function ChatInbox({ threads, activeId, onSelect, filter, onFilter, searc
             );
           })
         )}
+        {hasMore ? (
+          <li>
+            <button
+              className="w-full py-3 text-center text-xs text-slate-500 hover:text-slate-300"
+              onClick={onLoadMore}
+              type="button"
+            >
+              Load more conversations
+            </button>
+          </li>
+        ) : null}
       </ul>
     </div>
   );
