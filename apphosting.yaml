@@ -33,6 +33,14 @@ env:
     availability:
       - RUNTIME
 
+  # Global AI auto-reply kill switch. "false" = bot fully off (no auto-replies
+  # to any WhatsApp message); "true" (or unset) = on. Turned OFF 2026-09-08 on
+  # owner request. Flip to "true" to resume.
+  - variable: WHATSAPP_BOT_ENABLED
+    value: "false"
+    availability:
+      - RUNTIME
+
   # Sensitive values — stored in Cloud Secret Manager, referenced by name.
   - variable: WHATSAPP_APP_SECRET
     secret: whatsapp-app-secret
