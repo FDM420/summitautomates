@@ -98,6 +98,23 @@ export const waMessageStatus = pgEnum("wa_message_status", [
   "received",
 ]);
 
+// --- WhatsApp calling (Business Calling API) -------------------------------
+export const waCallDirection = pgEnum("wa_call_direction", ["inbound", "outbound"]);
+
+/**
+ * Call lifecycle. `answered` is entered ONLY by stamping `answeredAt` — every
+ * "was this call connected?" decision keys off `answeredAt IS NOT NULL`, never
+ * off who initiated or which employee stamp exists (an outbound dial stamps
+ * `answeredByUserId` at dial time purely for scoping).
+ */
+export const waCallStatus = pgEnum("wa_call_status", [
+  "ringing",
+  "answered",
+  "ended", // connected, then finished — has durationSeconds
+  "missed", // never connected: ring-out, decline, cancel
+  "failed", // accept failed at Meta / infrastructure error
+]);
+
 // --- Auth ----------------------------------------------------------------
 export const users = pgTable(
   "users",
@@ -173,6 +190,15 @@ export const contacts = pgTable(
      * customer asks for a person, so the bot never talks over a live agent.
      */
     waAutopilot: boolean("wa_autopilot").notNull().default(true),
+    /**
+     * WhatsApp call-permission state (Meta requires an explicit opt-in before
+     * any business-initiated call): pending | granted | rejected. Expiry is
+     * Meta's — null while granted means a non-expiring grant.
+     */
+    waCallPermissionStatus: text("wa_call_permission_status"),
+    waCallPermissionExpiresAt: timestamp("wa_call_permission_expires_at", {
+      withTimezone: true,
+    }),
 
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
@@ -281,6 +307,57 @@ export const whatsappMessages = pgTable(
     index("wa_messages_direction_status_idx").on(t.direction, t.status),
     uniqueIndex("wa_messages_provider_id_unique").on(t.providerMessageId),
     uniqueIndex("wa_messages_idempotency_unique").on(t.idempotencyKey),
+  ],
+);
+
+// --- WhatsApp calls (Business Calling API) ---------------------------------
+/**
+ * One row per WhatsApp voice call in either direction. The browser CallDock
+ * does the WebRTC; this row carries the SDP relay state (offer stored by the
+ * webhook, answer written on accept) plus the lifecycle for the sweeper.
+ *
+ * Invariants (learned from an adversarial review of the tafsheen build):
+ *  - "connected" ⇔ `answeredAt IS NOT NULL`; duration is only ever computed
+ *    from `answeredAt`, never from `startedAt` (which is ring/dial start).
+ *  - Every status transition is a status-GUARDED update (compare-and-set), so
+ *    webhook redeliveries, the sweeper, and user actions can race safely —
+ *    first terminal writer wins, everyone else no-ops.
+ */
+export const whatsappCalls = pgTable(
+  "whatsapp_calls",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    contactId: uuid("contact_id")
+      .notNull()
+      .references(() => contacts.id, { onDelete: "cascade" }),
+    /** Meta's call id (`wacid.…`) — the idempotency key for webhook events. */
+    waCallId: text("wa_call_id").notNull(),
+    direction: waCallDirection("direction").notNull(),
+    status: waCallStatus("status").notNull().default("ringing"),
+    /** Last Meta event / local action, for debugging ("connect", "terminate"). */
+    event: text("event"),
+    sdpOffer: text("sdp_offer"),
+    sdpAnswer: text("sdp_answer"),
+    /** Ring start (inbound) or dial start (outbound) — NOT the pickup moment. */
+    startedAt: timestamp("started_at", { withTimezone: true }).notNull().defaultNow(),
+    /** Pickup moment. Set ⇔ the call actually connected. */
+    answeredAt: timestamp("answered_at", { withTimezone: true }),
+    endedAt: timestamp("ended_at", { withTimezone: true }),
+    durationSeconds: integer("duration_seconds"),
+    /** hangup | caller-hangup | rejected | cancelled | no-answer | ring-timeout | orphan-timeout | accept-failed */
+    endReason: text("end_reason"),
+    /** Dock liveness ping (~15s) while answered; the sweeper reaps stale ones. */
+    lastHeartbeatAt: timestamp("last_heartbeat_at", { withTimezone: true }),
+    answeredByUserId: uuid("answered_by_user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("wa_calls_wa_call_id_unique").on(t.waCallId),
+    index("wa_calls_status_idx").on(t.status),
+    index("wa_calls_contact_created_idx").on(t.contactId, t.createdAt),
   ],
 );
 

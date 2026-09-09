@@ -1,5 +1,6 @@
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { MobileTopBar } from "@/components/admin/MobileTopBar";
+import { CallDock } from "@/components/whatsapp/CallDock";
 import { requireUser } from "@/lib/auth/current-user";
 
 export const dynamic = "force-dynamic";
@@ -24,6 +25,8 @@ export default async function AdminAppLayout({
         <MobileTopBar user={u} />
         <main className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">{children}</main>
       </div>
+      {/* WhatsApp softphone — rings on any admin page while the CRM is open. */}
+      <CallDock />
     </div>
   );
 }

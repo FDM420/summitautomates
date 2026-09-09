@@ -139,6 +139,25 @@ export function InboxApp({ initialContactId }: { initialContactId?: string }) {
                 <p className="truncate text-[11px] text-slate-500">{active?.phone ?? ""}</p>
               </div>
               <button
+                className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[13px] text-emerald-300 transition hover:bg-emerald-500/25"
+                onClick={() => {
+                  if (!activeId) return;
+                  window.dispatchEvent(
+                    new CustomEvent("wa:call", {
+                      detail: {
+                        contactId: activeId,
+                        name: active?.waProfileName || active?.displayName || null,
+                        phone: active?.phone ?? null,
+                      },
+                    }),
+                  );
+                }}
+                title="Call this contact on WhatsApp (they must have allowed calls)"
+                type="button"
+              >
+                📞
+              </button>
+              <button
                 className={`rounded-full px-2.5 py-0.5 text-[11px] transition ${
                   active?.waAutopilot
                     ? "bg-sky-500/15 text-sky-300 hover:bg-sky-500/25"

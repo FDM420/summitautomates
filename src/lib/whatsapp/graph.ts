@@ -299,6 +299,135 @@ export async function listMessageTemplates(): Promise<
   }
 }
 
+// --- Calling (WhatsApp Business Calling API) -------------------------------
+
+/**
+ * Relay a call-control action to Meta. `accept`/`pre_accept` carry the SDP
+ * answer. Bounded retry with backoff on TRANSIENT failures only (network /
+ * 5xx): a lost `accept` means Meta never gets the SDP and the call drops ~5s
+ * in; a lost `terminate` leaves a zombie leg. A 4xx (e.g. "call already
+ * terminated") is deterministic and is NOT retried — callers treat it as
+ * "Meta already considers this call over".
+ */
+export async function respondToCall(input: {
+  callId: string;
+  action: "pre_accept" | "accept" | "reject" | "terminate";
+  sdpAnswer?: string;
+}): Promise<{ ok: true } | { error: GraphError }> {
+  if (!graphConfigured()) return { error: { message: "WhatsApp not configured" } };
+  const body: Record<string, unknown> = {
+    messaging_product: "whatsapp",
+    call_id: input.callId,
+    action: input.action,
+  };
+  if (input.sdpAnswer && (input.action === "accept" || input.action === "pre_accept")) {
+    body.session = { sdp_type: "answer", sdp: input.sdpAnswer };
+  }
+
+  const delays = [50, 150, 400];
+  let lastError: GraphError = { message: "Call action failed" };
+  for (let attempt = 0; attempt <= delays.length; attempt++) {
+    try {
+      const out = await withTimeout(15_000, async (signal) => {
+        const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/calls`, {
+          method: "POST",
+          headers: { ...authHeaders(), "content-type": "application/json" },
+          body: JSON.stringify(body),
+          signal,
+        });
+        if (res.ok) return { ok: true as const };
+        const error = await readGraphError(res);
+        return { error, transient: res.status >= 500 };
+      });
+      if ("ok" in out) return { ok: true };
+      lastError = out.error;
+      if (!out.transient) return { error: out.error }; // deterministic 4xx
+    } catch (error) {
+      const aborted = error instanceof Error && error.name === "AbortError";
+      lastError = { message: aborted ? "Graph timeout (15s)" : String(error) };
+    }
+    if (attempt < delays.length) await new Promise((r) => setTimeout(r, delays[attempt]));
+  }
+  return { error: lastError };
+}
+
+/**
+ * Place a business-initiated call: relay the browser's SDP offer via
+ * action=connect. Meta enforces that the user granted call permission first.
+ * Returns Meta's call id; the user's SDP answer arrives later on the webhook.
+ */
+export async function initiateCall(input: {
+  to: string;
+  sdpOffer: string;
+}): Promise<{ callId: string } | { error: GraphError }> {
+  if (!graphConfigured()) return { error: { message: "WhatsApp not configured" } };
+  try {
+    return await withTimeout(20_000, async (signal) => {
+      const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/calls`, {
+        method: "POST",
+        headers: { ...authHeaders(), "content-type": "application/json" },
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          to: input.to,
+          action: "connect",
+          session: { sdp_type: "offer", sdp: input.sdpOffer },
+        }),
+        signal,
+      });
+      if (!res.ok) return { error: await readGraphError(res) };
+      const j = (await res.json()) as {
+        id?: string;
+        calls?: { id?: string }[];
+        messages?: { id?: string }[];
+      };
+      const callId = j.calls?.[0]?.id ?? j.id ?? j.messages?.[0]?.id;
+      return callId ? { callId } : { error: { message: "Meta did not return a call id" } };
+    });
+  } catch (error) {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    return { error: { message: aborted ? "Graph timeout (20s)" : String(error) } };
+  }
+}
+
+/**
+ * Ask the customer to allow WhatsApp calls (interactive opt-in — Meta requires
+ * it before ANY business-initiated call; needs an open 24h window to send).
+ */
+export async function sendCallPermissionRequest(
+  to: string,
+  bodyText: string,
+): Promise<{ id: string } | { error: GraphError }> {
+  if (!graphConfigured()) return { error: { message: "WhatsApp not configured" } };
+  const payload = {
+    messaging_product: "whatsapp",
+    recipient_type: "individual",
+    to,
+    type: "interactive",
+    interactive: {
+      type: "call_permission_request",
+      action: { name: "call_permission_request" },
+      body: { text: bodyText },
+    },
+  };
+  try {
+    return await withTimeout(30_000, async (signal) => {
+      const res = await fetch(`${GRAPH}/${PHONE_NUMBER_ID}/messages`, {
+        method: "POST",
+        headers: { ...authHeaders(), "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        signal,
+      });
+      if (!res.ok) return { error: await readGraphError(res) };
+      const j = (await res.json()) as { messages?: { id: string }[] };
+      const id = j.messages?.[0]?.id;
+      return id ? { id } : { error: { message: "No message id in response" } };
+    });
+  } catch (error) {
+    const aborted = error instanceof Error && error.name === "AbortError";
+    return { error: { message: aborted ? "Graph timeout (30s)" : String(error) } };
+  }
+}
+
 /** Mark the newest inbound message as read (blue ticks on the customer side). */
 export async function markRead(wamid: string): Promise<void> {
   if (!graphConfigured()) return;

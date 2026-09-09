@@ -57,6 +57,13 @@
       "when": 1788687904453,
       "tag": "0007_ordinary_scrambler",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1788944093991,
+      "tag": "0008_complex_jigsaw",
+      "breakpoints": true
     }
   ]
 }
